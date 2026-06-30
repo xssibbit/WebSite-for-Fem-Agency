@@ -676,6 +676,28 @@ nav.nav-visible{
 .nc .tg-logo{width:20px;height:20px;vertical-align:-5px;margin-left:7px}
 .fcta .tg-logo{width:22px;height:22px;vertical-align:-5px;margin-left:7px}
 
+
+/* Smooth preloader fix */
+#preloader{
+  opacity:1;
+  transition:opacity .65s cubic-bezier(.22,.61,.36,1), visibility .65s ease !important;
+}
+#preloader.smooth-hide{
+  opacity:0 !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+}
+.pl-logo-wrap{
+  transition:transform .55s cubic-bezier(.22,.61,.36,1), opacity .55s ease !important;
+}
+#preloader.smooth-hide .pl-logo-wrap{
+  transform:scale(.97) translateY(-8px);
+  opacity:0;
+}
+.pl-bar{
+  transition:width .18s ease !important;
+}
+
 </style>
 
 <script>
@@ -1578,7 +1600,7 @@ async function subF(e){
     msg.textContent=curLang==='en'
       ?'Error. Please try again or fill the application in Telegram.'
       :curLang==='uk'
-        :'Помилка. Спробуй ще раз або перевір Telegram.'
+        ?'Помилка. Спробуй ще раз або перевір Telegram.'
         :'Ошибка. Проверь Worker/Telegram и попробуй ещё раз.';
 
     msg.style.color='#ff6b9e';
@@ -1684,6 +1706,185 @@ window.addEventListener('load',()=>{
   } else {
     initAutoHideHeader();
   }
+})();
+</script>
+
+
+<script>
+/* ══════════ FINAL SAFE PATCH: language/theme/form/telegram icon ══════════ */
+(function(){
+  const BOT_URL = "https://t.me/FemAgencyApplyBot?start=site";
+  const WORKER_URL = "https://fem-agency-apply-bot.miglyugly.workers.dev/site-form";
+  const TG_ICON = '<span class="tg-logo" aria-hidden="true"></span>';
+
+  function ensureTgIcons(){
+    document.querySelectorAll('a[data-t="nav_cta"],a[data-t="hero_cta1"],button[data-t="f_sub"],.fcta').forEach(el=>{
+      el.innerHTML = el.innerHTML.replace(/\s*(→|🚀)\s*/g,' ').trim();
+      if(!el.querySelector('.tg-logo')) el.insertAdjacentHTML('beforeend',' '+TG_ICON);
+    });
+  }
+
+  function ensureBotLinks(){
+    document.querySelectorAll('a[data-t="nav_cta"],a[data-t="hero_cta1"],.fcta').forEach(a=>{
+      a.href = BOT_URL;
+      a.target = "_blank";
+      a.rel = "noopener";
+    });
+  }
+
+  async function safeSubmit(e){
+    e.preventDefault();
+    e.stopPropagation();
+
+    const form = e.currentTarget || e.target;
+    const btn = document.getElementById('fsub');
+    const msg = document.getElementById('fmsg');
+    const fd = new FormData(form);
+
+    const oldText = btn ? btn.textContent : '';
+    if(btn){
+      btn.disabled = true;
+      btn.textContent = '...';
+      btn.style.opacity = '.7';
+    }
+    if(msg) {
+      msg.textContent = '';
+      msg.style.color = '';
+    }
+
+    const payload = {
+      name: (fd.get('name') || '').trim(),
+      telegram: (fd.get('telegram') || '').trim(),
+      platform: (fd.get('platform') || '').trim(),
+      message: (fd.get('goal') || '').trim(),
+      language: window.curLang || 'ru',
+      source: 'femagency.us'
+    };
+
+    try {
+      const res = await fetch(WORKER_URL, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      let data = {};
+      try { data = await res.json(); } catch(_) {}
+      if(!res.ok || data.ok === false) throw new Error(data.error || 'Worker error');
+
+      if(btn){
+        btn.innerHTML = '✓ ' + ((window.curLang === 'en') ? 'Application sent!' : (window.curLang === 'uk') ? 'Заявку надіслано!' : 'Заявка отправлена!');
+        btn.style.background = 'linear-gradient(135deg,#22c55e,#16a34a)';
+        btn.style.opacity = '1';
+      }
+      if(msg){
+        msg.textContent = (window.curLang === 'en')
+          ? 'Manager will contact you within 24 hours 🎉'
+          : (window.curLang === 'uk')
+            ? "Менеджер зв'яжеться протягом 24 годин 🎉"
+            : 'Менеджер свяжется в течение 24 часов 🎉';
+        msg.style.color = '#4ade80';
+      }
+      form.reset();
+
+      setTimeout(()=>{
+        if(btn){
+          btn.disabled = false;
+          btn.innerHTML = oldText;
+          btn.style.opacity = '1';
+          btn.style.background = '';
+          ensureTgIcons();
+        }
+      }, 3500);
+
+    } catch(err) {
+      console.error('FEM form error:', err);
+      if(btn){
+        btn.disabled = false;
+        btn.innerHTML = oldText;
+        btn.style.opacity = '1';
+        btn.style.background = '';
+        ensureTgIcons();
+      }
+      if(msg){
+        msg.textContent = (window.curLang === 'en')
+          ? 'Error. Check Worker/Telegram and try again.'
+          : (window.curLang === 'uk')
+            ? 'Помилка. Перевір Worker/Telegram і спробуй ще раз.'
+            : 'Ошибка. Проверь Worker/Telegram и попробуй ещё раз.';
+        msg.style.color = '#ff6b9e';
+      }
+    }
+
+    return false;
+  }
+
+  document.addEventListener('DOMContentLoaded',()=>{
+    ensureTgIcons();
+    ensureBotLinks();
+
+    const form = document.getElementById('aForm');
+    if(form){
+      form.setAttribute('action','javascript:void(0)');
+      form.removeAttribute('method');
+      form.onsubmit = null;
+      form.addEventListener('submit', safeSubmit, true);
+    }
+
+    document.querySelectorAll('.lang-sw button').forEach(btn=>{
+      btn.addEventListener('click',()=>setTimeout(()=>{ ensureTgIcons(); ensureBotLinks(); },50), true);
+    });
+
+    document.querySelectorAll('#themeTog,#themeTog2').forEach(t=>{
+      t.addEventListener('click',()=>setTimeout(()=>{ ensureTgIcons(); },50), true);
+    });
+  });
+
+  window.addEventListener('load',()=>{
+    ensureTgIcons();
+    ensureBotLinks();
+  });
+})();
+</script>
+
+
+<script>
+/* ══════════ SMOOTH PRELOADER PATCH ══════════ */
+(function(){
+  function hidePreloaderSmooth(){
+    const pl=document.getElementById('preloader');
+    if(!pl || pl.dataset.hidden==='1') return;
+    pl.dataset.hidden='1';
+    pl.classList.add('smooth-hide');
+    document.documentElement.classList.add('preload-done');
+    setTimeout(()=>{ pl.style.display='none'; },720);
+  }
+
+  window.addEventListener('load',()=>{
+    setTimeout(hidePreloaderSmooth,550);
+  });
+
+  document.addEventListener('DOMContentLoaded',()=>{
+    const bar=document.getElementById('plBar');
+    const pct=document.getElementById('plPct');
+    let p=0;
+    const timer=setInterval(()=>{
+      p=Math.min(100,p+Math.ceil(Math.random()*12));
+      if(bar) bar.style.width=p+'%';
+      if(pct) pct.textContent=p+'%';
+      if(p>=100){
+        clearInterval(timer);
+        setTimeout(hidePreloaderSmooth,450);
+      }
+    },85);
+
+    setTimeout(()=>{
+      clearInterval(timer);
+      if(bar) bar.style.width='100%';
+      if(pct) pct.textContent='100%';
+      hidePreloaderSmooth();
+    },1800);
+  });
 })();
 </script>
 
