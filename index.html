@@ -1153,10 +1153,10 @@ window.addEventListener('DOMContentLoaded',()=>{
       </div>
       <div class="form-c gsap-slide-r">
         <form id="aForm" onsubmit="subF(event)">
-          <div class="fg"><label data-t="fl_name">Имя</label><input type="text" required data-t-ph="fp_name" placeholder="Как тебя зовут?"/></div>
-          <div class="fg"><label data-t="fl_cont">Telegram / Телефон</label><input type="text" required data-t-ph="fp_cont" placeholder="@username или номер"/></div>
+          <div class="fg"><label data-t="fl_name">Имя</label><input type="text" name="name" required data-t-ph="fp_name" placeholder="Как тебя зовут?"/></div>
+          <div class="fg"><label data-t="fl_cont">Telegram / Телефон</label><input type="text" name="telegram" required data-t-ph="fp_cont" placeholder="@username или номер"/></div>
           <div class="fg"><label data-t="fl_plat">Платформа</label>
-            <select required>
+            <select name="platform" required>
               <option value="" disabled selected data-t="fo_sel">Выбери платформу</option>
               <option data-t="fo_of">OnlyFans</option>
               <option data-t="fo_fl">Fansly</option>
@@ -1164,9 +1164,14 @@ window.addEventListener('DOMContentLoaded',()=>{
               <option data-t="fo_new">Начинаю с нуля</option>
             </select>
           </div>
-          <div class="fg"><label data-t="fl_goal">Цель</label><input type="text" data-t-ph="fp_goal" placeholder="Например: вырасти до $5k/мес"/></div>
+          <div class="fg"><label data-t="fl_goal">Цель</label><input type="text" name="goal" data-t-ph="fp_goal" placeholder="Например: вырасти до $5k/мес"/></div>
           <button type="submit" class="fsub" id="fsub" data-t="f_sub">Получить консультацию →</button>
           <p class="fn" id="fmsg"></p>
+          <p class="fn" style="margin-top:12px">
+            <a href="https://t.me/FemAgencyApplyBot?start=site" target="_blank" rel="noopener" style="color:var(--pink);text-decoration:none;font-weight:700">
+              Заполнить заявку в Telegram →
+            </a>
+          </p>
         </form>
       </div>
     </div>
@@ -1496,21 +1501,72 @@ function tFaq(it){
   if(!was){it.classList.add('op');gsap.fromTo(it.querySelector('.fa p'),{opacity:0,y:10},{opacity:1,y:0,duration:.4,ease:'power2.out'});}
 }
 
-/* ══════════ FORM ══════════ */
-function subF(e){
+/* ══════════ FORM → TELEGRAM ══════════ */
+async function subF(e){
   e.preventDefault();
-  const btn=document.getElementById('fsub'),msg=document.getElementById('fmsg');
-  gsap.to(btn,{scale:.96,duration:.1,yoyo:true,repeat:1,ease:'power2.inOut'});
-  btn.textContent='...';btn.style.opacity='.7';
-  setTimeout(()=>{
-    const d=T[curLang];
+
+  const form=e.target;
+  const btn=document.getElementById('fsub');
+  const msg=document.getElementById('fmsg');
+
+  const oldText=btn.textContent;
+  btn.disabled=true;
+  btn.textContent='...';
+  btn.style.opacity='.7';
+
+  const fd=new FormData(form);
+  const payload={
+    name:(fd.get('name')||'').trim(),
+    telegram:(fd.get('telegram')||'').trim(),
+    platform:(fd.get('platform')||'').trim(),
+    message:(fd.get('goal')||'').trim(),
+    language:curLang||'ru',
+    source:'femagency.us'
+  };
+
+  try{
+    const res=await fetch('https://fem-agency-apply-bot.miglyugly.workers.dev/site-form',{
+      method:'POST',
+      headers:{'content-type':'application/json'},
+      body:JSON.stringify(payload)
+    });
+
+    if(!res.ok) throw new Error('Request failed');
+
     btn.textContent='✓ '+(curLang==='en'?'Application sent!':curLang==='uk'?'Заявку надіслано!':'Заявка отправлена!');
-    btn.style.background='linear-gradient(135deg,#22c55e,#16a34a)';btn.style.opacity='1';
-    msg.textContent=curLang==='en'?'Manager will contact you within 24 hours 🎉':curLang==='uk'?"Менеджер зв'яжеться протягом 24 годин 🎉":'Менеджер свяжется в течение 24 часов 🎉';
+    btn.style.background='linear-gradient(135deg,#22c55e,#16a34a)';
+    btn.style.opacity='1';
+
+    msg.textContent=curLang==='en'
+      ?'Manager will contact you within 24 hours 🎉'
+      :curLang==='uk'
+        ?"Менеджер зв'яжеться протягом 24 годин 🎉"
+        :'Менеджер свяжется в течение 24 часов 🎉';
+
     msg.style.color='#4ade80';
-    gsap.from(btn,{scale:.8,opacity:0,duration:.5,ease:'back.out(2)'});
-    e.target.reset();
-  },1200);
+    form.reset();
+
+    setTimeout(()=>{
+      btn.disabled=false;
+      btn.textContent=oldText;
+      btn.style.opacity='1';
+      btn.style.background='';
+    },3500);
+
+  }catch(err){
+    btn.disabled=false;
+    btn.textContent=oldText;
+    btn.style.opacity='1';
+    btn.style.background='';
+
+    msg.textContent=curLang==='en'
+      ?'Error. Please try again or fill the application in Telegram.'
+      :curLang==='uk'
+        :'Помилка. Спробуй ще раз або заповни заявку в Telegram.'
+        :'Ошибка. Попробуй ещё раз или заполни заявку в Telegram.';
+
+    msg.style.color='#ff6b9e';
+  }
 }
 </script>
 
