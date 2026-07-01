@@ -595,11 +595,13 @@ html.content-force-visible .sn{
   top:0; left:0; right:0;
   z-index:99999 !important;
   transform:translate3d(0,0,0);
-  opacity:1;
-  pointer-events:auto;
-  visibility:visible;
-  transition:transform .45s cubic-bezier(.22,.61,.36,1), opacity .35s ease, background .35s ease, padding .35s ease;
-  will-change:transform,opacity;
+  pointer-events:auto !important;
+  visibility:visible !important;
+  transition:transform .45s cubic-bezier(.22,.61,.36,1), background .35s ease, padding .35s ease;
+  will-change:transform;
+}
+#nav *{
+  pointer-events:auto !important;
 }
 
 
@@ -1601,29 +1603,21 @@ window.addEventListener('load',()=>{
     setTimeout(()=>{ clearInterval(timer); if(bar) bar.style.width='100%'; if(pct) pct.textContent='100%'; hidePreloaderSmooth(); }, 1800);
   });
 
-  /* ── Nav hide / show ── */
-  let lastY = 0, scrollAcc = 0, hidden = false, locked = 0;
+  /* ── Nav hide / show — только translateY, кнопки всегда работают ── */
+  let lastY = window.scrollY || 0, scrollAcc = 0, navUp = false;
 
   function getNav(){ return document.getElementById('nav'); }
 
   function showNav(){
-    const n = getNav(); if(!n) return;
-    hidden = false;
+    const n = getNav(); if(!n || !navUp) return;
+    navUp = false;
     n.style.transform = 'translate3d(0,0,0)';
-    n.style.opacity = '1';
-    n.style.visibility = 'visible';
-    n.style.pointerEvents = 'auto';
   }
 
   function hideNav(){
-    const n = getNav(); if(!n) return;
-    if(window.scrollY < 120) return;
-    hidden = true;
+    const n = getNav(); if(!n || navUp || window.scrollY < 120) return;
+    navUp = true;
     n.style.transform = 'translate3d(0,-115%,0)';
-    n.style.opacity = '0';
-    n.style.pointerEvents = 'none';
-    // После окончания transition скрываем полностью чтобы клики не проходили
-    setTimeout(()=>{ if(hidden) n.style.visibility = 'hidden'; }, 460);
   }
 
   window.addEventListener('scroll', ()=>{
@@ -1631,23 +1625,11 @@ window.addEventListener('load',()=>{
     const diff = y - lastY;
     lastY = y;
 
-    if(Date.now() < locked){ showNav(); scrollAcc = 0; return; }
     if(y < 80){ showNav(); scrollAcc = 0; return; }
 
     scrollAcc += diff;
-    if(scrollAcc > 50 && !hidden){ hideNav(); scrollAcc = 0; }
-    else if(scrollAcc < -30 && hidden){ showNav(); scrollAcc = 0; }
-  }, {passive:true});
-
-  /* Показывать при наведении мыши сверху — только если спрятан */
-  document.addEventListener('mousemove', e=>{
-    if(e.clientY < 72 && hidden){ locked = Date.now() + 800; showNav(); }
-  }, {passive:true});
-
-  /* Тач — появляется при свайпе от края */
-  document.addEventListener('touchstart', e=>{
-    const t = e.touches && e.touches[0];
-    if(t && t.clientY < 100 && hidden){ locked = Date.now() + 600; showNav(); }
+    if(scrollAcc > 60 && !navUp){ hideNav(); scrollAcc = 0; }
+    else if(scrollAcc < -40 && navUp){ showNav(); scrollAcc = 0; }
   }, {passive:true});
 
   /* ── Telegram иконки ── */
@@ -1689,16 +1671,11 @@ window.addEventListener('load',()=>{
 
   document.addEventListener('DOMContentLoaded', ()=>{
     lastY = window.scrollY || 0;
-    /* Правильный transition только один раз */
     const n = getNav();
     if(n){
-      n.style.transition = 'transform .45s cubic-bezier(.22,.61,.36,1), opacity .35s ease, background .35s ease, padding .35s ease';
-      n.style.willChange = 'transform, opacity';
-      /* Мышь на навбаре — не прятать */
-      n.addEventListener('mouseenter', ()=>{ locked = Date.now() + 1200; showNav(); });
-      n.addEventListener('focusin', ()=>{ locked = Date.now() + 1200; showNav(); });
+      n.style.transition = 'transform .45s cubic-bezier(.22,.61,.36,1), background .35s ease, padding .35s ease';
+      n.style.willChange = 'transform';
     }
-    showNav();
     bindNavLinks();
     ensureTgIcons();
     ensureBotLinks();
