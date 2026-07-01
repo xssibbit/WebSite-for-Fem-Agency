@@ -698,6 +698,29 @@ nav.nav-visible{
   transition:width .18s ease !important;
 }
 
+
+/* FINAL NAVBAR CLICK FIX */
+#nav,
+#nav.nav-show,
+#nav.nav-visible,
+nav,
+nav.nav-show,
+nav.nav-visible{
+  pointer-events:auto !important;
+}
+#nav *{
+  pointer-events:auto !important;
+}
+#nav.nav-force-active{
+  transform:translate3d(0,0,0) !important;
+  opacity:1 !important;
+  visibility:visible !important;
+  pointer-events:auto !important;
+}
+#nav.nav-force-active *{
+  pointer-events:auto !important;
+}
+
 </style>
 
 <script>
@@ -1885,6 +1908,91 @@ window.addEventListener('load',()=>{
       hidePreloaderSmooth();
     },1800);
   });
+})();
+</script>
+
+
+<script>
+/* ══════════ FINAL NAVBAR CLICK PATCH ══════════ */
+(function(){
+  const BOT_URL = "https://t.me/FemAgencyApplyBot?start=site";
+
+  function fixNavbar(){
+    const nav = document.getElementById('nav');
+    if(!nav) return;
+
+    const isHiddenClass = nav.classList.contains('nav-hide') || nav.classList.contains('nav-hidden');
+
+    if(!isHiddenClass){
+      nav.style.pointerEvents = 'auto';
+      nav.querySelectorAll('a,button,.theme-tog,.lang-sw,.lang-sw button').forEach(el=>{
+        el.style.pointerEvents = 'auto';
+      });
+    }
+
+    nav.querySelectorAll('a[data-t="nav_cta"]').forEach(a=>{
+      a.href = BOT_URL;
+      a.target = '_blank';
+      a.rel = 'noopener';
+    });
+  }
+
+  function showNavbar(){
+    const nav = document.getElementById('nav');
+    if(!nav) return;
+    nav.classList.remove('nav-hide','nav-hidden');
+    nav.classList.add('nav-show','nav-visible','nav-force-active');
+    nav.style.pointerEvents='auto';
+    nav.style.opacity='1';
+    nav.style.visibility='visible';
+    nav.style.transform='translate3d(0,0,0)';
+    fixNavbar();
+  }
+
+  let lastY = window.scrollY || 0;
+  window.addEventListener('scroll',()=>{
+    const y = window.scrollY || 0;
+    if(y < 80 || y < lastY) showNavbar();
+    else {
+      const nav = document.getElementById('nav');
+      if(nav) nav.classList.remove('nav-force-active');
+    }
+    lastY = y;
+    setTimeout(fixNavbar,50);
+  }, {passive:true});
+
+  document.addEventListener('mousemove',(e)=>{
+    if(e.clientY < 90) showNavbar();
+  }, {passive:true});
+
+  document.addEventListener('touchstart',(e)=>{
+    const t = e.touches && e.touches[0];
+    if(t && t.clientY < 110) showNavbar();
+  }, {passive:true});
+
+  document.addEventListener('DOMContentLoaded',()=>{
+    fixNavbar();
+
+    document.querySelectorAll('#nav a[href^="#"], .mob a[href^="#"]').forEach(a=>{
+      a.addEventListener('click',(e)=>{
+        const id = a.getAttribute('href');
+        if(!id || id === '#') return;
+        const target = document.querySelector(id);
+        if(target){
+          e.preventDefault();
+          target.scrollIntoView({behavior:'smooth', block:'start'});
+          if(typeof cM === 'function') cM();
+        }
+      }, true);
+    });
+
+    document.querySelectorAll('#nav a, #nav button, #nav .theme-tog').forEach(el=>{
+      el.addEventListener('mouseenter', fixNavbar, true);
+      el.addEventListener('click', fixNavbar, true);
+    });
+  });
+
+  window.addEventListener('load',()=>setTimeout(fixNavbar,100));
 })();
 </script>
 
