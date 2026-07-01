@@ -1611,8 +1611,8 @@ window.addEventListener('load',()=>{
     hidden = false;
     n.style.transform = 'translate3d(0,0,0)';
     n.style.opacity = '1';
+    n.style.visibility = 'visible';
     n.style.pointerEvents = 'auto';
-    n.querySelectorAll('a,button').forEach(el => el.style.pointerEvents = 'auto');
   }
 
   function hideNav(){
@@ -1622,6 +1622,8 @@ window.addEventListener('load',()=>{
     n.style.transform = 'translate3d(0,-115%,0)';
     n.style.opacity = '0';
     n.style.pointerEvents = 'none';
+    // После окончания transition скрываем полностью чтобы клики не проходили
+    setTimeout(()=>{ if(hidden) n.style.visibility = 'hidden'; }, 460);
   }
 
   window.addEventListener('scroll', ()=>{
@@ -1637,15 +1639,15 @@ window.addEventListener('load',()=>{
     else if(scrollAcc < -30 && hidden){ showNav(); scrollAcc = 0; }
   }, {passive:true});
 
-  /* Показывать при наведении мыши сверху */
+  /* Показывать при наведении мыши сверху — только если спрятан */
   document.addEventListener('mousemove', e=>{
-    if(e.clientY < 80){ locked = Date.now() + 800; showNav(); }
+    if(e.clientY < 72 && hidden){ locked = Date.now() + 800; showNav(); }
   }, {passive:true});
 
   /* Тач — появляется при свайпе от края */
   document.addEventListener('touchstart', e=>{
     const t = e.touches && e.touches[0];
-    if(t && t.clientY < 100){ locked = Date.now() + 600; showNav(); }
+    if(t && t.clientY < 100 && hidden){ locked = Date.now() + 600; showNav(); }
   }, {passive:true});
 
   /* ── Telegram иконки ── */
