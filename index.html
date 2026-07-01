@@ -589,20 +589,75 @@ html.content-force-visible .sn{
 
 
 
-/* ══════ NAV: smooth hide/show on scroll ══════ */
+/* ══════ HEADER: smooth hide on scroll down, show on scroll up ══════ */
+#nav,
+nav{
+  position:fixed !important;
+  top:0 !important;
+  left:0 !important;
+  right:0 !important;
+  z-index:9998 !important;
+  opacity:1 !important;
+  visibility:visible !important;
+  pointer-events:auto !important;
+  transform:translateY(0) !important;
+  transition:
+    transform .38s cubic-bezier(.16,1,.3,1),
+    opacity .28s ease,
+    background .35s ease,
+    padding .35s ease,
+    border-color .35s ease !important;
+  will-change:transform, opacity;
+}
+
+#nav.nav-hidden,
+nav.nav-hidden{
+  transform:translateY(-115%) !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+}
+
+#nav.nav-visible,
+nav.nav-visible{
+  transform:translateY(0) !important;
+  opacity:1 !important;
+  pointer-events:auto !important;
+}
+
+
+/* ══════ FINAL HEADER AUTO-HIDE FIX ══════ */
 #nav{
   position:fixed !important;
-  top:0; left:0; right:0;
+  top:0 !important;
+  left:0 !important;
+  right:0 !important;
   z-index:99999 !important;
+  opacity:1;
+  visibility:visible;
+  pointer-events:auto;
   transform:translate3d(0,0,0);
-  pointer-events:auto !important;
-  visibility:visible !important;
-  transition:transform .45s cubic-bezier(.22,.61,.36,1), background .35s ease, padding .35s ease;
-  will-change:transform;
+  transition:transform .45s cubic-bezier(.22,.61,.36,1), opacity .3s ease, background .3s ease !important;
+  will-change:transform, opacity;
 }
-#nav *{
+
+#nav.nav-hide{
+  transform:translate3d(0,-120%,0) !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+}
+
+#nav.nav-show{
+  transform:translate3d(0,0,0) !important;
+  opacity:1 !important;
   pointer-events:auto !important;
 }
+
+.hero{
+  padding-top:80px !important;
+}
+
+
+
 
 
 /* Telegram logo inside CTA buttons — transparent, bigger */
@@ -644,7 +699,24 @@ html.content-force-visible .sn{
 }
 
 
-/* nav pointer-events handled by JS */
+/* NAVBAR AUTO-HIDE CLICK FIX — keeps hiding, fixes buttons */
+#nav{
+  z-index:999999 !important;
+}
+#nav.nav-show,
+#nav.nav-visible,
+#nav:not(.nav-hide):not(.nav-hidden){
+  pointer-events:auto !important;
+}
+#nav.nav-show *,
+#nav.nav-visible *,
+#nav:not(.nav-hide):not(.nav-hidden) *{
+  pointer-events:auto !important;
+}
+#nav.nav-hide,
+#nav.nav-hidden{
+  pointer-events:none !important;
+}
 
 </style>
 
@@ -1456,10 +1528,7 @@ if(!('ontouchstart' in window)){
   });
 }else{cur.style.display='none';cr.style.display='none';}
 
-/* ══════════ NAV SCROLL — sc class only, hide/show в финальном скрипте ══════════ */
-const navEl=document.getElementById('nav');
-window.addEventListener('scroll',()=>navEl.classList.toggle('sc',window.scrollY>60),{passive:true});
-
+/* ══════════ NAV SCROLL ══════════ */
 /* ══════════ MOB MENU ══════════ */
 document.getElementById('brg').onclick=()=>document.getElementById('mob').classList.add('op');
 document.getElementById('mobX').onclick=cM;
@@ -1576,9 +1645,231 @@ window.addEventListener('load',()=>{
 
 
 <script>
+/* FINAL: smooth hide header on scroll down, show on scroll up */
+(function(){
+  function initAutoHideHeader(){
+    const nav = document.getElementById('nav');
+    if(!nav) return;
+
+    nav.classList.add('nav-show');
+    nav.style.position = 'fixed';
+    nav.style.top = '0';
+    nav.style.left = '0';
+    nav.style.right = '0';
+    nav.style.zIndex = '99999';
+    nav.style.transition = 'transform .45s cubic-bezier(.22,.61,.36,1), opacity .3s ease, background .3s ease';
+    nav.style.willChange = 'transform, opacity';
+
+    let lastY = window.scrollY || document.documentElement.scrollTop || 0;
+    let ticking = false;
+    let lockedOpenUntil = 0;
+
+    function showNav(){
+      nav.classList.remove('nav-hide');
+      nav.classList.add('nav-show');
+      nav.style.transform = 'translate3d(0,0,0)';
+      nav.style.opacity = '1';
+      nav.style.pointerEvents = 'auto';
+    }
+
+    function hideNav(){
+      nav.classList.add('nav-hide');
+      nav.classList.remove('nav-show');
+      nav.style.transform = 'translate3d(0,-120%,0)';
+      nav.style.opacity = '0';
+      nav.style.pointerEvents = 'none';
+    }
+
+    function onScroll(){
+      const y = window.scrollY || document.documentElement.scrollTop || 0;
+      const diff = y - lastY;
+
+      if(Date.now() < lockedOpenUntil){
+        showNav();
+        lastY = y;
+        ticking = false;
+        return;
+      }
+
+      if(y < 60){
+        showNav();
+      } else if(diff > 6){
+        hideNav();
+      } else if(diff < -6){
+        showNav();
+      }
+
+      lastY = y;
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', function(){
+      if(!ticking){
+        requestAnimationFrame(onScroll);
+        ticking = true;
+      }
+    }, {passive:true});
+
+    nav.addEventListener('mouseenter', function(){
+      lockedOpenUntil = Date.now() + 1200;
+      showNav();
+    });
+
+    nav.addEventListener('focusin', showNav);
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', initAutoHideHeader);
+  } else {
+    initAutoHideHeader();
+  }
+})();
+</script>
+
+
+<script>
+/* ══════════ FINAL SAFE PATCH: language/theme/form/telegram icon ══════════ */
+(function(){
+  const BOT_URL = "https://t.me/FemAgencyApplyBot?start=site";
+  const WORKER_URL = "https://fem-agency-apply-bot.miglyugly.workers.dev/site-form";
+  const TG_ICON = '<span class="tg-logo" aria-hidden="true"></span>';
+
+  function ensureTgIcons(){
+    document.querySelectorAll('a[data-t="nav_cta"],a[data-t="hero_cta1"],button[data-t="f_sub"],.fcta').forEach(el=>{
+      el.innerHTML = el.innerHTML.replace(/\s*(→|🚀)\s*/g,' ').trim();
+      if(!el.querySelector('.tg-logo')) el.insertAdjacentHTML('beforeend',' '+TG_ICON);
+    });
+  }
+
+  function ensureBotLinks(){
+    document.querySelectorAll('a[data-t="nav_cta"],a[data-t="hero_cta1"],.fcta').forEach(a=>{
+      a.href = BOT_URL;
+      a.target = "_blank";
+      a.rel = "noopener";
+    });
+  }
+
+  async function safeSubmit(e){
+    e.preventDefault();
+    e.stopPropagation();
+
+    const form = e.currentTarget || e.target;
+    const btn = document.getElementById('fsub');
+    const msg = document.getElementById('fmsg');
+    const fd = new FormData(form);
+
+    const oldText = btn ? btn.textContent : '';
+    if(btn){
+      btn.disabled = true;
+      btn.textContent = '...';
+      btn.style.opacity = '.7';
+    }
+    if(msg) {
+      msg.textContent = '';
+      msg.style.color = '';
+    }
+
+    const payload = {
+      name: (fd.get('name') || '').trim(),
+      telegram: (fd.get('telegram') || '').trim(),
+      platform: (fd.get('platform') || '').trim(),
+      message: (fd.get('goal') || '').trim(),
+      language: window.curLang || 'ru',
+      source: 'femagency.us'
+    };
+
+    try {
+      const res = await fetch(WORKER_URL, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      let data = {};
+      try { data = await res.json(); } catch(_) {}
+      if(!res.ok || data.ok === false) throw new Error(data.error || 'Worker error');
+
+      if(btn){
+        btn.innerHTML = '✓ ' + ((window.curLang === 'en') ? 'Application sent!' : (window.curLang === 'uk') ? 'Заявку надіслано!' : 'Заявка отправлена!');
+        btn.style.background = 'linear-gradient(135deg,#22c55e,#16a34a)';
+        btn.style.opacity = '1';
+      }
+      if(msg){
+        msg.textContent = (window.curLang === 'en')
+          ? 'Manager will contact you within 24 hours 🎉'
+          : (window.curLang === 'uk')
+            ? "Менеджер зв'яжеться протягом 24 годин 🎉"
+            : 'Менеджер свяжется в течение 24 часов 🎉';
+        msg.style.color = '#4ade80';
+      }
+      form.reset();
+
+      setTimeout(()=>{
+        if(btn){
+          btn.disabled = false;
+          btn.innerHTML = oldText;
+          btn.style.opacity = '1';
+          btn.style.background = '';
+          ensureTgIcons();
+        }
+      }, 3500);
+
+    } catch(err) {
+      console.error('FEM form error:', err);
+      if(btn){
+        btn.disabled = false;
+        btn.innerHTML = oldText;
+        btn.style.opacity = '1';
+        btn.style.background = '';
+        ensureTgIcons();
+      }
+      if(msg){
+        msg.textContent = (window.curLang === 'en')
+          ? 'Error. Check Worker/Telegram and try again.'
+          : (window.curLang === 'uk')
+            ? 'Помилка. Перевір Worker/Telegram і спробуй ще раз.'
+            : 'Ошибка. Проверь Worker/Telegram и попробуй ещё раз.';
+        msg.style.color = '#ff6b9e';
+      }
+    }
+
+    return false;
+  }
+
+  document.addEventListener('DOMContentLoaded',()=>{
+    ensureTgIcons();
+    ensureBotLinks();
+
+    const form = document.getElementById('aForm');
+    if(form){
+      form.setAttribute('action','javascript:void(0)');
+      form.removeAttribute('method');
+      form.onsubmit = null;
+      form.addEventListener('submit', safeSubmit, true);
+    }
+
+    document.querySelectorAll('.lang-sw button').forEach(btn=>{
+      btn.addEventListener('click',()=>setTimeout(()=>{ ensureTgIcons(); ensureBotLinks(); },50), true);
+    });
+
+    document.querySelectorAll('#themeTog,#themeTog2').forEach(t=>{
+      t.addEventListener('click',()=>setTimeout(()=>{ ensureTgIcons(); },50), true);
+    });
+  });
+
+  window.addEventListener('load',()=>{
+    ensureTgIcons();
+    ensureBotLinks();
+  });
+})();
+</script>
+
+<script>
 /* ══════════ NAVBAR — единый финальный скрипт ══════════ */
 (function(){
   const BOT_URL = "https://t.me/FemAgencyApplyBot?start=site";
+  const nav = document.getElementById('nav');
+  if(!nav) return;
 
   /* ── Preloader ── */
   function hidePreloaderSmooth(){
@@ -1603,98 +1894,89 @@ window.addEventListener('load',()=>{
     setTimeout(()=>{ clearInterval(timer); if(bar) bar.style.width='100%'; if(pct) pct.textContent='100%'; hidePreloaderSmooth(); }, 1800);
   });
 
-  /* ── Nav hide / show — только translateY, кнопки всегда работают ── */
-  let lastY = window.scrollY || 0, scrollAcc = 0, navUp = false;
+  /* ── Nav show / hide (единственный источник управления) ── */
+  nav.style.transition = 'transform .45s cubic-bezier(.22,.61,.36,1), background .3s ease, padding .3s ease';
+  nav.style.willChange = 'transform';
+  nav.style.transform = 'translateY(0)';
+  nav.style.pointerEvents = 'auto';
 
-  function getNav(){ return document.getElementById('nav'); }
+  let lastY = window.scrollY;
+  let ticking = false;
+  let hidden = false;
 
   function showNav(){
-    const n = getNav(); if(!n || !navUp) return;
-    navUp = false;
-    n.style.transform = 'translate3d(0,0,0)';
+    if(!hidden) return;
+    hidden = false;
+    nav.style.transform = 'translateY(0)';
+    nav.style.pointerEvents = 'auto';
+  }
+  function hideNav(){
+    if(hidden) return;
+    hidden = true;
+    nav.style.transform = 'translateY(-110%)';
+    nav.style.pointerEvents = 'none';
   }
 
-  function hideNav(){
-    const n = getNav(); if(!n || navUp || window.scrollY < 120) return;
-    navUp = true;
-    n.style.transform = 'translate3d(0,-115%,0)';
+  function onScroll(){
+    const y = window.scrollY;
+    nav.classList.toggle('sc', y > 60);
+
+    if (y <= 80) {
+      showNav();
+    } else if (y > lastY + 2) {
+      hideNav();
+    } else if (y < lastY - 2) {
+      showNav();
+    }
+    lastY = y;
+    ticking = false;
   }
 
   window.addEventListener('scroll', ()=>{
-    const y = window.scrollY || 0;
-    const diff = y - lastY;
-    lastY = y;
-
-    if(y < 80){ showNav(); scrollAcc = 0; return; }
-
-    scrollAcc += diff;
-    if(scrollAcc > 60 && !navUp){ hideNav(); scrollAcc = 0; }
-    else if(scrollAcc < -40 && navUp){ showNav(); scrollAcc = 0; }
+    if(!ticking){
+      requestAnimationFrame(onScroll);
+      ticking = true;
+    }
   }, {passive:true});
 
-  /* ── Telegram иконки ── */
-  const TG_ICON = '<span class="tg-logo" aria-hidden="true"></span>';
-  function ensureTgIcons(){
-    document.querySelectorAll('a[data-t="nav_cta"],a[data-t="hero_cta1"],button[data-t="f_sub"],.fcta').forEach(el=>{
-      el.innerHTML = el.innerHTML.replace(/\s*(→|🚀)\s*/g,' ').trim();
-      if(!el.querySelector('.tg-logo')) el.insertAdjacentHTML('beforeend', ' ' + TG_ICON);
-    });
-  }
-  function ensureBotLinks(){
-    document.querySelectorAll('a[data-t="nav_cta"],a[data-t="hero_cta1"],.fcta').forEach(a=>{
-      a.href = BOT_URL; a.target = '_blank'; a.rel = 'noopener';
-    });
-  }
-
-  /* ── Плавный скролл по якорям ── */
-  function bindNavLinks(){
-    document.querySelectorAll('#nav a[href^="#"], .mob a[href^="#"]').forEach(a=>{
-      if(a.dataset.bound) return;
-      a.dataset.bound = '1';
-      a.addEventListener('click', function(e){
-        const href = this.getAttribute('href');
-        if(!href || href === '#') return;
-        const target = document.querySelector(href);
-        if(target){
-          e.preventDefault();
-          const navH = (document.getElementById('nav')||{}).offsetHeight || 70;
-          const top = target.getBoundingClientRect().top + window.scrollY - navH - 8;
-          window.scrollTo({top, behavior:'smooth'});
-          if(typeof cM === 'function') cM();
-          /* Показать навбар после клика */
-          locked = Date.now() + 1000;
-          showNav();
-        }
-      }, true);
-    });
-  }
-
-  document.addEventListener('DOMContentLoaded', ()=>{
-    lastY = window.scrollY || 0;
-    const n = getNav();
-    if(n){
-      n.style.transition = 'transform .45s cubic-bezier(.22,.61,.36,1), background .35s ease, padding .35s ease';
-      n.style.willChange = 'transform';
-    }
-    bindNavLinks();
-    ensureTgIcons();
-    ensureBotLinks();
-
-    document.querySelectorAll('.lang-sw button').forEach(btn=>{
-      btn.addEventListener('click', ()=> setTimeout(()=>{ ensureTgIcons(); ensureBotLinks(); }, 50));
-    });
-    document.querySelectorAll('#themeTog,#themeTog2').forEach(t=>{
-      t.addEventListener('click', ()=> setTimeout(ensureTgIcons, 50));
+  /* ── Плавный скролл по якорям (десктоп + мобильное меню) ── */
+  document.querySelectorAll('#nav a[href^="#"], #mob a[href^="#"]').forEach(a=>{
+    a.addEventListener('click', function(e){
+      const href = this.getAttribute('href');
+      if(!href || href === '#') return;
+      const target = document.querySelector(href);
+      if(!target) return;
+      e.preventDefault();
+      const navH = nav.offsetHeight || 70;
+      const top = target.getBoundingClientRect().top + window.scrollY - navH - 8;
+      window.scrollTo({top, behavior:'smooth'});
+      if(typeof cM === 'function') cM();
+      lastY = window.scrollY;
+      showNav();
     });
   });
 
-  window.addEventListener('load', ()=>{
-    bindNavLinks();
-    ensureTgIcons();
-    ensureBotLinks();
+  /* ── Кнопки Telegram: ссылка + иконка ── */
+  const TG_ICON = '<span class="tg-logo" aria-hidden="true"></span>';
+  function fixButtons(){
+    document.querySelectorAll('a[data-t="nav_cta"], a[data-t="hero_cta1"], .fcta').forEach(a=>{
+      a.href = BOT_URL;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      if(!a.querySelector('.tg-logo')){
+        a.innerHTML = a.innerHTML.replace(/\s*(→|🚀)\s*/g,' ').trim() + ' ' + TG_ICON;
+      }
+    });
+  }
+  fixButtons();
+
+  document.querySelectorAll('.lang-sw button').forEach(btn=>{
+    btn.addEventListener('click', ()=> setTimeout(fixButtons, 50));
+  });
+  document.querySelectorAll('#themeTog,#themeTog2').forEach(t=>{
+    t.addEventListener('click', ()=> setTimeout(fixButtons, 50));
   });
 })();
 </script>
-
 </body>
 </html>
