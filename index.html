@@ -699,24 +699,14 @@ nav.nav-visible{
 }
 
 
-/* NAVBAR AUTO-HIDE CLICK FIX — keeps hiding, fixes buttons */
-#nav{
-  z-index:999999 !important;
-}
-#nav.nav-show,
-#nav.nav-visible,
-#nav:not(.nav-hide):not(.nav-hidden){
-  pointer-events:auto !important;
-}
-#nav.nav-show *,
-#nav.nav-visible *,
-#nav:not(.nav-hide):not(.nav-hidden) *{
-  pointer-events:auto !important;
-}
-#nav.nav-hide,
-#nav.nav-hidden{
-  pointer-events:none !important;
-}
+
+
+/* Mobile burger toggle fix */
+.brg.is-open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.brg.is-open span:nth-child(2){opacity:0}
+.brg.is-open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+#mob.op{display:flex}
+body.mob-open{overflow:hidden}
 
 </style>
 
@@ -1858,102 +1848,209 @@ window.addEventListener('load',()=>{
 })();
 </script>
 
+
 <script>
-/* ══════════ NAVBAR — единый финальный скрипт ══════════ */
+/* ══════════ NAVBAR — delegated final script + mobile toggle ══════════ */
 (function(){
-  const BOT_URL = "https://t.me/FemAgencyApplyBot?start=site";
-  const nav = document.getElementById('nav');
+  var BOT_URL = "https://t.me/FemAgencyApplyBot?start=site";
+  var nav = document.getElementById('nav');
   if(!nav) return;
+
+  nav.style.pointerEvents = 'auto';
+  Array.prototype.forEach.call(nav.querySelectorAll('*'), function(el){
+    el.style.pointerEvents = 'auto';
+  });
+
+  function getMob(){ return document.getElementById('mob'); }
+  function getBurger(){ return document.getElementById('brg'); }
+
+  function openMob(){
+    var mob = getMob();
+    var brg = getBurger();
+    if(mob) mob.classList.add('op');
+    if(brg){
+      brg.classList.add('is-open');
+      brg.setAttribute('aria-expanded','true');
+    }
+    document.body.classList.add('mob-open');
+  }
+
+  function closeMob(){
+    var mob = getMob();
+    var brg = getBurger();
+    if(mob) mob.classList.remove('op');
+    if(brg){
+      brg.classList.remove('is-open');
+      brg.setAttribute('aria-expanded','false');
+    }
+    document.body.classList.remove('mob-open');
+  }
+
+  function toggleMob(){
+    var mob = getMob();
+    if(mob && mob.classList.contains('op')) closeMob();
+    else openMob();
+  }
 
   /* ── Preloader ── */
   function hidePreloaderSmooth(){
-    const pl = document.getElementById('preloader');
+    var pl = document.getElementById('preloader');
     if(!pl || pl.dataset.hidden === '1') return;
     pl.dataset.hidden = '1';
     pl.classList.add('smooth-hide');
     document.documentElement.classList.add('preload-done');
-    setTimeout(()=>{ pl.style.display = 'none'; }, 720);
+    setTimeout(function(){ pl.style.display = 'none'; }, 720);
   }
-  window.addEventListener('load', ()=> setTimeout(hidePreloaderSmooth, 550));
-  document.addEventListener('DOMContentLoaded', ()=>{
-    const bar = document.getElementById('plBar');
-    const pct = document.getElementById('plPct');
-    let p = 0;
-    const timer = setInterval(()=>{
+
+  window.addEventListener('load', function(){ setTimeout(hidePreloaderSmooth, 550); });
+
+  document.addEventListener('DOMContentLoaded', function(){
+    var brg = getBurger();
+    if(brg){
+      brg.setAttribute('aria-label','Open menu');
+      brg.setAttribute('aria-expanded','false');
+      brg.setAttribute('type','button');
+    }
+
+    var bar = document.getElementById('plBar');
+    var pct = document.getElementById('plPct');
+    var p = 0;
+    var timer = setInterval(function(){
       p = Math.min(100, p + Math.ceil(Math.random() * 12));
       if(bar) bar.style.width = p + '%';
       if(pct) pct.textContent = p + '%';
       if(p >= 100){ clearInterval(timer); setTimeout(hidePreloaderSmooth, 450); }
     }, 85);
-    setTimeout(()=>{ clearInterval(timer); if(bar) bar.style.width='100%'; if(pct) pct.textContent='100%'; hidePreloaderSmooth(); }, 1800);
+
+    setTimeout(function(){
+      clearInterval(timer);
+      if(bar) bar.style.width='100%';
+      if(pct) pct.textContent='100%';
+      hidePreloaderSmooth();
+    }, 1800);
   });
 
-  /* ── Nav show / hide (единственный источник управления) ── */
+  /* ── Nav show / hide ── */
   nav.style.transition = 'transform .45s cubic-bezier(.22,.61,.36,1), background .3s ease, padding .3s ease';
   nav.style.willChange = 'transform';
   nav.style.transform = 'translateY(0)';
-  nav.style.pointerEvents = 'auto';
 
-  let lastY = window.scrollY;
-  let ticking = false;
-  let hidden = false;
+  var lastY = window.scrollY;
+  var ticking = false;
+  var hidden = false;
 
   function showNav(){
-    if(!hidden) return;
-    hidden = false;
-    nav.style.transform = 'translateY(0)';
-    nav.style.pointerEvents = 'auto';
+    if(hidden){
+      hidden = false;
+      nav.style.transform = 'translateY(0)';
+      nav.style.pointerEvents = 'auto';
+    }
   }
+
   function hideNav(){
-    if(hidden) return;
-    hidden = true;
-    nav.style.transform = 'translateY(-110%)';
-    nav.style.pointerEvents = 'none';
+    var mob = getMob();
+    if(mob && mob.classList.contains('op')) return;
+    if(!hidden){
+      hidden = true;
+      nav.style.transform = 'translateY(-110%)';
+    }
   }
 
   function onScroll(){
-    const y = window.scrollY;
+    var y = window.scrollY;
     nav.classList.toggle('sc', y > 60);
-
-    if (y <= 80) {
-      showNav();
-    } else if (y > lastY + 2) {
-      hideNav();
-    } else if (y < lastY - 2) {
-      showNav();
-    }
+    if (y <= 80) { showNav(); }
+    else if (y > lastY + 2) { hideNav(); }
+    else if (y < lastY - 2) { showNav(); }
     lastY = y;
     ticking = false;
   }
 
-  window.addEventListener('scroll', ()=>{
-    if(!ticking){
-      requestAnimationFrame(onScroll);
-      ticking = true;
-    }
+  window.addEventListener('scroll', function(){
+    if(!ticking){ requestAnimationFrame(onScroll); ticking = true; }
   }, {passive:true});
 
-  /* ── Плавный скролл по якорям (десктоп + мобильное меню) ── */
-  document.querySelectorAll('#nav a[href^="#"], #mob a[href^="#"]').forEach(a=>{
-    a.addEventListener('click', function(e){
-      const href = this.getAttribute('href');
-      if(!href || href === '#') return;
-      const target = document.querySelector(href);
-      if(!target) return;
+  /* ── Делегированный обработчик кликов: desktop + mobile ── */
+  document.addEventListener('click', function(e){
+
+    /* burger: одна и та же кнопка открывает и закрывает меню */
+    if(e.target.closest('#brg')){
       e.preventDefault();
-      const navH = nav.offsetHeight || 70;
-      const top = target.getBoundingClientRect().top + window.scrollY - navH - 8;
-      window.scrollTo({top, behavior:'smooth'});
-      if(typeof cM === 'function') cM();
-      lastY = window.scrollY;
+      e.stopPropagation();
+      toggleMob();
       showNav();
-    });
+      return;
+    }
+
+    /* закрытие по X или клику по фону мобильного меню */
+    if(e.target.closest('#mobX') || e.target.id === 'mob'){
+      e.preventDefault();
+      closeMob();
+      showNav();
+      return;
+    }
+
+    /* язык */
+    var langBtn = e.target.closest('.lang-sw button');
+    if(langBtn){
+      var lang = langBtn.getAttribute('data-lang');
+      if(typeof window.setLang === 'function'){ window.setLang(lang); }
+      setTimeout(fixButtons, 50);
+      return;
+    }
+
+    /* тема */
+    var themeBtn = e.target.closest('#themeTog, #themeTog2');
+    if(themeBtn){
+      var isDarkNow = document.documentElement.getAttribute('data-theme') !== 'light';
+      if(typeof window.setTheme === 'function'){ window.setTheme(!isDarkNow); }
+      setTimeout(fixButtons, 50);
+      return;
+    }
+
+    /* якорные ссылки desktop navbar + mobile menu */
+    var anchor = e.target.closest('#nav a[href^="#"], #mob a[href^="#"]');
+    if(anchor){
+      var href = anchor.getAttribute('href');
+      if(href && href !== '#'){
+        var target = document.querySelector(href);
+        if(target){
+          e.preventDefault();
+          var navH = nav.offsetHeight || 70;
+          var top = target.getBoundingClientRect().top + window.scrollY - navH - 8;
+          window.scrollTo({top: top, behavior: 'smooth'});
+          closeMob();
+          lastY = window.scrollY;
+          showNav();
+        }
+      }
+      return;
+    }
+
+    /* Telegram-кнопка в мобильном меню: закрываем меню и открываем ссылку стандартно */
+    var tg = e.target.closest('#mob a[href^="https://t.me/"]');
+    if(tg){
+      closeMob();
+      return;
+    }
+
+  }, true);
+
+  /* ESC закрывает мобильное меню */
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') closeMob();
+  });
+
+  /* Если экран стал desktop — закрываем mobile menu */
+  window.addEventListener('resize', function(){
+    if(window.innerWidth > 680) closeMob();
   });
 
   /* ── Кнопки Telegram: ссылка + иконка ── */
-  const TG_ICON = '<span class="tg-logo" aria-hidden="true"></span>';
+  var TG_ICON = '<span class="tg-logo" aria-hidden="true"></span>';
   function fixButtons(){
-    document.querySelectorAll('a[data-t="nav_cta"], a[data-t="hero_cta1"], .fcta').forEach(a=>{
+    var els = document.querySelectorAll('a[data-t="nav_cta"], a[data-t="hero_cta1"], .fcta');
+    Array.prototype.forEach.call(els, function(a){
       a.href = BOT_URL;
       a.target = '_blank';
       a.rel = 'noopener';
@@ -1962,15 +2059,11 @@ window.addEventListener('load',()=>{
       }
     });
   }
-  fixButtons();
 
-  document.querySelectorAll('.lang-sw button').forEach(btn=>{
-    btn.addEventListener('click', ()=> setTimeout(fixButtons, 50));
-  });
-  document.querySelectorAll('#themeTog,#themeTog2').forEach(t=>{
-    t.addEventListener('click', ()=> setTimeout(fixButtons, 50));
-  });
+  fixButtons();
+  setTimeout(fixButtons, 300);
 })();
 </script>
+
 </body>
 </html>
