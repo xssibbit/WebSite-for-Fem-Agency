@@ -729,6 +729,65 @@ body.mob-open{overflow:hidden}
 .nc .tg-logo{width:20px;height:20px;vertical-align:-5px;margin-left:7px}
 .fcta .tg-logo{width:22px;height:22px;vertical-align:-5px;margin-left:7px}
 
+
+/* ══════ FINAL RELIABLE NAVBAR — clickable even after scroll ══════ */
+#nav,
+#nav.nav-hide,
+#nav.nav-hidden,
+#nav.nav-show,
+#nav.nav-visible,
+#nav.nav-is-hidden,
+#nav.nav-is-visible,
+nav#nav{
+  position:fixed !important;
+  top:0 !important;
+  left:0 !important;
+  right:0 !important;
+  z-index:2147483000 !important;
+  transform:translate3d(0,var(--nav-y,0),0) !important;
+  opacity:1 !important;
+  visibility:visible !important;
+  pointer-events:auto !important;
+  transition:transform .42s cubic-bezier(.22,.61,.36,1), background .3s ease, padding .3s ease, border-color .3s ease !important;
+  will-change:transform !important;
+}
+#nav *,
+#nav.nav-hide *,
+#nav.nav-hidden *,
+#nav.nav-show *,
+#nav.nav-visible *,
+#nav.nav-is-hidden *,
+#nav.nav-is-visible *{
+  pointer-events:auto !important;
+}
+#mob{
+  z-index:2147482000 !important;
+}
+#mob.op{
+  display:flex !important;
+  pointer-events:auto !important;
+}
+#mob.op *{
+  pointer-events:auto !important;
+}
+#brg{
+  pointer-events:auto !important;
+  touch-action:manipulation !important;
+}
+.brg.is-open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.brg.is-open span:nth-child(2){opacity:0}
+.brg.is-open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+body.mob-open{overflow:hidden}
+
+
+.ai-photo-note{
+  width:100%;
+  margin-top:8px;
+  font-size:11px;
+  color:var(--tx3);
+  line-height:1.5;
+}
+
 </style>
 
 <script>
@@ -1268,6 +1327,7 @@ window.addEventListener('DOMContentLoaded',()=>{
       <span data-t="ft_copy">© 2026 FEM Agency. Все права защищены.</span>
       <span data-t="ft_priv">Конфиденциальность гарантирована</span>
     </div>
+    <div class="ai-photo-note">Фото на сайте сгенерированы с помощью ИИ</div>
   </div>
 </footer>
 
@@ -1871,15 +1931,20 @@ window.addEventListener('load',()=>{
 
 
 <script>
-/* ══════ CLEAN NAVBAR SCRIPT — no old classes, no conflicts ══════ */
+/* ══════ FINAL RELIABLE NAVBAR CONTROLLER ══════ */
 (function(){
   var BOT_URL = "https://t.me/FemAgencyApplyBot?start=site";
   var nav = document.getElementById('nav');
-  var mob = document.getElementById('mob');
-  var brg = document.getElementById('brg');
   if(!nav) return;
 
-  function forceClickable(){
+  var mob = document.getElementById('mob');
+  var brg = document.getElementById('brg');
+
+  function setNavY(v){
+    nav.style.setProperty('--nav-y', v);
+  }
+
+  function makeClickable(){
     nav.style.pointerEvents = 'auto';
     Array.prototype.forEach.call(nav.querySelectorAll('a,button,.theme-tog,.lang-sw,.lang-sw button'), function(el){
       el.style.pointerEvents = 'auto';
@@ -1887,20 +1952,23 @@ window.addEventListener('load',()=>{
   }
 
   function showNav(){
-    nav.classList.remove('nav-is-hidden','nav-hide','nav-hidden');
-    nav.classList.add('nav-is-visible');
-    nav.style.transform = 'translate3d(0,0,0)';
-    nav.style.pointerEvents = 'auto';
-    forceClickable();
+    nav.classList.remove('nav-hide','nav-hidden','nav-is-hidden');
+    nav.classList.add('nav-show','nav-visible','nav-is-visible');
+    setNavY('0');
+    makeClickable();
   }
 
   function hideNav(){
     if(mob && mob.classList.contains('op')) return;
-    nav.classList.remove('nav-is-visible','nav-show','nav-visible');
+    nav.classList.remove('nav-show','nav-visible','nav-is-visible');
     nav.classList.add('nav-is-hidden');
+    setNavY('-115%');
+    makeClickable();
   }
 
   function openMob(){
+    mob = document.getElementById('mob');
+    brg = document.getElementById('brg');
     if(mob) mob.classList.add('op');
     if(brg){
       brg.classList.add('is-open');
@@ -1912,6 +1980,8 @@ window.addEventListener('load',()=>{
   }
 
   function closeMob(){
+    mob = document.getElementById('mob');
+    brg = document.getElementById('brg');
     if(mob) mob.classList.remove('op');
     if(brg){
       brg.classList.remove('is-open');
@@ -1923,6 +1993,7 @@ window.addEventListener('load',()=>{
   }
 
   function toggleMob(){
+    mob = document.getElementById('mob');
     if(mob && mob.classList.contains('op')) closeMob();
     else openMob();
   }
@@ -1943,8 +2014,8 @@ window.addEventListener('load',()=>{
     }
 
     if(y <= 80) showNav();
-    else if(y > lastY + 3) hideNav();
-    else if(y < lastY - 3) showNav();
+    else if(y > lastY + 4) hideNav();
+    else if(y < lastY - 4) showNav();
 
     lastY = y;
     ticking = false;
@@ -1973,7 +2044,7 @@ window.addEventListener('load',()=>{
       suppressHide = false;
       lastY = window.scrollY || 0;
       showNav();
-    }, 950);
+    }, 1000);
   }
 
   function fixButtons(){
@@ -1988,66 +2059,31 @@ window.addEventListener('load',()=>{
     });
   }
 
-  function smoothPreloader(){
-    var pl = document.getElementById('preloader');
-    if(!pl || pl.dataset.cleanHidden === '1') return;
-    pl.dataset.cleanHidden = '1';
-    pl.classList.add('smooth-hide');
-    document.documentElement.classList.add('preload-done');
-    setTimeout(function(){ pl.style.display='none'; }, 720);
+  function stop(e){
+    e.preventDefault();
+    if(e.stopImmediatePropagation) e.stopImmediatePropagation();
+    e.stopPropagation();
   }
 
-  window.addEventListener('load', function(){ setTimeout(smoothPreloader, 550); });
-
-  document.addEventListener('DOMContentLoaded', function(){
-    if(brg){
-      brg.setAttribute('type','button');
-      brg.setAttribute('aria-expanded','false');
-      brg.setAttribute('aria-label','Menu');
-    }
-    showNav();
-    forceClickable();
-    fixButtons();
-
-    var bar = document.getElementById('plBar');
-    var pct = document.getElementById('plPct');
-    var p = 0;
-    var timer = setInterval(function(){
-      p = Math.min(100, p + Math.ceil(Math.random()*12));
-      if(bar) bar.style.width = p + '%';
-      if(pct) pct.textContent = p + '%';
-      if(p >= 100){
-        clearInterval(timer);
-        setTimeout(smoothPreloader, 450);
-      }
-    }, 85);
-
-    setTimeout(function(){
-      clearInterval(timer);
-      if(bar) bar.style.width='100%';
-      if(pct) pct.textContent='100%';
-      smoothPreloader();
-    }, 1800);
-  });
-
-  document.addEventListener('click', function(e){
-    var burger = e.target.closest('#brg');
+  /* Главное: window capture срабатывает раньше старых document/click handlers */
+  window.addEventListener('click', function(e){
+    var burger = e.target.closest && e.target.closest('#brg');
     if(burger){
-      e.preventDefault();
-      e.stopPropagation();
+      stop(e);
       toggleMob();
       return;
     }
 
-    if(e.target.closest('#mobX') || e.target.id === 'mob'){
-      e.preventDefault();
+    var closeBtn = e.target.closest && e.target.closest('#mobX');
+    if(closeBtn || e.target.id === 'mob'){
+      stop(e);
       closeMob();
       return;
     }
 
-    var langBtn = e.target.closest('.lang-sw button');
+    var langBtn = e.target.closest && e.target.closest('#nav .lang-sw button, #mob .lang-sw button');
     if(langBtn){
-      e.preventDefault();
+      stop(e);
       var lang = langBtn.getAttribute('data-lang');
       if(typeof window.setLang === 'function') window.setLang(lang);
       setTimeout(fixButtons, 60);
@@ -2055,9 +2091,9 @@ window.addEventListener('load',()=>{
       return;
     }
 
-    var themeBtn = e.target.closest('#themeTog, #themeTog2');
+    var themeBtn = e.target.closest && e.target.closest('#themeTog, #themeTog2');
     if(themeBtn){
-      e.preventDefault();
+      stop(e);
       var isDarkNow = document.documentElement.getAttribute('data-theme') !== 'light';
       if(typeof window.setTheme === 'function') window.setTheme(!isDarkNow);
       setTimeout(fixButtons, 60);
@@ -2065,22 +2101,37 @@ window.addEventListener('load',()=>{
       return;
     }
 
-    var anchor = e.target.closest('#nav a[href^="#"], #mob a[href^="#"], a.bg2[href^="#"]');
+    var anchor = e.target.closest && e.target.closest('#nav a[href^="#"], #mob a[href^="#"], a.bg2[href^="#"]');
     if(anchor){
       var href = anchor.getAttribute('href');
       if(href && href !== '#'){
-        e.preventDefault();
+        stop(e);
         closeMob();
         goToAnchor(href);
       }
       return;
     }
 
-    var tg = e.target.closest('a[href^="https://t.me/"]');
+    var tg = e.target.closest && e.target.closest('#nav a[href^="https://t.me/"], #mob a[href^="https://t.me/"], .fcta[href^="https://t.me/"]');
     if(tg){
       closeMob();
+      showNav();
       return;
     }
+  }, true);
+
+  /* На мобильных: если навбар спрятан, касание верхней зоны сразу его показывает */
+  window.addEventListener('touchstart', function(e){
+    var t = e.touches && e.touches[0];
+    if(t && t.clientY < 90) showNav();
+  }, {passive:true});
+
+  window.addEventListener('mousemove', function(e){
+    if(e.clientY < 90) showNav();
+  }, {passive:true});
+
+  window.addEventListener('focusin', function(e){
+    if(nav.contains(e.target)) showNav();
   }, true);
 
   document.addEventListener('keydown', function(e){
@@ -2094,10 +2145,18 @@ window.addEventListener('load',()=>{
   window.addEventListener('pageshow', function(){
     showNav();
     fixButtons();
+    makeClickable();
   });
+
+  if(brg){
+    brg.setAttribute('type','button');
+    brg.setAttribute('aria-expanded','false');
+    brg.setAttribute('aria-label','Menu');
+  }
 
   showNav();
   fixButtons();
+  makeClickable();
 })();
 </script>
 
