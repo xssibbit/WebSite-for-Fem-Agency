@@ -589,72 +589,10 @@ html.content-force-visible .sn{
 
 
 
-/* ══════ HEADER: smooth hide on scroll down, show on scroll up ══════ */
-#nav,
-nav{
-  position:fixed !important;
-  top:0 !important;
-  left:0 !important;
-  right:0 !important;
-  z-index:9998 !important;
-  opacity:1 !important;
-  visibility:visible !important;
-  pointer-events:auto !important;
-  transform:translateY(0) !important;
-  transition:
-    transform .38s cubic-bezier(.16,1,.3,1),
-    opacity .28s ease,
-    background .35s ease,
-    padding .35s ease,
-    border-color .35s ease !important;
-  will-change:transform, opacity;
-}
-
-#nav.nav-hidden,
-nav.nav-hidden{
-  transform:translateY(-115%) !important;
-  opacity:0 !important;
-  pointer-events:none !important;
-}
-
-#nav.nav-visible,
-nav.nav-visible{
-  transform:translateY(0) !important;
-  opacity:1 !important;
-  pointer-events:auto !important;
-}
 
 
-/* ══════ FINAL HEADER AUTO-HIDE FIX ══════ */
-#nav{
-  position:fixed !important;
-  top:0 !important;
-  left:0 !important;
-  right:0 !important;
-  z-index:99999 !important;
-  opacity:1;
-  visibility:visible;
-  pointer-events:auto;
-  transform:translate3d(0,0,0);
-  transition:transform .45s cubic-bezier(.22,.61,.36,1), opacity .3s ease, background .3s ease !important;
-  will-change:transform, opacity;
-}
 
-#nav.nav-hide{
-  transform:translate3d(0,-120%,0) !important;
-  opacity:0 !important;
-  pointer-events:none !important;
-}
 
-#nav.nav-show{
-  transform:translate3d(0,0,0) !important;
-  opacity:1 !important;
-  pointer-events:auto !important;
-}
-
-.hero{
-  padding-top:80px !important;
-}
 
 
 
@@ -707,6 +645,89 @@ nav.nav-visible{
 .brg.is-open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 #mob.op{display:flex}
 body.mob-open{overflow:hidden}
+
+
+/* ══════ CLEAN NAVBAR FIX — single source of truth ══════ */
+#nav{
+  position:fixed !important;
+  top:0 !important;
+  left:0 !important;
+  right:0 !important;
+  z-index:999999 !important;
+  transform:translate3d(0,0,0);
+  opacity:1 !important;
+  visibility:visible !important;
+  pointer-events:auto !important;
+  transition:transform .42s cubic-bezier(.22,.61,.36,1), background .3s ease, padding .3s ease, border-color .3s ease !important;
+  will-change:transform;
+}
+#nav.nav-is-hidden{
+  transform:translate3d(0,-115%,0) !important;
+  pointer-events:none !important;
+}
+#nav.nav-is-visible{
+  transform:translate3d(0,0,0) !important;
+  pointer-events:auto !important;
+}
+#nav a,#nav button,#nav .theme-tog,#nav .lang-sw,#nav .lang-sw button,#nav *{
+  pointer-events:auto;
+}
+#nav.nav-is-hidden a,
+#nav.nav-is-hidden button,
+#nav.nav-is-hidden .theme-tog,
+#nav.nav-is-hidden .lang-sw,
+#nav.nav-is-hidden *{
+  pointer-events:none !important;
+}
+#brg{pointer-events:auto !important;touch-action:manipulation}
+.brg.is-open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.brg.is-open span:nth-child(2){opacity:0}
+.brg.is-open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+#mob{
+  z-index:999998 !important;
+  pointer-events:none;
+}
+#mob.op{
+  display:flex !important;
+  pointer-events:auto !important;
+}
+#mob.op *{pointer-events:auto !important}
+body.mob-open{overflow:hidden}
+
+/* Smooth preloader fix */
+#preloader{
+  opacity:1;
+  transition:opacity .65s cubic-bezier(.22,.61,.36,1), visibility .65s ease !important;
+}
+#preloader.smooth-hide{
+  opacity:0 !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+}
+.pl-logo-wrap{
+  transition:transform .55s cubic-bezier(.22,.61,.36,1), opacity .55s ease !important;
+}
+#preloader.smooth-hide .pl-logo-wrap{
+  transform:scale(.97) translateY(-8px);
+  opacity:0;
+}
+.pl-bar{transition:width .18s ease !important}
+
+/* Telegram logo inside CTA buttons — transparent */
+.tg-logo{
+  width:24px;
+  height:24px;
+  display:inline-block;
+  vertical-align:-6px;
+  margin-left:8px;
+  flex:0 0 auto;
+  background-color:currentColor;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M179.1 70.4c2.1-9.8-3.7-13.6-11.4-10.4L50.1 105.3c-8 3.1-7.9 7.6-1.4 9.6l30.2 9.4 70.1-44.2c3.3-2 6.3-.9 3.8 1.3l-56.8 51.3-2.2 32.3c3.2 0 4.6-1.5 6.4-3.2l15.4-15 32 23.6c5.9 3.3 10.1 1.6 11.6-5.5l19.9-94.5z'/%3E%3C/svg%3E") center/contain no-repeat;
+  mask:url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M179.1 70.4c2.1-9.8-3.7-13.6-11.4-10.4L50.1 105.3c-8 3.1-7.9 7.6-1.4 9.6l30.2 9.4 70.1-44.2c3.3-2 6.3-.9 3.8 1.3l-56.8 51.3-2.2 32.3c3.2 0 4.6-1.5 6.4-3.2l15.4-15 32 23.6c5.9 3.3 10.1 1.6 11.6-5.5l19.9-94.5z'/%3E%3C/svg%3E") center/contain no-repeat;
+  filter:drop-shadow(0 2px 8px rgba(255,255,255,.25));
+}
+.nc .tg-logo{width:20px;height:20px;vertical-align:-5px;margin-left:7px}
+.fcta .tg-logo{width:22px;height:22px;vertical-align:-5px;margin-left:7px}
 
 </style>
 
@@ -831,11 +852,11 @@ window.addEventListener('DOMContentLoaded',()=>{
 <!-- MOB MENU -->
 <div class="mob" id="mob">
   <button class="mob-x" id="mobX">✕</button>
-  <a href="#platforms" onclick="cM()" data-t="nav_srv">Платформы</a>
-  <a href="#results" onclick="cM()" data-t="nav_res">Результаты</a>
-  <a href="#process" onclick="cM()" data-t="nav_proc">Процесс</a>
-  <a href="#faq" onclick="cM()" data-t="nav_faq">FAQ</a>
-  <a href="https://t.me/FemAgencyApplyBot?start=site" target="_blank" rel="noopener" class="bp" onclick="cM()" data-t="nav_cta" style="margin-top:8px">Оставить заявку <span class="tg-logo" aria-hidden="true"></span></a>
+  <a href="#platforms" data-t="nav_srv">Платформы</a>
+  <a href="#results" data-t="nav_res">Результаты</a>
+  <a href="#process" data-t="nav_proc">Процесс</a>
+  <a href="#faq" data-t="nav_faq">FAQ</a>
+  <a href="https://t.me/FemAgencyApplyBot?start=site" target="_blank" rel="noopener" class="bp" data-t="nav_cta" style="margin-top:8px">Оставить заявку <span class="tg-logo" aria-hidden="true"></span></a>
   <div class="nav-ctrl">
     <div class="lang-sw" id="langSwMob">
       <button class="on" data-lang="ru">RU</button>
@@ -1091,7 +1112,7 @@ window.addEventListener('DOMContentLoaded',()=>{
     </div>
     <div class="res-grid">
       <div class="rc gsap-card" style="--di:0s"><div class="rl">Alt Model</div><div class="rn">+$3,200</div><div class="rd" data-t="r1d">дополнительный доход в месяц за 12 недель с нуля</div></div>
-      <div class="rc gsap-card" style="--di:.08s"><div class="rl">Girl Next Door</div><div class="rn">×2.7</div><div class="rd" data-t="r2d">рост подписчиков за 90 дней благодаря кросс-платформенной стратегии</div></div>
+      <div class="rc gsap-card" style="--di:.08s"><div class="rl">Clean Girl</div><div class="rn">×2.7</div><div class="rd" data-t="r2d">рост подписчиков за 90 дней благодаря кросс-платформенной стратегии</div></div>
       <div class="rc gsap-card" style="--di:.16s"><div class="rl">Trans Model</div><div class="rn">$0→$4.9K</div><div class="rd" data-t="r3d">выход на доход $4,900 в месяц с полного нуля за первые 2 месяца</div></div>
     </div>
     <div class="strip-wrap gsap-fade" style="margin-top:44px">
@@ -1121,7 +1142,7 @@ window.addEventListener('DOMContentLoaded',()=>{
         <div class="tc-bg has-local-photo" style="background-image:url('assets/photos/creator-2.jpg')"></div>
         <div class="tc-ov"></div>
         <div class="tc-badge"><div class="tc-badge-n">×2.7</div><div class="tc-badge-l" data-t="cb_subs">подписок</div></div>
-        <div class="tc-b"><div class="tc-tag">1 year with us</div><div class="tc-t" data-t="c2t">Girl Next Door</div><div class="tc-s" data-t="c2s">+2700% охватов за 3 месяца</div></div>
+        <div class="tc-b"><div class="tc-tag">1 year with us</div><div class="tc-t" data-t="c2t">Clean Girl</div><div class="tc-s" data-t="c2s">+2700% охватов за 3 месяца</div></div>
       </div>
       <div class="tc gsap-card" style="--di:.2s">
         <div class="tc-bg has-local-photo" style="background-image:url('assets/photos/creator-3.jpg')"></div>
@@ -1850,207 +1871,114 @@ window.addEventListener('load',()=>{
 
 
 <script>
-/* ══════════ NAVBAR — delegated final script + mobile toggle ══════════ */
+/* ══════ CLEAN NAVBAR SCRIPT — no old classes, no conflicts ══════ */
 (function(){
   var BOT_URL = "https://t.me/FemAgencyApplyBot?start=site";
   var nav = document.getElementById('nav');
+  var mob = document.getElementById('mob');
+  var brg = document.getElementById('brg');
   if(!nav) return;
 
-  nav.style.pointerEvents = 'auto';
-  Array.prototype.forEach.call(nav.querySelectorAll('*'), function(el){
-    el.style.pointerEvents = 'auto';
-  });
+  function forceClickable(){
+    nav.style.pointerEvents = 'auto';
+    Array.prototype.forEach.call(nav.querySelectorAll('a,button,.theme-tog,.lang-sw,.lang-sw button'), function(el){
+      el.style.pointerEvents = 'auto';
+    });
+  }
 
-  function getMob(){ return document.getElementById('mob'); }
-  function getBurger(){ return document.getElementById('brg'); }
+  function showNav(){
+    nav.classList.remove('nav-is-hidden','nav-hide','nav-hidden');
+    nav.classList.add('nav-is-visible');
+    nav.style.transform = 'translate3d(0,0,0)';
+    nav.style.pointerEvents = 'auto';
+    forceClickable();
+  }
+
+  function hideNav(){
+    if(mob && mob.classList.contains('op')) return;
+    nav.classList.remove('nav-is-visible','nav-show','nav-visible');
+    nav.classList.add('nav-is-hidden');
+  }
 
   function openMob(){
-    var mob = getMob();
-    var brg = getBurger();
     if(mob) mob.classList.add('op');
     if(brg){
       brg.classList.add('is-open');
       brg.setAttribute('aria-expanded','true');
+      brg.setAttribute('type','button');
     }
     document.body.classList.add('mob-open');
+    showNav();
   }
 
   function closeMob(){
-    var mob = getMob();
-    var brg = getBurger();
     if(mob) mob.classList.remove('op');
     if(brg){
       brg.classList.remove('is-open');
       brg.setAttribute('aria-expanded','false');
+      brg.setAttribute('type','button');
     }
     document.body.classList.remove('mob-open');
+    showNav();
   }
 
   function toggleMob(){
-    var mob = getMob();
     if(mob && mob.classList.contains('op')) closeMob();
     else openMob();
   }
 
-  /* ── Preloader ── */
-  function hidePreloaderSmooth(){
-    var pl = document.getElementById('preloader');
-    if(!pl || pl.dataset.hidden === '1') return;
-    pl.dataset.hidden = '1';
-    pl.classList.add('smooth-hide');
-    document.documentElement.classList.add('preload-done');
-    setTimeout(function(){ pl.style.display = 'none'; }, 720);
-  }
-
-  window.addEventListener('load', function(){ setTimeout(hidePreloaderSmooth, 550); });
-
-  document.addEventListener('DOMContentLoaded', function(){
-    var brg = getBurger();
-    if(brg){
-      brg.setAttribute('aria-label','Open menu');
-      brg.setAttribute('aria-expanded','false');
-      brg.setAttribute('type','button');
-    }
-
-    var bar = document.getElementById('plBar');
-    var pct = document.getElementById('plPct');
-    var p = 0;
-    var timer = setInterval(function(){
-      p = Math.min(100, p + Math.ceil(Math.random() * 12));
-      if(bar) bar.style.width = p + '%';
-      if(pct) pct.textContent = p + '%';
-      if(p >= 100){ clearInterval(timer); setTimeout(hidePreloaderSmooth, 450); }
-    }, 85);
-
-    setTimeout(function(){
-      clearInterval(timer);
-      if(bar) bar.style.width='100%';
-      if(pct) pct.textContent='100%';
-      hidePreloaderSmooth();
-    }, 1800);
-  });
-
-  /* ── Nav show / hide ── */
-  nav.style.transition = 'transform .45s cubic-bezier(.22,.61,.36,1), background .3s ease, padding .3s ease';
-  nav.style.willChange = 'transform';
-  nav.style.transform = 'translateY(0)';
-
-  var lastY = window.scrollY;
+  var lastY = window.scrollY || 0;
   var ticking = false;
-  var hidden = false;
-
-  function showNav(){
-    if(hidden){
-      hidden = false;
-      nav.style.transform = 'translateY(0)';
-      nav.style.pointerEvents = 'auto';
-    }
-  }
-
-  function hideNav(){
-    var mob = getMob();
-    if(mob && mob.classList.contains('op')) return;
-    if(!hidden){
-      hidden = true;
-      nav.style.transform = 'translateY(-110%)';
-    }
-  }
+  var suppressHide = false;
+  var suppressTimer = null;
 
   function onScroll(){
-    var y = window.scrollY;
+    var y = window.scrollY || 0;
     nav.classList.toggle('sc', y > 60);
-    if (y <= 80) { showNav(); }
-    else if (y > lastY + 2) { hideNav(); }
-    else if (y < lastY - 2) { showNav(); }
+
+    if(suppressHide){
+      lastY = y;
+      ticking = false;
+      return;
+    }
+
+    if(y <= 80) showNav();
+    else if(y > lastY + 3) hideNav();
+    else if(y < lastY - 3) showNav();
+
     lastY = y;
     ticking = false;
   }
 
   window.addEventListener('scroll', function(){
-    if(!ticking){ requestAnimationFrame(onScroll); ticking = true; }
+    if(!ticking){
+      requestAnimationFrame(onScroll);
+      ticking = true;
+    }
   }, {passive:true});
 
-  /* ── Делегированный обработчик кликов: desktop + mobile ── */
-  document.addEventListener('click', function(e){
+  function goToAnchor(href){
+    var target = document.querySelector(href);
+    if(!target) return;
 
-    /* burger: одна и та же кнопка открывает и закрывает меню */
-    if(e.target.closest('#brg')){
-      e.preventDefault();
-      e.stopPropagation();
-      toggleMob();
+    suppressHide = true;
+    showNav();
+
+    var navH = nav.offsetHeight || 70;
+    var top = target.getBoundingClientRect().top + window.scrollY - navH - 8;
+    window.scrollTo({top:top, behavior:'smooth'});
+
+    clearTimeout(suppressTimer);
+    suppressTimer = setTimeout(function(){
+      suppressHide = false;
+      lastY = window.scrollY || 0;
       showNav();
-      return;
-    }
+    }, 950);
+  }
 
-    /* закрытие по X или клику по фону мобильного меню */
-    if(e.target.closest('#mobX') || e.target.id === 'mob'){
-      e.preventDefault();
-      closeMob();
-      showNav();
-      return;
-    }
-
-    /* язык */
-    var langBtn = e.target.closest('.lang-sw button');
-    if(langBtn){
-      var lang = langBtn.getAttribute('data-lang');
-      if(typeof window.setLang === 'function'){ window.setLang(lang); }
-      setTimeout(fixButtons, 50);
-      return;
-    }
-
-    /* тема */
-    var themeBtn = e.target.closest('#themeTog, #themeTog2');
-    if(themeBtn){
-      var isDarkNow = document.documentElement.getAttribute('data-theme') !== 'light';
-      if(typeof window.setTheme === 'function'){ window.setTheme(!isDarkNow); }
-      setTimeout(fixButtons, 50);
-      return;
-    }
-
-    /* якорные ссылки desktop navbar + mobile menu */
-    var anchor = e.target.closest('#nav a[href^="#"], #mob a[href^="#"]');
-    if(anchor){
-      var href = anchor.getAttribute('href');
-      if(href && href !== '#'){
-        var target = document.querySelector(href);
-        if(target){
-          e.preventDefault();
-          var navH = nav.offsetHeight || 70;
-          var top = target.getBoundingClientRect().top + window.scrollY - navH - 8;
-          window.scrollTo({top: top, behavior: 'smooth'});
-          closeMob();
-          lastY = window.scrollY;
-          showNav();
-        }
-      }
-      return;
-    }
-
-    /* Telegram-кнопка в мобильном меню: закрываем меню и открываем ссылку стандартно */
-    var tg = e.target.closest('#mob a[href^="https://t.me/"]');
-    if(tg){
-      closeMob();
-      return;
-    }
-
-  }, true);
-
-  /* ESC закрывает мобильное меню */
-  document.addEventListener('keydown', function(e){
-    if(e.key === 'Escape') closeMob();
-  });
-
-  /* Если экран стал desktop — закрываем mobile menu */
-  window.addEventListener('resize', function(){
-    if(window.innerWidth > 680) closeMob();
-  });
-
-  /* ── Кнопки Telegram: ссылка + иконка ── */
-  var TG_ICON = '<span class="tg-logo" aria-hidden="true"></span>';
   function fixButtons(){
-    var els = document.querySelectorAll('a[data-t="nav_cta"], a[data-t="hero_cta1"], .fcta');
-    Array.prototype.forEach.call(els, function(a){
+    var TG_ICON = '<span class="tg-logo" aria-hidden="true"></span>';
+    Array.prototype.forEach.call(document.querySelectorAll('a[data-t="nav_cta"], a[data-t="hero_cta1"], .fcta'), function(a){
       a.href = BOT_URL;
       a.target = '_blank';
       a.rel = 'noopener';
@@ -2060,8 +1988,116 @@ window.addEventListener('load',()=>{
     });
   }
 
+  function smoothPreloader(){
+    var pl = document.getElementById('preloader');
+    if(!pl || pl.dataset.cleanHidden === '1') return;
+    pl.dataset.cleanHidden = '1';
+    pl.classList.add('smooth-hide');
+    document.documentElement.classList.add('preload-done');
+    setTimeout(function(){ pl.style.display='none'; }, 720);
+  }
+
+  window.addEventListener('load', function(){ setTimeout(smoothPreloader, 550); });
+
+  document.addEventListener('DOMContentLoaded', function(){
+    if(brg){
+      brg.setAttribute('type','button');
+      brg.setAttribute('aria-expanded','false');
+      brg.setAttribute('aria-label','Menu');
+    }
+    showNav();
+    forceClickable();
+    fixButtons();
+
+    var bar = document.getElementById('plBar');
+    var pct = document.getElementById('plPct');
+    var p = 0;
+    var timer = setInterval(function(){
+      p = Math.min(100, p + Math.ceil(Math.random()*12));
+      if(bar) bar.style.width = p + '%';
+      if(pct) pct.textContent = p + '%';
+      if(p >= 100){
+        clearInterval(timer);
+        setTimeout(smoothPreloader, 450);
+      }
+    }, 85);
+
+    setTimeout(function(){
+      clearInterval(timer);
+      if(bar) bar.style.width='100%';
+      if(pct) pct.textContent='100%';
+      smoothPreloader();
+    }, 1800);
+  });
+
+  document.addEventListener('click', function(e){
+    var burger = e.target.closest('#brg');
+    if(burger){
+      e.preventDefault();
+      e.stopPropagation();
+      toggleMob();
+      return;
+    }
+
+    if(e.target.closest('#mobX') || e.target.id === 'mob'){
+      e.preventDefault();
+      closeMob();
+      return;
+    }
+
+    var langBtn = e.target.closest('.lang-sw button');
+    if(langBtn){
+      e.preventDefault();
+      var lang = langBtn.getAttribute('data-lang');
+      if(typeof window.setLang === 'function') window.setLang(lang);
+      setTimeout(fixButtons, 60);
+      showNav();
+      return;
+    }
+
+    var themeBtn = e.target.closest('#themeTog, #themeTog2');
+    if(themeBtn){
+      e.preventDefault();
+      var isDarkNow = document.documentElement.getAttribute('data-theme') !== 'light';
+      if(typeof window.setTheme === 'function') window.setTheme(!isDarkNow);
+      setTimeout(fixButtons, 60);
+      showNav();
+      return;
+    }
+
+    var anchor = e.target.closest('#nav a[href^="#"], #mob a[href^="#"], a.bg2[href^="#"]');
+    if(anchor){
+      var href = anchor.getAttribute('href');
+      if(href && href !== '#'){
+        e.preventDefault();
+        closeMob();
+        goToAnchor(href);
+      }
+      return;
+    }
+
+    var tg = e.target.closest('a[href^="https://t.me/"]');
+    if(tg){
+      closeMob();
+      return;
+    }
+  }, true);
+
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') closeMob();
+  });
+
+  window.addEventListener('resize', function(){
+    if(window.innerWidth > 680) closeMob();
+  });
+
+  window.addEventListener('pageshow', function(){
+    showNav();
+    fixButtons();
+  });
+
+  showNav();
   fixButtons();
-  setTimeout(fixButtons, 300);
 })();
 </script>
 
