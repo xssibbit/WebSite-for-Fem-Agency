@@ -31,10 +31,12 @@
 
 
 
-<link rel="preload" as="image" href="assets/hero-poster.jpg?v=8" media="(min-width: 961px)"/>
-<link rel="preload" as="image" href="assets/hero-mobile-poster.jpg?v=8" media="(max-width: 960px)"/>
-<link rel="preload" as="video" href="videos/hero.mp4?v=8" type="video/mp4" media="(min-width: 961px)"/>
-<link rel="preload" as="video" href="videos/hero-mobile.mp4?v=8" type="video/mp4" media="(max-width: 960px)"/>
+<link rel="preload" as="image" href="assets/hero-poster.jpg?v=9" media="(min-width: 961px)"/>
+<link rel="preload" as="image" href="assets/hero-mobile-poster.jpg?v=9" media="(max-width: 960px)"/>
+
+
+<link rel="prefetch" href="videos/hero.mp4?v=9"/>
+<link rel="prefetch" href="videos/hero-mobile.mp4?v=9"/>
 
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
@@ -1235,7 +1237,7 @@ body.mob-open{overflow:hidden}
     border:none!important;
     border-radius:0!important;
     box-shadow:none!important;
-    background:url("assets/hero-poster.jpg?v=7") center/contain no-repeat!important;
+    background:url("assets/hero-poster.jpg?v=9") center/contain no-repeat!important;
   }
 
   .hero-video-example{
@@ -1277,7 +1279,7 @@ body.mob-open{overflow:hidden}
     justify-content:center!important;
     overflow:hidden!important;
     position:relative!important;
-    background:#060612 url("assets/hero-mobile-poster.jpg?v=7") center/cover no-repeat!important;
+    background:#060612 url("assets/hero-mobile-poster.jpg?v=9") center/cover no-repeat!important;
   }
 
   .hero-mobile-bg{
@@ -1292,7 +1294,7 @@ body.mob-open{overflow:hidden}
     overflow:hidden!important;
     opacity:1!important;
     visibility:visible!important;
-    background:#060612 url("assets/hero-mobile-poster.jpg?v=7") center/cover no-repeat!important;
+    background:#060612 url("assets/hero-mobile-poster.jpg?v=9") center/cover no-repeat!important;
   }
 
   .hero-mobile-video{
@@ -1307,7 +1309,7 @@ body.mob-open{overflow:hidden}
     opacity:1!important;
     visibility:visible!important;
     filter:brightness(.78) contrast(1.04) saturate(1.04);
-    background:#060612 url("assets/hero-mobile-poster.jpg?v=7") center/cover no-repeat!important;
+    background:#060612 url("assets/hero-mobile-poster.jpg?v=9") center/cover no-repeat!important;
   }
 
   .hero-mobile-bg::after{
@@ -1514,7 +1516,7 @@ body.mob-open{overflow:hidden}
     border:none!important;
     border-radius:0!important;
     box-shadow:none!important;
-    background:url("assets/hero-poster.jpg?v=8") center/contain no-repeat!important;
+    background:url("assets/hero-poster.jpg?v=9") center/contain no-repeat!important;
   }
 
   .hero-video-example{
@@ -1558,7 +1560,7 @@ body.mob-open{overflow:hidden}
     justify-content:center!important;
     overflow:hidden!important;
     position:relative!important;
-    background:#060612 url("assets/hero-mobile-poster.jpg?v=8") center/cover no-repeat!important;
+    background:#060612 url("assets/hero-mobile-poster.jpg?v=9") center/cover no-repeat!important;
   }
 
   .hero-mobile-bg{
@@ -1573,7 +1575,7 @@ body.mob-open{overflow:hidden}
     overflow:hidden!important;
     opacity:1!important;
     visibility:visible!important;
-    background:#060612 url("assets/hero-mobile-poster.jpg?v=8") center/cover no-repeat!important;
+    background:#060612 url("assets/hero-mobile-poster.jpg?v=9") center/cover no-repeat!important;
   }
 
   .hero-mobile-video{
@@ -1588,7 +1590,7 @@ body.mob-open{overflow:hidden}
     opacity:1!important;
     visibility:visible!important;
     filter:brightness(.86) contrast(1.04) saturate(1.04);
-    background:#060612 url("assets/hero-mobile-poster.jpg?v=8") center/cover no-repeat!important;
+    background:#060612 url("assets/hero-mobile-poster.jpg?v=9") center/cover no-repeat!important;
   }
 
   .hero-mobile-bg::after,
@@ -1710,6 +1712,39 @@ body.mob-open{overflow:hidden}
   }
 }
 
+
+/* ══════ MOBILE HIDE ICON GRID FIX ══════ */
+@media(max-width:960px){
+  .rot-row,
+  .rot-row .rot-item,
+  .rot-row .rot-icon,
+  .rot-row .rot-lbl{
+    display:none !important;
+    opacity:0 !important;
+    visibility:hidden !important;
+    height:0 !important;
+    min-height:0 !important;
+    max-height:0 !important;
+    padding:0 !important;
+    margin:0 !important;
+    overflow:hidden !important;
+  }
+}
+
+
+/* ══════ GSAP FALLBACK VISIBILITY FIX ══════ */
+html.content-force-visible .eyebrow,
+html.content-force-visible .hero h1,
+html.content-force-visible .hero-sub,
+html.content-force-visible .hbtns,
+html.content-force-visible .hstats,
+html.content-force-visible .h-right,
+html.content-force-visible #heroRight{
+  opacity:1 !important;
+  visibility:visible !important;
+  transform:none !important;
+}
+
 </style>
 
 <script>
@@ -1770,6 +1805,71 @@ window.addEventListener('DOMContentLoaded',()=>{
     }
   ]
 }
+</script>
+
+
+<script>
+/* GSAP SAFE TARGET FIX */
+(function(){
+  function patchGsap(){
+    if(!window.gsap || window.__femGsapPatched) return;
+    window.__femGsapPatched = true;
+
+    function cleanTarget(t){
+      if(!t) return [];
+      if(typeof t === 'string'){
+        try{
+          var found = document.querySelectorAll(t);
+          return found && found.length ? t : [];
+        }catch(e){ return []; }
+      }
+      if(t instanceof NodeList || Array.isArray(t)){
+        return Array.prototype.filter.call(t, function(x){ return !!x; });
+      }
+      return t;
+    }
+
+    ['to','from','fromTo','set'].forEach(function(name){
+      var original = gsap[name];
+      if(!original) return;
+      gsap[name] = function(){
+        try{
+          if(arguments.length > 0) arguments[0] = cleanTarget(arguments[0]);
+          if(Array.isArray(arguments[0]) && arguments[0].length === 0) return {kill:function(){}};
+          return original.apply(gsap, arguments);
+        }catch(e){
+          return {kill:function(){}};
+        }
+      };
+    });
+
+    if(window.ScrollTrigger && ScrollTrigger.create){
+      var origCreate = ScrollTrigger.create;
+      ScrollTrigger.create = function(vars){
+        try{
+          if(vars && vars.trigger){
+            var t = cleanTarget(vars.trigger);
+            if(Array.isArray(t) && t.length === 0) return {kill:function(){}};
+            vars.trigger = t;
+          }
+          return origCreate.call(ScrollTrigger, vars);
+        }catch(e){
+          return {kill:function(){}};
+        }
+      };
+    }
+  }
+
+  patchGsap();
+  document.addEventListener('DOMContentLoaded', function(){
+    patchGsap();
+    document.documentElement.classList.add('content-force-visible');
+  });
+  window.addEventListener('load', function(){
+    patchGsap();
+    document.documentElement.classList.add('content-force-visible');
+  });
+})();
 </script>
 
 </head>
@@ -1856,8 +1956,8 @@ window.addEventListener('DOMContentLoaded',()=>{
 <section class="hero">
 
   <div class="hero-mobile-bg" aria-hidden="true">
-    <video class="hero-mobile-video" autoplay muted loop playsinline preload="auto" webkit-playsinline poster="assets/hero-mobile-poster.jpg?v=8">
-      <source src="videos/hero-mobile.mp4?v=8" type="video/mp4"/>
+    <video class="hero-mobile-video" autoplay muted loop playsinline preload="auto" webkit-playsinline poster="assets/hero-mobile-poster.jpg?v=9">
+      <source src="videos/hero-mobile.mp4?v=9" type="video/mp4"/>
     </video>
     <div class="hero-mobile-bottom-gradient"></div>
   </div>
@@ -1880,8 +1980,8 @@ window.addEventListener('DOMContentLoaded',()=>{
 
     <div class="h-right" id="heroRight">
       <div class="hero-video-frame">
-        <video class="hero-video-example" autoplay muted loop playsinline preload="auto" webkit-playsinline poster="assets/hero-poster.jpg?v=8">
-          <source src="videos/hero.mp4?v=8" type="video/mp4"/>
+        <video class="hero-video-example" autoplay muted loop playsinline preload="auto" webkit-playsinline poster="assets/hero-poster.jpg?v=9">
+          <source src="videos/hero.mp4?v=9" type="video/mp4"/>
         </video>
       </div>
     </div>
