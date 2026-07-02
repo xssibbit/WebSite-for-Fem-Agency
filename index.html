@@ -28,6 +28,10 @@
 <meta name="twitter:title" content="FEM Agency — OnlyFans & Fansly Management Agency"/>
 <meta name="twitter:description" content="OnlyFans and Fansly management agency for creators and models."/>
 <meta name="twitter:image" content="https://femagency.us/assets/logo.png"/>
+
+<link rel="preload" as="image" href="assets/hero-mobile-poster.jpg?v=5" media="(max-width: 960px)"/>
+<link rel="preload" as="video" href="videos/hero-mobile.mp4?v=5" type="video/mp4" media="(max-width: 960px)"/>
+
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
 <!-- GSAP -->
@@ -1092,37 +1096,6 @@ body.mob-open{overflow:hidden}
 }
 
 
-/* ══════ MOBILE HERO BOTTOM GRADIENT BUTTONS ══════ */
-@media(max-width:960px){
-  .hero{
-    min-height:100svh !important;
-    padding:0 !important;
-    display:flex !important;
-    align-items:stretch !important;
-    justify-content:center !important;
-    overflow:hidden !important;
-  }
-
-  .hero-mobile-bg{
-    display:block !important;
-    position:absolute;
-    inset:0;
-    z-index:1;
-    pointer-events:none;
-    overflow:hidden;
-    background:#060612;
-  }
-
-  .hero-mobile-video{
-    position:absolute;
-    inset:0;
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    object-position:center center;
-    display:block;
-    filter:brightness(.76) contrast(1.04) saturate(1.04);
-  }
 
   /* Основной низовой градиент прямо под видео — на нём стоят кнопки */
   .hero-mobile-bg::after{
@@ -1178,6 +1151,148 @@ body.mob-open{overflow:hidden}
   }
 
   /* На главной mobile оставляем только две кнопки */
+  .eyebrow,
+  .hero h1,
+  .hero-sub,
+  .hstats,
+  .h-right,
+  .hero-video-frame{
+    display:none !important;
+    opacity:0 !important;
+    visibility:hidden !important;
+  }
+
+  .hbtns{
+    display:flex !important;
+    opacity:1 !important;
+    visibility:visible !important;
+    transform:none !important;
+    justify-content:center !important;
+    align-items:center !important;
+    gap:12px !important;
+    margin:0 !important;
+    width:100% !important;
+    padding:18px 0 4px !important;
+  }
+
+  .hbtns .bp,
+  .hbtns .bg2{
+    min-width:150px;
+    justify-content:center;
+    box-shadow:0 12px 40px rgba(0,0,0,.28);
+  }
+
+  .hbtns .bg2{
+    background:rgba(255,255,255,.11) !important;
+    border-color:rgba(255,255,255,.24) !important;
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+  }
+}
+
+@media(max-width:420px){
+  .hbtns{
+    flex-direction:column !important;
+    gap:10px !important;
+  }
+  .hbtns .bp,
+  .hbtns .bg2{
+    width:min(290px,88vw);
+  }
+}
+
+
+/* ══════ MOBILE ONLY FIX — desktop unchanged ══════ */
+@media(max-width:960px){
+  .hero{
+    min-height:100svh !important;
+    height:100svh !important;
+    padding:0 !important;
+    position:relative !important;
+    overflow:hidden !important;
+    background:#060612 url("assets/hero-mobile-poster.jpg?v=5") center/cover no-repeat !important;
+    display:flex !important;
+    align-items:stretch !important;
+    justify-content:center !important;
+  }
+
+  .hero-mobile-bg{
+    display:block !important;
+    position:absolute !important;
+    inset:0 !important;
+    width:100% !important;
+    height:100% !important;
+    min-height:100svh !important;
+    z-index:1 !important;
+    pointer-events:none !important;
+    overflow:hidden !important;
+    opacity:1 !important;
+    visibility:visible !important;
+    background:#060612 url("assets/hero-mobile-poster.jpg?v=5") center/cover no-repeat !important;
+  }
+
+  .hero-mobile-video{
+    display:block !important;
+    position:absolute !important;
+    inset:0 !important;
+    width:100% !important;
+    height:100% !important;
+    min-height:100svh !important;
+    object-fit:cover !important;
+    object-position:center center !important;
+    opacity:1 !important;
+    visibility:visible !important;
+    filter:brightness(.78) contrast(1.04) saturate(1.04);
+    background:#060612 url("assets/hero-mobile-poster.jpg?v=5") center/cover no-repeat !important;
+  }
+
+  .hero-mobile-bg::after{
+    content:'' !important;
+    position:absolute !important;
+    left:0 !important;
+    right:0 !important;
+    bottom:0 !important;
+    height:50% !important;
+    z-index:2 !important;
+    pointer-events:none !important;
+    background:
+      linear-gradient(180deg,rgba(6,6,18,0) 0%,rgba(6,6,18,.42) 24%,rgba(6,6,18,.84) 60%,var(--bg) 100%),
+      radial-gradient(circle at 50% 76%,rgba(255,79,163,.18),transparent 44%),
+      radial-gradient(circle at 72% 78%,rgba(61,184,255,.12),transparent 44%) !important;
+  }
+
+  [data-theme="light"] .hero-mobile-bg::after{
+    background:
+      linear-gradient(180deg,rgba(248,245,255,0) 0%,rgba(248,245,255,.42) 24%,rgba(248,245,255,.84) 60%,var(--bg) 100%),
+      radial-gradient(circle at 50% 76%,rgba(255,79,163,.13),transparent 44%),
+      radial-gradient(circle at 72% 78%,rgba(61,184,255,.10),transparent 44%) !important;
+  }
+
+  .hero-in{
+    position:relative !important;
+    z-index:3 !important;
+    display:flex !important;
+    align-items:flex-end !important;
+    justify-content:center !important;
+    min-height:100svh !important;
+    height:100svh !important;
+    width:100% !important;
+    padding:0 18px max(34px,env(safe-area-inset-bottom)) !important;
+    margin:0 auto !important;
+    text-align:center !important;
+  }
+
+  .h-left{
+    width:100% !important;
+    max-width:430px !important;
+    text-align:center !important;
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:center !important;
+    justify-content:flex-end !important;
+  }
+
+  /* На mobile в главном экране только две кнопки */
   .eyebrow,
   .hero h1,
   .hero-sub,
@@ -1372,6 +1487,13 @@ window.addEventListener('DOMContentLoaded',()=>{
 
 <!-- ══ HERO ══ -->
 <section class="hero">
+
+  <div class="hero-mobile-bg" aria-hidden="true">
+    <video class="hero-mobile-video" autoplay muted loop playsinline preload="auto" webkit-playsinline poster="assets/hero-mobile-poster.jpg?v=5">
+      <source src="videos/hero-mobile.mp4?v=5" type="video/mp4"/>
+    </video>
+  </div>
+
   <div class="hero-in cont">
     <div class="h-left">
       <div class="eyebrow" id="heroEyebrow"><div class="edot"></div><span data-t="hero_badge">OnlyFans & Fansly Management</span></div>
@@ -2577,6 +2699,30 @@ window.addEventListener('load',()=>{
   showNav();
   fixButtons();
   makeClickable();
+})();
+</script>
+
+
+<script>
+/* Mobile hero video start only */
+(function(){
+  function playMobileHero(){
+    var v=document.querySelector('.hero-mobile-video');
+    if(!v) return;
+    try{
+      v.muted=true;
+      v.defaultMuted=true;
+      v.setAttribute('muted','');
+      v.setAttribute('playsinline','');
+      v.setAttribute('webkit-playsinline','');
+      var p=v.play();
+      if(p && p.catch) p.catch(function(){});
+    }catch(e){}
+  }
+  document.addEventListener('DOMContentLoaded', playMobileHero);
+  window.addEventListener('load', playMobileHero);
+  document.addEventListener('touchstart', playMobileHero, {once:true, passive:true});
+  window.addEventListener('pageshow', playMobileHero);
 })();
 </script>
 
