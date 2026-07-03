@@ -35,10 +35,8 @@
 
 
 
-<link rel="preload" as="image" href="assets/hero-poster.jpg?v=10" media="(min-width: 961px)" fetchpriority="high"/>
-<link rel="preload" as="image" href="assets/hero-mobile-poster.jpg?v=10" media="(max-width: 960px)" fetchpriority="high"/>
-<link rel="prefetch" href="videos/hero.mp4?v=10"/>
-<link rel="prefetch" href="videos/hero-mobile.mp4?v=10"/>
+<link rel="preload" as="image" href="assets/hero-poster.jpg?v=11" media="(min-width: 961px)" fetchpriority="high"/>
+<link rel="preload" as="image" href="assets/hero-mobile-poster.jpg?v=11" media="(max-width: 960px)" fetchpriority="high"/>
 
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
@@ -1073,7 +1071,7 @@ html.content-force-visible .sn{
     border:none!important;
     border-radius:0!important;
     box-shadow:none!important;
-    background:url("assets/hero-poster.jpg?v=10") center/contain no-repeat!important;
+    background:url("assets/hero-poster.jpg?v=11") center/contain no-repeat!important;
   }
 
   .hero-video-example{
@@ -1115,7 +1113,7 @@ html.content-force-visible .sn{
     justify-content:center!important;
     overflow:hidden!important;
     position:relative!important;
-    background:#060612 url("assets/hero-mobile-poster.jpg?v=10") center/cover no-repeat!important;
+    background:#060612 url("assets/hero-mobile-poster.jpg?v=11") center/cover no-repeat!important;
   }
 
   .hero-mobile-bg{
@@ -1130,7 +1128,7 @@ html.content-force-visible .sn{
     overflow:hidden!important;
     opacity:1!important;
     visibility:visible!important;
-    background:#060612 url("assets/hero-mobile-poster.jpg?v=10") center/cover no-repeat!important;
+    background:#060612 url("assets/hero-mobile-poster.jpg?v=11") center/cover no-repeat!important;
   }
 
   .hero-mobile-video{
@@ -1145,7 +1143,7 @@ html.content-force-visible .sn{
     opacity:1!important;
     visibility:visible!important;
     filter:brightness(.78) contrast(1.04) saturate(1.04);
-    background:#060612 url("assets/hero-mobile-poster.jpg?v=10") center/cover no-repeat!important;
+    background:#060612 url("assets/hero-mobile-poster.jpg?v=11") center/cover no-repeat!important;
   }
 
   .hero-mobile-bg::after{
@@ -1352,7 +1350,7 @@ html.content-force-visible .sn{
     border:none!important;
     border-radius:0!important;
     box-shadow:none!important;
-    background:url("assets/hero-poster.jpg?v=10") center/contain no-repeat!important;
+    background:url("assets/hero-poster.jpg?v=11") center/contain no-repeat!important;
   }
 
   .hero-video-example{
@@ -1396,7 +1394,7 @@ html.content-force-visible .sn{
     justify-content:center!important;
     overflow:hidden!important;
     position:relative!important;
-    background:#060612 url("assets/hero-mobile-poster.jpg?v=10") center/cover no-repeat!important;
+    background:#060612 url("assets/hero-mobile-poster.jpg?v=11") center/cover no-repeat!important;
   }
 
   .hero-mobile-bg{
@@ -1411,7 +1409,7 @@ html.content-force-visible .sn{
     overflow:hidden!important;
     opacity:1!important;
     visibility:visible!important;
-    background:#060612 url("assets/hero-mobile-poster.jpg?v=10") center/cover no-repeat!important;
+    background:#060612 url("assets/hero-mobile-poster.jpg?v=11") center/cover no-repeat!important;
   }
 
   .hero-mobile-video{
@@ -1426,7 +1424,7 @@ html.content-force-visible .sn{
     opacity:1!important;
     visibility:visible!important;
     filter:brightness(.86) contrast(1.04) saturate(1.04);
-    background:#060612 url("assets/hero-mobile-poster.jpg?v=10") center/cover no-repeat!important;
+    background:#060612 url("assets/hero-mobile-poster.jpg?v=11") center/cover no-repeat!important;
   }
 
   .hero-mobile-bg::after,
@@ -1739,6 +1737,45 @@ html.content-force-visible #heroRight{
 }
 
 
+/* ══════ SINGLE NAV CONTROLLER CSS ══════ */
+#nav{
+  position:fixed !important;
+  top:0 !important;
+  left:0 !important;
+  right:0 !important;
+  z-index:2147483000 !important;
+  transform:translate3d(0,0,0) !important;
+  opacity:1 !important;
+  visibility:visible !important;
+  pointer-events:auto !important;
+  transition:transform .42s cubic-bezier(.22,.61,.36,1), background .3s ease, padding .3s ease, border-color .3s ease !important;
+  will-change:transform !important;
+}
+#nav.fem-nav-hidden{
+  transform:translate3d(0,-118%,0) !important;
+}
+#nav.fem-nav-visible{
+  transform:translate3d(0,0,0) !important;
+}
+#nav *,
+#mob,
+#mob *{
+  pointer-events:auto !important;
+}
+#brg{
+  pointer-events:auto !important;
+  touch-action:manipulation !important;
+}
+.brg.is-open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.brg.is-open span:nth-child(2){opacity:0}
+.brg.is-open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+#mob.op{
+  display:flex !important;
+  pointer-events:auto !important;
+}
+body.mob-open{
+  overflow:hidden;
+}
 
 
 /* ══════ PRELOADER REMOVED SAFETY ══════ */
@@ -1757,76 +1794,25 @@ html{
 }
 
 
-/* ══════ SPEED + ENGLISH READABILITY + NAV FIX ══════ */
-
-/* ускоряет отрисовку секций ниже первого экрана */
-section:not(.hero),
-footer{
-  content-visibility:auto;
-  contain-intrinsic-size:800px;
-}
-
-/* английский язык: более читаемый шрифт и меньше "жирной растяжки" */
+/* ══════ SAFE ENGLISH READABILITY FIX ══════ */
 html[data-lang="en"] body,
 html[lang="en"] body,
 body.lang-en{
   font-family:Inter, Arial, Helvetica, sans-serif !important;
 }
-
 html[data-lang="en"] .hero h1,
 html[lang="en"] .hero h1,
 body.lang-en .hero h1{
   font-family:Inter, Arial, Helvetica, sans-serif !important;
   font-weight:900 !important;
-  letter-spacing:-.055em !important;
-  line-height:.92 !important;
-  max-width:620px !important;
+  letter-spacing:-.05em !important;
+  line-height:.94 !important;
 }
-
 html[data-lang="en"] .hero-sub,
 html[lang="en"] .hero-sub,
 body.lang-en .hero-sub{
   font-family:Inter, Arial, Helvetica, sans-serif !important;
-  font-weight:600 !important;
   line-height:1.55 !important;
-  letter-spacing:-.01em !important;
-}
-
-/* navbar: один слой, всегда кликабельный */
-#nav{
-  z-index:2147483000 !important;
-  pointer-events:auto !important;
-  visibility:visible !important;
-  opacity:1 !important;
-  transition:transform .42s cubic-bezier(.22,.61,.36,1), background .3s ease, padding .3s ease, border-color .3s ease !important;
-}
-
-#nav.nav-off{
-  transform:translate3d(0,-118%,0) !important;
-}
-
-#nav.nav-on{
-  transform:translate3d(0,0,0) !important;
-}
-
-#nav *,
-#mob,
-#mob *{
-  pointer-events:auto !important;
-}
-
-#mob.op{
-  display:flex !important;
-  pointer-events:auto !important;
-}
-
-#brg{
-  pointer-events:auto !important;
-  touch-action:manipulation !important;
-}
-
-body.mob-open{
-  overflow:hidden !important;
 }
 
 </style>
@@ -2463,47 +2449,30 @@ window.addEventListener('load',()=>{
 
 
 <script>
-/* FINAL NAV + EN FONT + MEDIA SPEED PATCH */
+/* SINGLE NAV CONTROLLER — hide/show + working clicks */
 (function(){
   var BOT_URL = "https://t.me/FemAgencyApplyBot?start=site";
   var nav = document.getElementById('nav');
+  var mob = document.getElementById('mob');
+  var brg = document.getElementById('brg');
   if(!nav) return;
 
   var lastY = window.scrollY || 0;
   var ticking = false;
-  var lockUntil = 0;
+  var lockedOpen = false;
+  var lockTimer = null;
 
-  function byId(id){return document.getElementById(id);}
-  function mob(){return byId('mob');}
-  function brg(){return byId('brg');}
-
-  function markLang(lang){
-    if(!lang) return;
-    document.documentElement.setAttribute('data-lang', lang);
-    document.documentElement.setAttribute('lang', lang);
-    document.body.classList.toggle('lang-en', lang === 'en');
-  }
-
-  // оборачиваем существующий setLang, чтобы при EN менялся шрифт
-  if(typeof window.setLang === 'function' && !window.__femSetLangWrapped){
-    var oldSetLang = window.setLang;
-    window.setLang = function(lang){
-      oldSetLang(lang);
-      markLang(lang);
-      fixButtons();
-    };
-    window.__femSetLangWrapped = true;
-  }
-
-  function detectInitialLang(){
-    var active = document.querySelector('.lang-sw button.active,[data-lang].active');
-    var lang = active ? active.getAttribute('data-lang') : (localStorage.getItem('lang') || document.documentElement.getAttribute('lang') || 'ru');
-    markLang(lang);
+  function refresh(){
+    nav = document.getElementById('nav');
+    mob = document.getElementById('mob');
+    brg = document.getElementById('brg');
   }
 
   function showNav(){
-    nav.classList.remove('nav-hide','nav-hidden','nav-is-hidden','fem-nav-hidden','nav-off');
-    nav.classList.add('nav-on');
+    refresh();
+    if(!nav) return;
+    nav.classList.remove('nav-hide','nav-hidden','nav-is-hidden','hide','hidden','fem-nav-hidden');
+    nav.classList.add('nav-show','nav-visible','nav-is-visible','fem-nav-visible');
     nav.style.pointerEvents = 'auto';
     nav.style.visibility = 'visible';
     nav.style.opacity = '1';
@@ -2511,36 +2480,76 @@ window.addEventListener('load',()=>{
   }
 
   function hideNav(){
-    if(Date.now() < lockUntil) return;
-    var m = mob();
-    if(m && m.classList.contains('op')) return;
-    nav.classList.remove('nav-on');
-    nav.classList.add('nav-off');
+    refresh();
+    if(!nav) return;
+    if(mob && mob.classList.contains('op')) return;
+    if(lockedOpen) return;
+    nav.classList.remove('nav-show','nav-visible','nav-is-visible','fem-nav-visible');
+    nav.classList.add('fem-nav-hidden');
     nav.style.pointerEvents = 'auto';
     nav.style.visibility = 'visible';
     nav.style.opacity = '1';
     nav.style.transform = '';
   }
 
-  function lock(ms){
-    lockUntil = Date.now() + (ms || 900);
+  function lockNav(ms){
+    lockedOpen = true;
     showNav();
+    clearTimeout(lockTimer);
+    lockTimer = setTimeout(function(){
+      lockedOpen = false;
+      lastY = window.scrollY || 0;
+    }, ms || 900);
+  }
+
+  function openMob(){
+    refresh();
+    if(mob) mob.classList.add('op');
+    if(brg){
+      brg.classList.add('is-open');
+      brg.setAttribute('aria-expanded','true');
+      brg.setAttribute('type','button');
+    }
+    document.body.classList.add('mob-open');
+    lockNav(1200);
+  }
+
+  function closeMob(){
+    refresh();
+    if(mob) mob.classList.remove('op');
+    if(brg){
+      brg.classList.remove('is-open');
+      brg.setAttribute('aria-expanded','false');
+      brg.setAttribute('type','button');
+    }
+    document.body.classList.remove('mob-open');
+    showNav();
+  }
+
+  function toggleMob(){
+    refresh();
+    if(mob && mob.classList.contains('op')) closeMob();
+    else openMob();
   }
 
   function onScroll(){
     var y = window.scrollY || 0;
     nav.classList.toggle('sc', y > 60);
 
-    if(Date.now() < lockUntil){
+    if(lockedOpen){
       showNav();
       lastY = y;
       ticking = false;
       return;
     }
 
-    if(y <= 80) showNav();
-    else if(y > lastY + 6) hideNav();
-    else if(y < lastY - 6) showNav();
+    if(y <= 80){
+      showNav();
+    }else if(y > lastY + 5){
+      hideNav();
+    }else if(y < lastY - 5){
+      showNav();
+    }
 
     lastY = y;
     ticking = false;
@@ -2553,54 +2562,23 @@ window.addEventListener('load',()=>{
     }
   }, {passive:true});
 
-  function openMob(){
-    var m = mob(), b = brg();
-    if(m) m.classList.add('op');
-    if(b){
-      b.classList.add('is-open');
-      b.setAttribute('aria-expanded','true');
-      b.setAttribute('type','button');
-    }
-    document.body.classList.add('mob-open');
-    lock(1200);
-  }
-
-  function closeMob(){
-    var m = mob(), b = brg();
-    if(m) m.classList.remove('op');
-    if(b){
-      b.classList.remove('is-open');
-      b.setAttribute('aria-expanded','false');
-      b.setAttribute('type','button');
-    }
-    document.body.classList.remove('mob-open');
-    showNav();
-  }
-
-  function toggleMob(){
-    var m = mob();
-    if(m && m.classList.contains('op')) closeMob();
-    else openMob();
-  }
-
-  function go(href){
+  function goToAnchor(href){
     var target = document.querySelector(href);
     if(!target) return;
+
     closeMob();
-    lock(1200);
-    var navH = nav.offsetHeight || 72;
+    lockNav(1100);
+
+    var navH = nav ? (nav.offsetHeight || 72) : 72;
     var top = target.getBoundingClientRect().top + window.scrollY - navH - 10;
-    try{ window.scrollTo({top:top, behavior:'smooth'}); }
-    catch(e){ window.scrollTo(0, top); }
+    try{
+      window.scrollTo({top:top, behavior:'smooth'});
+    }catch(e){
+      window.scrollTo(0, top);
+    }
   }
 
-  function stop(e){
-    e.preventDefault();
-    if(e.stopImmediatePropagation) e.stopImmediatePropagation();
-    e.stopPropagation();
-  }
-
-  function fixButtons(){
+  function fixTelegramButtons(){
     var TG_ICON = '<span class="tg-logo" aria-hidden="true"></span>';
     document.querySelectorAll('a[data-t="nav_cta"], a[data-t="hero_cta1"], .fcta').forEach(function(a){
       a.href = BOT_URL;
@@ -2612,11 +2590,18 @@ window.addEventListener('load',()=>{
     });
   }
 
-  // самый ранний click-capture: чинит navbar после прокрутки
+  function stop(e){
+    e.preventDefault();
+    if(e.stopImmediatePropagation) e.stopImmediatePropagation();
+    e.stopPropagation();
+  }
+
+  /* Capture-фаза: срабатывает раньше любых старых обработчиков */
   window.addEventListener('click', function(e){
     if(!e.target || !e.target.closest) return;
 
-    if(e.target.closest('#brg')){
+    var burger = e.target.closest('#brg');
+    if(burger){
       stop(e);
       toggleMob();
       return;
@@ -2633,8 +2618,8 @@ window.addEventListener('load',()=>{
       stop(e);
       var lang = langBtn.getAttribute('data-lang');
       if(typeof window.setLang === 'function') window.setLang(lang);
-      else markLang(lang);
-      lock(800);
+      setTimeout(fixTelegramButtons, 60);
+      lockNav(700);
       return;
     }
 
@@ -2643,7 +2628,8 @@ window.addEventListener('load',()=>{
       stop(e);
       var isDarkNow = document.documentElement.getAttribute('data-theme') !== 'light';
       if(typeof window.setTheme === 'function') window.setTheme(!isDarkNow);
-      lock(800);
+      setTimeout(fixTelegramButtons, 60);
+      lockNav(700);
       return;
     }
 
@@ -2652,7 +2638,7 @@ window.addEventListener('load',()=>{
       var href = anchor.getAttribute('href');
       if(href && href !== '#'){
         stop(e);
-        go(href);
+        goToAnchor(href);
       }
       return;
     }
@@ -2660,12 +2646,11 @@ window.addEventListener('load',()=>{
     var tg = e.target.closest('#nav a[href^="https://t.me/"], #mob a[href^="https://t.me/"], a[data-t="nav_cta"]');
     if(tg){
       closeMob();
-      lock(500);
+      lockNav(600);
       return;
     }
   }, true);
 
-  // показать nav при наведении в верхнюю зону
   document.addEventListener('mousemove', function(e){
     if(e.clientY < 88) showNav();
   }, {passive:true});
@@ -2675,39 +2660,60 @@ window.addEventListener('load',()=>{
     if(t && t.clientY < 95) showNav();
   }, {passive:true});
 
-  function prewarmMedia(){
-    document.querySelectorAll('.hero-video-example,.hero-mobile-video').forEach(function(v){
-      try{
-        v.preload='auto';
-        v.muted=true;
-        v.setAttribute('muted','');
-        v.setAttribute('playsinline','');
-        var p = v.play();
-        if(p && p.catch) p.catch(function(){});
-      }catch(e){}
-    });
-  }
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') closeMob();
+  });
+
+  window.addEventListener('resize', function(){
+    if(window.innerWidth > 960) closeMob();
+  });
 
   document.addEventListener('DOMContentLoaded', function(){
-    detectInitialLang();
-    fixButtons();
-    showNav();
-    prewarmMedia();
-    var b = brg();
-    if(b){
-      b.setAttribute('type','button');
-      b.setAttribute('aria-expanded','false');
+    refresh();
+    if(brg){
+      brg.setAttribute('type','button');
+      brg.setAttribute('aria-expanded','false');
+      brg.setAttribute('aria-label','Menu');
     }
+    fixTelegramButtons();
+    showNav();
   });
 
   window.addEventListener('pageshow', function(){
-    detectInitialLang();
-    fixButtons();
+    fixTelegramButtons();
     showNav();
-    prewarmMedia();
   });
 
-  window.addEventListener('load', prewarmMedia);
+  fixTelegramButtons();
+  showNav();
+})();
+</script>
+
+
+<script>
+/* SAFE EN LANG CLASS PATCH */
+(function(){
+  function markLang(lang){
+    if(!lang) return;
+    document.documentElement.setAttribute('data-lang', lang);
+    document.documentElement.setAttribute('lang', lang);
+    document.body.classList.toggle('lang-en', lang === 'en');
+  }
+  function detectLang(){
+    var active = document.querySelector('.lang-sw button.active,[data-lang].active');
+    var lang = active ? active.getAttribute('data-lang') : (localStorage.getItem('lang') || document.documentElement.getAttribute('lang') || 'ru');
+    markLang(lang);
+  }
+  if(typeof window.setLang === 'function' && !window.__femSafeLangWrapped){
+    var old = window.setLang;
+    window.setLang = function(lang){
+      old(lang);
+      markLang(lang);
+    };
+    window.__femSafeLangWrapped = true;
+  }
+  document.addEventListener('DOMContentLoaded', detectLang);
+  window.addEventListener('pageshow', detectLang);
 })();
 </script>
 
