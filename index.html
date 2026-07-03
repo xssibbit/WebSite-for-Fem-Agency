@@ -2009,6 +2009,131 @@ body{
   }
 }
 
+
+/* ══════ MOBILE NAV MENU IMAGE BACKGROUND ══════ */
+/* Мобильное меню: фон как на референсе, отдельно для светлой и тёмной темы */
+@media(max-width:960px){
+  #mob{
+    position:fixed !important;
+    inset:0 !important;
+    width:100vw !important;
+    height:100svh !important;
+    min-height:100svh !important;
+    overflow:hidden !important;
+    isolation:isolate !important;
+    z-index:2147482500 !important;
+    background-color:#fbf9ff !important;
+    background-image:url("assets/mobile-menu-bg-light.png") !important;
+    background-size:cover !important;
+    background-position:center center !important;
+    background-repeat:no-repeat !important;
+  }
+
+  [data-theme="dark"] #mob{
+    background-color:#070916 !important;
+    background-image:url("assets/mobile-menu-bg-dark.png") !important;
+  }
+
+  #mob.op{
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:center !important;
+    justify-content:flex-start !important;
+    padding:148px 26px 38px !important;
+  }
+
+  #mob::before{
+    content:'' !important;
+    position:absolute !important;
+    inset:0 !important;
+    z-index:-1 !important;
+    pointer-events:none !important;
+    background:linear-gradient(180deg, rgba(255,255,255,.20) 0%, rgba(255,255,255,.06) 42%, rgba(247,241,255,.18) 100%) !important;
+  }
+
+  [data-theme="dark"] #mob::before{
+    background:linear-gradient(180deg, rgba(6,7,18,.18) 0%, rgba(6,7,18,.05) 42%, rgba(6,7,18,.22) 100%) !important;
+  }
+
+  #mob::after{
+    content:none !important;
+    display:none !important;
+  }
+
+  #mob a:not(.bp){
+    position:relative !important;
+    z-index:2 !important;
+    color:#20172f !important;
+    text-shadow:none !important;
+  }
+
+  #mob .bp{
+    position:relative !important;
+    z-index:2 !important;
+    color:#20172f !important;
+    box-shadow:0 18px 46px rgba(87,76,130,.16) !important;
+  }
+
+  [data-theme="dark"] #mob a:not(.bp){
+    color:#fff !important;
+    text-shadow:0 10px 34px rgba(0,0,0,.45) !important;
+  }
+
+  [data-theme="dark"] #mob .bp{
+    color:#fff !important;
+    box-shadow:0 18px 54px rgba(0,0,0,.28), 0 0 34px rgba(255,79,190,.18) !important;
+  }
+
+  #mob .nav-ctrl,
+  #mob .lang-sw,
+  #mob .theme-tog,
+  #mob #langSwMob,
+  #mob #themeTog2{
+    position:relative !important;
+    z-index:2 !important;
+  }
+
+  #mob .mob-x{
+    z-index:4 !important;
+    color:#20172f !important;
+  }
+
+  [data-theme="dark"] #mob .mob-x{
+    color:#fff !important;
+    text-shadow:0 8px 24px rgba(0,0,0,.42) !important;
+  }
+
+  body.mob-open #nav{
+    background:rgba(255,255,255,.54) !important;
+    border-color:rgba(255,79,163,.22) !important;
+    box-shadow:0 14px 40px rgba(92,77,142,.10) !important;
+    backdrop-filter:blur(18px) saturate(1.25) !important;
+    -webkit-backdrop-filter:blur(18px) saturate(1.25) !important;
+  }
+
+  [data-theme="dark"] body.mob-open #nav{
+    background:rgba(9,10,25,.54) !important;
+    border-color:rgba(255,79,190,.18) !important;
+    box-shadow:0 16px 44px rgba(0,0,0,.34) !important;
+  }
+
+  body.mob-open #nav .nm a,
+  body.mob-open #nav .nc{
+    color:#20172f !important;
+  }
+
+  [data-theme="dark"] body.mob-open #nav .nm a,
+  [data-theme="dark"] body.mob-open #nav .nc{
+    color:#fff !important;
+  }
+}
+
+@media(max-width:420px){
+  #mob.op{
+    padding-top:142px !important;
+  }
+}
+
 </style>
 
 <script>
