@@ -31,12 +31,12 @@
 
 
 
+<link rel="preload" as="image" href="assets/hero-poster.jpg?v=9" media="(min-width: 961px)"/>
+<link rel="preload" as="image" href="assets/hero-mobile-poster.jpg?v=9" media="(max-width: 960px)"/>
 
 
-
-
-<link rel="preload" as="image" href="assets/hero-poster.jpg?v=11" media="(min-width: 961px)" fetchpriority="high"/>
-<link rel="preload" as="image" href="assets/hero-mobile-poster.jpg?v=11" media="(max-width: 960px)" fetchpriority="high"/>
+<link rel="prefetch" href="videos/hero.mp4?v=9"/>
+<link rel="prefetch" href="videos/hero-mobile.mp4?v=9"/>
 
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
@@ -1071,7 +1071,7 @@ html.content-force-visible .sn{
     border:none!important;
     border-radius:0!important;
     box-shadow:none!important;
-    background:url("assets/hero-poster.jpg?v=11") center/contain no-repeat!important;
+    background:url("assets/hero-poster.jpg?v=9") center/contain no-repeat!important;
   }
 
   .hero-video-example{
@@ -1113,7 +1113,7 @@ html.content-force-visible .sn{
     justify-content:center!important;
     overflow:hidden!important;
     position:relative!important;
-    background:#060612 url("assets/hero-mobile-poster.jpg?v=11") center/cover no-repeat!important;
+    background:#060612 url("assets/hero-mobile-poster.jpg?v=9") center/cover no-repeat!important;
   }
 
   .hero-mobile-bg{
@@ -1128,7 +1128,7 @@ html.content-force-visible .sn{
     overflow:hidden!important;
     opacity:1!important;
     visibility:visible!important;
-    background:#060612 url("assets/hero-mobile-poster.jpg?v=11") center/cover no-repeat!important;
+    background:#060612 url("assets/hero-mobile-poster.jpg?v=9") center/cover no-repeat!important;
   }
 
   .hero-mobile-video{
@@ -1143,7 +1143,7 @@ html.content-force-visible .sn{
     opacity:1!important;
     visibility:visible!important;
     filter:brightness(.78) contrast(1.04) saturate(1.04);
-    background:#060612 url("assets/hero-mobile-poster.jpg?v=11") center/cover no-repeat!important;
+    background:#060612 url("assets/hero-mobile-poster.jpg?v=9") center/cover no-repeat!important;
   }
 
   .hero-mobile-bg::after{
@@ -1350,7 +1350,7 @@ html.content-force-visible .sn{
     border:none!important;
     border-radius:0!important;
     box-shadow:none!important;
-    background:url("assets/hero-poster.jpg?v=11") center/contain no-repeat!important;
+    background:url("assets/hero-poster.jpg?v=9") center/contain no-repeat!important;
   }
 
   .hero-video-example{
@@ -1394,7 +1394,7 @@ html.content-force-visible .sn{
     justify-content:center!important;
     overflow:hidden!important;
     position:relative!important;
-    background:#060612 url("assets/hero-mobile-poster.jpg?v=11") center/cover no-repeat!important;
+    background:#060612 url("assets/hero-mobile-poster.jpg?v=9") center/cover no-repeat!important;
   }
 
   .hero-mobile-bg{
@@ -1409,7 +1409,7 @@ html.content-force-visible .sn{
     overflow:hidden!important;
     opacity:1!important;
     visibility:visible!important;
-    background:#060612 url("assets/hero-mobile-poster.jpg?v=11") center/cover no-repeat!important;
+    background:#060612 url("assets/hero-mobile-poster.jpg?v=9") center/cover no-repeat!important;
   }
 
   .hero-mobile-video{
@@ -1424,7 +1424,7 @@ html.content-force-visible .sn{
     opacity:1!important;
     visibility:visible!important;
     filter:brightness(.86) contrast(1.04) saturate(1.04);
-    background:#060612 url("assets/hero-mobile-poster.jpg?v=11") center/cover no-repeat!important;
+    background:#060612 url("assets/hero-mobile-poster.jpg?v=9") center/cover no-repeat!important;
   }
 
   .hero-mobile-bg::after,
@@ -1791,28 +1791,6 @@ body.mob-open{
 }
 html{
   overflow-y:auto !important;
-}
-
-
-/* ══════ SAFE ENGLISH READABILITY FIX ══════ */
-html[data-lang="en"] body,
-html[lang="en"] body,
-body.lang-en{
-  font-family:Inter, Arial, Helvetica, sans-serif !important;
-}
-html[data-lang="en"] .hero h1,
-html[lang="en"] .hero h1,
-body.lang-en .hero h1{
-  font-family:Inter, Arial, Helvetica, sans-serif !important;
-  font-weight:900 !important;
-  letter-spacing:-.05em !important;
-  line-height:.94 !important;
-}
-html[data-lang="en"] .hero-sub,
-html[lang="en"] .hero-sub,
-body.lang-en .hero-sub{
-  font-family:Inter, Arial, Helvetica, sans-serif !important;
-  line-height:1.55 !important;
 }
 
 </style>
@@ -2686,34 +2664,6 @@ window.addEventListener('load',()=>{
 
   fixTelegramButtons();
   showNav();
-})();
-</script>
-
-
-<script>
-/* SAFE EN LANG CLASS PATCH */
-(function(){
-  function markLang(lang){
-    if(!lang) return;
-    document.documentElement.setAttribute('data-lang', lang);
-    document.documentElement.setAttribute('lang', lang);
-    document.body.classList.toggle('lang-en', lang === 'en');
-  }
-  function detectLang(){
-    var active = document.querySelector('.lang-sw button.active,[data-lang].active');
-    var lang = active ? active.getAttribute('data-lang') : (localStorage.getItem('lang') || document.documentElement.getAttribute('lang') || 'ru');
-    markLang(lang);
-  }
-  if(typeof window.setLang === 'function' && !window.__femSafeLangWrapped){
-    var old = window.setLang;
-    window.setLang = function(lang){
-      old(lang);
-      markLang(lang);
-    };
-    window.__femSafeLangWrapped = true;
-  }
-  document.addEventListener('DOMContentLoaded', detectLang);
-  window.addEventListener('pageshow', detectLang);
 })();
 </script>
 
