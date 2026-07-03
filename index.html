@@ -2134,6 +2134,69 @@ body{
   }
 }
 
+
+/* ══════ MOBILE NAV GLASS OVER IMAGE FIX ══════ */
+/* Лёгкий стеклянный эффект поверх фото-фона в мобильном navbar/menu */
+@media(max-width:960px){
+  /* Верхний navbar — прозрачное стекло поверх обоев */
+  body.mob-open #nav{
+    background:rgba(255,255,255,.36) !important;
+    border:1px solid rgba(255,79,163,.22) !important;
+    box-shadow:
+      0 18px 52px rgba(92,77,142,.14),
+      inset 0 1px 0 rgba(255,255,255,.42) !important;
+    backdrop-filter:blur(22px) saturate(1.28) !important;
+    -webkit-backdrop-filter:blur(22px) saturate(1.28) !important;
+  }
+
+  [data-theme="dark"] body.mob-open #nav{
+    background:rgba(9,10,25,.34) !important;
+    border:1px solid rgba(255,79,190,.20) !important;
+    box-shadow:
+      0 18px 54px rgba(0,0,0,.34),
+      inset 0 1px 0 rgba(255,255,255,.10) !important;
+    backdrop-filter:blur(24px) saturate(1.30) !important;
+    -webkit-backdrop-filter:blur(24px) saturate(1.30) !important;
+  }
+
+  /* Маленькие элементы управления внутри меню тоже чуть стеклянные */
+  #mob .lang-sw,
+  #mob .theme-tog{
+    background:rgba(255,255,255,.42) !important;
+    border:1px solid rgba(120,94,170,.12) !important;
+    box-shadow:
+      0 12px 32px rgba(92,77,142,.10),
+      inset 0 1px 0 rgba(255,255,255,.40) !important;
+    backdrop-filter:blur(16px) saturate(1.22) !important;
+    -webkit-backdrop-filter:blur(16px) saturate(1.22) !important;
+  }
+
+  [data-theme="dark"] #mob .lang-sw,
+  [data-theme="dark"] #mob .theme-tog{
+    background:rgba(12,14,32,.36) !important;
+    border:1px solid rgba(255,255,255,.10) !important;
+    box-shadow:
+      0 12px 34px rgba(0,0,0,.24),
+      inset 0 1px 0 rgba(255,255,255,.08) !important;
+    backdrop-filter:blur(18px) saturate(1.25) !important;
+    -webkit-backdrop-filter:blur(18px) saturate(1.25) !important;
+  }
+
+  /* Кнопка заявки — остаётся яркой, но с лёгким стеклянным свечением */
+  #mob .bp{
+    box-shadow:
+      0 18px 46px rgba(87,76,130,.16),
+      inset 0 1px 0 rgba(255,255,255,.30) !important;
+  }
+
+  [data-theme="dark"] #mob .bp{
+    box-shadow:
+      0 18px 54px rgba(0,0,0,.30),
+      0 0 36px rgba(255,79,190,.18),
+      inset 0 1px 0 rgba(255,255,255,.20) !important;
+  }
+}
+
 </style>
 
 <script>
