@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru" data-theme="dark">
 <head>
 <meta charset="UTF-8"/>
@@ -2514,7 +2514,6 @@ body.mob-open #nav{
 }
 
 
-/* ══════ EN HERO TEXT COMPACT FIX ══════ */
 /* Исправляет слишком большой английский hero-текст, не трогая RU/UA */
 html[lang="en"] .hero-in{
   padding-top:92px !important;
@@ -2587,6 +2586,119 @@ html[lang="en"] .hero-in{
     font-size:clamp(34px, 10vw, 48px) !important;
     line-height:1.02 !important;
     letter-spacing:-1.6px !important;
+  }
+}
+
+
+/* ══════ EN HERO TEXT HARD FIX ══════ */
+/* Английский hero-текст: меньше размер и стабильная сетка. Работает даже если JS не меняет html lang */
+html[lang="en"] .hero-in,
+body.en-mode .hero-in{
+  padding-top:108px !important;
+  gap:42px !important;
+  grid-template-columns:minmax(0, .92fr) minmax(420px, 1.08fr) !important;
+}
+
+@media(min-width:961px){
+  html[lang="en"] .h-left,
+  body.en-mode .h-left{
+    max-width:590px !important;
+    min-width:0 !important;
+  }
+
+  html[lang="en"] .hero h1,
+  html[lang="en"] #heroH1,
+  body.en-mode .hero h1,
+  body.en-mode #heroH1{
+    font-size:clamp(40px, 5.05vw, 72px) !important;
+    line-height:.99 !important;
+    letter-spacing:-2.6px !important;
+    max-width:590px !important;
+    width:100% !important;
+    margin-top:0 !important;
+    margin-bottom:22px !important;
+    word-break:normal !important;
+    overflow-wrap:normal !important;
+  }
+
+  html[lang="en"] .hero-sub,
+  html[lang="en"] #heroSub,
+  body.en-mode .hero-sub,
+  body.en-mode #heroSub{
+    font-size:clamp(15px, 1.12vw, 17px) !important;
+    line-height:1.55 !important;
+    max-width:520px !important;
+    margin-bottom:36px !important;
+  }
+
+  html[lang="en"] .eyebrow,
+  html[lang="en"] #heroEyebrow,
+  body.en-mode .eyebrow,
+  body.en-mode #heroEyebrow{
+    margin-bottom:22px !important;
+  }
+
+  html[lang="en"] .hbtns,
+  html[lang="en"] #herobtns,
+  body.en-mode .hbtns,
+  body.en-mode #herobtns{
+    margin-bottom:40px !important;
+  }
+
+  html[lang="en"] .hero-video-frame,
+  body.en-mode .hero-video-frame{
+    width:min(700px, 50vw) !important;
+  }
+}
+
+@media(min-width:961px) and (max-width:1280px){
+  html[lang="en"] .hero-in,
+  body.en-mode .hero-in{
+    grid-template-columns:minmax(0, .88fr) minmax(380px, 1.12fr) !important;
+    gap:34px !important;
+  }
+
+  html[lang="en"] .hero h1,
+  html[lang="en"] #heroH1,
+  body.en-mode .hero h1,
+  body.en-mode #heroH1{
+    font-size:clamp(36px, 4.65vw, 60px) !important;
+    line-height:1 !important;
+    letter-spacing:-2.1px !important;
+    max-width:510px !important;
+  }
+
+  html[lang="en"] .hero-sub,
+  html[lang="en"] #heroSub,
+  body.en-mode .hero-sub,
+  body.en-mode #heroSub{
+    font-size:15px !important;
+    max-width:470px !important;
+  }
+}
+
+@media(min-width:961px) and (max-width:1080px){
+  html[lang="en"] .hero-in,
+  body.en-mode .hero-in{
+    grid-template-columns:1fr !important;
+    text-align:left !important;
+  }
+
+  html[lang="en"] .hero-video-frame,
+  body.en-mode .hero-video-frame{
+    width:100% !important;
+    max-width:720px !important;
+  }
+}
+
+@media(max-width:960px){
+  html[lang="en"] .hero h1,
+  html[lang="en"] #heroH1,
+  body.en-mode .hero h1,
+  body.en-mode #heroH1{
+    font-size:clamp(32px, 9.2vw, 44px) !important;
+    line-height:1.03 !important;
+    letter-spacing:-1.4px !important;
   }
 }
 
@@ -3987,6 +4099,45 @@ window.addEventListener('load',()=>{
     <path d="M179.1 70.4c2.1-9.8-3.7-13.6-11.4-10.4L50.1 105.3c-8 3.1-7.9 7.6-1.4 9.6l30.2 9.4 70.1-44.2c3.3-2 6.3-.9 3.8 1.3l-56.8 51.3-2.2 32.3c3.2 0 4.6-1.5 6.4-3.2l15.4-15 32 23.6c5.9 3.3 10.1 1.6 11.6-5.5l19.9-94.5z"/>
   </svg>
 </a>
+
+
+<script>
+/* EN hero text hard fix: add body.en-mode when EN language is active */
+(function(){
+  function syncEnglishHeroClass(){
+    var htmlLang = (document.documentElement.getAttribute('lang') || '').toLowerCase();
+    var enBtn = document.querySelector('.lang-sw button[data-lang="en"], .lang-sw button[data-l="en"], .lang-sw button[data-lang-code="en"]');
+    var enActive = false;
+
+    if(enBtn && enBtn.classList.contains('on')) enActive = true;
+
+    document.querySelectorAll('.lang-sw button').forEach(function(btn){
+      var txt = (btn.textContent || '').trim().toLowerCase();
+      if(txt === 'en' && btn.classList.contains('on')) enActive = true;
+    });
+
+    if(htmlLang === 'en') enActive = true;
+
+    document.body.classList.toggle('en-mode', enActive);
+  }
+
+  document.addEventListener('DOMContentLoaded', function(){
+    syncEnglishHeroClass();
+    document.addEventListener('click', function(e){
+      if(e.target && e.target.closest && e.target.closest('.lang-sw')) {
+        setTimeout(syncEnglishHeroClass, 60);
+        setTimeout(syncEnglishHeroClass, 250);
+      }
+    }, true);
+
+    var obs = new MutationObserver(syncEnglishHeroClass);
+    obs.observe(document.documentElement, {attributes:true, attributeFilter:['lang']});
+    document.querySelectorAll('.lang-sw button').forEach(function(btn){
+      obs.observe(btn, {attributes:true, attributeFilter:['class']});
+    });
+  });
+})();
+</script>
 
 </body>
 </html>
