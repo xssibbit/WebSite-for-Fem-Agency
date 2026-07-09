@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="ru" data-theme="dark">
 <head>
 <meta charset="UTF-8"/>
@@ -21,13 +21,13 @@
 <meta name="theme-color" content="#060612"/>
 <meta property="og:title" content="FEM Agency — OnlyFans & Fansly Management Agency"/>
 <meta property="og:description" content="OnlyFans and Fansly management agency for creators: strategy, promotion, analytics and personal brand growth."/>
-<meta property="og:image" content="https://femagency.us/assets/logo.png"/>
+<meta property="og:image" content="https://femagency.us/assets/logo.webp"/>
 <meta property="og:url" content="https://femagency.us/"/>
 <meta property="og:type" content="website"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:title" content="FEM Agency — OnlyFans & Fansly Management Agency"/>
 <meta name="twitter:description" content="OnlyFans and Fansly management agency for creators and models."/>
-<meta name="twitter:image" content="https://femagency.us/assets/logo.png"/>
+<meta name="twitter:image" content="https://femagency.us/assets/logo.webp"/>
 
 
 
@@ -2023,7 +2023,7 @@ body{
     isolation:isolate !important;
     z-index:2147482500 !important;
     background-color:#fbf9ff !important;
-    background-image:url("assets/mobile-menu-bg-light.png") !important;
+    background-image:url("assets/mobile-menu-bg-light.webp") !important;
     background-size:cover !important;
     background-position:center center !important;
     background-repeat:no-repeat !important;
@@ -2031,7 +2031,7 @@ body{
 
   [data-theme="dark"] #mob{
     background-color:#070916 !important;
-    background-image:url("assets/mobile-menu-bg-dark.png") !important;
+    background-image:url("assets/mobile-menu-bg-dark.webp") !important;
   }
 
   #mob.op{
@@ -2452,7 +2452,6 @@ body.mob-open #nav{
 }
 
 
-/* ══════ ENGLISH HERO SIZE FIX ══════ */
 /* Исправляет слишком большой hero-текст в английской версии */
 @media(min-width:961px){
   html[lang="en"] .hero-in{
@@ -2514,6 +2513,83 @@ body.mob-open #nav{
   }
 }
 
+
+/* ══════ EN HERO TEXT COMPACT FIX ══════ */
+/* Исправляет слишком большой английский hero-текст, не трогая RU/UA */
+html[lang="en"] .hero-in{
+  padding-top:92px !important;
+}
+
+@media(min-width:961px){
+  html[lang="en"] .hero h1,
+  html[lang="en"] #heroH1{
+    font-size:clamp(48px, 6.1vw, 86px) !important;
+    line-height:.98 !important;
+    letter-spacing:-3px !important;
+    max-width:760px !important;
+    margin-top:0 !important;
+    margin-bottom:26px !important;
+  }
+
+  html[lang="en"] .hero-sub,
+  html[lang="en"] #heroSub{
+    font-size:clamp(16px, 1.35vw, 19px) !important;
+    line-height:1.58 !important;
+    max-width:650px !important;
+    margin-bottom:42px !important;
+  }
+
+  html[lang="en"] .eyebrow,
+  html[lang="en"] #heroEyebrow{
+    margin-bottom:26px !important;
+  }
+
+  html[lang="en"] .hbtns,
+  html[lang="en"] #herobtns{
+    margin-bottom:46px !important;
+  }
+}
+
+@media(min-width:961px) and (max-width:1280px){
+  html[lang="en"] .hero h1,
+  html[lang="en"] #heroH1{
+    font-size:clamp(42px, 5.6vw, 70px) !important;
+    line-height:1 !important;
+    letter-spacing:-2.4px !important;
+    max-width:650px !important;
+  }
+
+  html[lang="en"] .hero-sub,
+  html[lang="en"] #heroSub{
+    font-size:16px !important;
+    max-width:560px !important;
+  }
+}
+
+@media(min-width:961px) and (max-width:1100px){
+  html[lang="en"] .hero h1,
+  html[lang="en"] #heroH1{
+    font-size:clamp(38px, 5.1vw, 60px) !important;
+    max-width:560px !important;
+  }
+
+  html[lang="en"] .hero-sub,
+  html[lang="en"] #heroSub{
+    font-size:15.5px !important;
+    max-width:500px !important;
+  }
+}
+
+/* Мобильную версию не ломаем: там hero-текст скрыт и остаются кнопки */
+@media(max-width:960px){
+  html[lang="en"] .hero h1,
+  html[lang="en"] #heroH1{
+    font-size:clamp(34px, 10vw, 48px) !important;
+    line-height:1.02 !important;
+    letter-spacing:-1.6px !important;
+  }
+}
+
 </style>
 
 <script>
@@ -2541,7 +2617,7 @@ window.addEventListener('DOMContentLoaded',()=>{
       "@id": "https://femagency.us/#organization",
       "name": "FEM Agency",
       "url": "https://femagency.us/",
-      "logo": "https://femagency.us/assets/logo.png",
+      "logo": "https://femagency.us/assets/logo.webp",
       "description": "FEM Agency is an OnlyFans and Fansly management agency for creators and models.",
       "sameAs": [
         "https://instagram.com/",
@@ -2645,7 +2721,7 @@ window.addEventListener('DOMContentLoaded',()=>{
 <body>
 <div id="top" style="position:absolute;top:0"></div>
 <div class="pl-logo-wrap" id="plLogoWrap">
-    <img class="site-logo-img loader-logo-img" id="plBox" src="assets/logo.png" alt="FEM Agency logo"/>
+    <img class="site-logo-img loader-logo-img" id="plBox" src="assets/logo.webp" alt="FEM Agency logo"/>
     <div class="pl-sub" id="plSub">Creator Management</div>
     <div class="pl-bar-wrap" id="plBarWrap">
       <div class="pl-bar" id="plBar"></div>
@@ -2669,7 +2745,7 @@ window.addEventListener('DOMContentLoaded',()=>{
 <!-- ══ NAV ══ -->
 <nav id="nav">
   <a class="nl" href="/#top" aria-label="FEM Agency">
-    <img class="site-logo-img nav-logo-img" src="assets/logo.png" alt="FEM Agency logo"/>
+    <img class="site-logo-img nav-logo-img" src="assets/logo.webp" alt="FEM Agency logo"/>
   </a>
   <div class="nm" id="navLinks">
     <a href="/#platforms" data-t="nav_srv">Платформы</a>
@@ -3077,7 +3153,7 @@ window.addEventListener('DOMContentLoaded',()=>{
   <div class="ft">
     <div class="ft-top">
       <div>
-        <div class="ft-logo"><img class="site-logo-img footer-logo-img" src="assets/logo.png" alt="FEM Agency logo"/></div>
+        <div class="ft-logo"><img class="site-logo-img footer-logo-img" src="assets/logo.webp" alt="FEM Agency logo"/></div>
         <p class="ft-desc" data-t="ft_desc">Продюсерское агентство для OnlyFans и Fansly. Масштабируем доход авторов по всему миру.</p>
       </div>
       <div class="ft-col">
