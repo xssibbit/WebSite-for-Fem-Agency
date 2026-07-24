@@ -3180,6 +3180,65 @@ body.en-mode .hero-in{
 }
 @media(prefers-reduced-motion:reduce){.fem-spectrum-card,.fem-spectrum-card *,.fem-results,.fem-process,.fem-manifesto-section,#apply{transition:none!important}}
 
+
+/* ===== ROBUST TRANSPARENT-CUTOUT FALLBACK =====
+   Keeps Personal Brand / Content Plan cards composed even before real cutouts are uploaded. */
+#services .om-brand-board,
+#services .om-content-scene{isolation:isolate}
+
+#services .om-brand-board:after{
+  content:'BRAND';
+  position:absolute;
+  z-index:1;
+  left:18px;
+  bottom:6px;
+  font-family:'Manrope',sans-serif;
+  font-size:clamp(44px,5.4vw,84px);
+  line-height:.8;
+  font-weight:800;
+  letter-spacing:-.075em;
+  color:rgba(25,25,34,.10);
+  pointer-events:none;
+}
+#services .om-content-scene:after{
+  content:'CONTENT';
+  position:absolute;
+  z-index:1;
+  left:18px;
+  bottom:10px;
+  font-family:'Manrope',sans-serif;
+  font-size:clamp(34px,4.2vw,66px);
+  line-height:.8;
+  font-weight:800;
+  letter-spacing:-.07em;
+  color:rgba(25,25,34,.10);
+  pointer-events:none;
+}
+#services .om-brand-scene.cutout-missing .om-brand-board:before{
+  inset:18px 54px 18px 18px;
+  background:
+    radial-gradient(circle at 38% 32%,rgba(255,255,255,.55) 0 12%,transparent 12.5%),
+    radial-gradient(ellipse at 38% 92%,rgba(255,255,255,.42) 0 27%,transparent 27.5%),
+    linear-gradient(rgba(25,25,34,.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(25,25,34,.06) 1px,transparent 1px);
+  background-size:auto,auto,28px 28px,28px 28px;
+}
+#services .om-content-scene.cutout-missing:before{
+  background:
+    radial-gradient(circle at 42% 26%,rgba(255,255,255,.58) 0 12%,transparent 12.5%),
+    radial-gradient(ellipse at 42% 96%,rgba(255,255,255,.42) 0 29%,transparent 29.5%),
+    linear-gradient(145deg,rgba(255,255,255,.40),rgba(255,255,255,.10));
+}
+#services .cutout-missing .om-brand-cutout,
+#services .cutout-missing .om-content-cutout{display:none!important}
+#services .om-brand-cutout,
+#services .om-content-cutout{opacity:1;transition:opacity .25s ease}
+
+@media(max-width:680px){
+  #services .om-brand-board:after{font-size:46px;left:12px}
+  #services .om-content-scene:after{font-size:38px;left:12px}
+}
+
 </style>
 
 <script>
@@ -3597,6 +3656,549 @@ html[lang="en"] .fem-video-caption small,body.en-mode .fem-video-caption small{l
 @media(max-width:960px){.hero{min-height:auto!important}.hero-in{grid-template-columns:1fr!important}.fem-hero-scene{width:100%;max-width:650px;height:620px;margin:auto}.fem-results-head{display:block}.fem-results-intro{margin-top:20px}.fem-case{grid-template-columns:1fr}.fem-case-visual{min-height:480px}.fem-case-data{padding:44px 28px}.fem-process-grid{grid-template-columns:1fr}.why-grid{display:grid!important}.wc{grid-column:span 12!important}}
 @media(max-width:680px){nav{left:10px!important;right:10px!important;top:8px!important}.sect{padding:84px 18px!important}.hero{padding-top:100px!important}.hero h1{font-size:clamp(45px,14vw,66px)!important;letter-spacing:-3px!important}.fem-hero-scene{height:480px}.fem-video-shell{left:50%;transform:translateX(-50%);top:25px;width:270px;height:405px;border-radius:26px}.fem-hero-panel-back{width:220px;right:-10px;top:115px}.fem-float-card-one{left:-2px;top:245px}.fem-float-card-two{right:-2px;bottom:16px}.fem-orbit{display:none}.fem-case-visual{min-height:360px}.fem-case-number{font-size:60px;letter-spacing:-4px}.fem-case-data{padding:38px 22px}.fem-case-meta{flex-wrap:wrap}.fem-process-screen{height:450px}.fem-scale-number{font-size:68px}.fem-roadmap{grid-template-columns:1fr 1fr}.fem-audit-grid i{height:85px}.why-grid{display:block!important}.wc{margin-bottom:12px;min-height:230px!important}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
+
+
+/* ══════ USER REQUESTED TARGETED FIXES — 2026-07-24 ══════ */
+.hero-mobile-bg{display:none!important}
+.h-right{display:flex!important;align-items:center!important;justify-content:center!important}
+.hero-video-only{width:min(500px,42vw);aspect-ratio:4/5;position:relative;overflow:hidden;border-radius:34px;background:#0b0b10;border:1px solid rgba(255,255,255,.12);box-shadow:0 34px 90px rgba(0,0,0,.34)}
+.hero-video-only .hero-video-example{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important;object-position:center!important;filter:none!important;background:#0b0b10!important}
+[data-theme="light"] .hero-video-only{border-color:rgba(20,18,30,.12);box-shadow:0 30px 80px rgba(38,26,60,.16)}
+
+#services .service-art-graphic{overflow:hidden;border:1px solid rgba(255,255,255,.10);background:radial-gradient(circle at 18% 10%,rgba(255,79,163,.22),transparent 38%),radial-gradient(circle at 86% 88%,rgba(61,184,255,.20),transparent 42%),linear-gradient(145deg,#171126,#0c101d 68%,#10111a)}
+#services .service-art-platform .os-main{left:18px!important;right:92px!important;bottom:12px!important}
+#services .service-art-platform .os-side{right:14px!important;top:48px!important}
+#services .service-art-growth .growth-stage{position:absolute!important;inset:8px!important;transform:scale(.88)!important;transform-origin:center!important}
+#services .service-art-roadmap .roadmap-board{left:16px!important;right:16px!important;bottom:12px!important}
+#services .service-art-analytics .analytics-ui-float{position:absolute!important;inset:18px!important;width:auto!important;transform:none!important}
+#services .service-art-user-photo{overflow:hidden;isolation:isolate;background-color:#17131d;background-size:cover!important;background-position:center top!important;border:1px solid rgba(255,255,255,.12)}
+/* Replace exactly these two files with your own photos. */
+#services .service-photo-slot-one{background-image:url('assets/services/service-photo-1.webp'),url('assets/photos/about-1.webp')!important}
+#services .service-photo-slot-two{background-image:url('assets/services/service-photo-2.webp'),url('assets/visual/photo-3.webp')!important}
+#services .service-photo-bottom-shade{position:absolute;inset:auto 0 0;height:48%;z-index:1;background:linear-gradient(180deg,transparent,rgba(7,7,12,.68) 62%,rgba(7,7,12,.90));pointer-events:none}
+#services .service-photo-label{position:absolute;left:15px;top:14px;z-index:3;padding:7px 10px;border-radius:999px;font-size:9px;font-weight:800;letter-spacing:1.1px;color:#fff;background:rgba(8,8,12,.42);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+#services .service-calendar-overlay{position:absolute!important;right:15px!important;bottom:14px!important;left:auto!important;width:48%!important;z-index:3!important;background:rgba(255,255,255,.78)!important;box-shadow:0 14px 34px rgba(0,0,0,.20)!important}
+
+/* Case controls stay beside the active case instead of below it. */
+.fem-case-stage{position:relative!important}
+.fem-case-arrows{position:absolute!important;inset:0!important;display:block!important;margin:0!important;z-index:18!important;pointer-events:none!important}
+.fem-case-arrows .fem-case-arrow{position:absolute!important;top:50%!important;width:58px!important;height:58px!important;display:grid!important;place-items:center!important;border-radius:50%!important;border:1px solid rgba(255,255,255,.22)!important;background:rgba(10,10,16,.48)!important;color:#fff!important;font-size:25px!important;line-height:1!important;cursor:pointer!important;pointer-events:auto!important;backdrop-filter:blur(18px)!important;-webkit-backdrop-filter:blur(18px)!important;box-shadow:0 12px 34px rgba(0,0,0,.22)!important;transition:transform .25s ease,background .25s ease,border-color .25s ease,opacity .25s ease!important}
+.fem-case-arrows [data-case-prev]{left:18px!important;transform:translateY(-50%)!important}
+.fem-case-arrows [data-case-next]{right:18px!important;transform:translateY(-50%)!important}
+.fem-case-arrows .fem-case-arrow:hover{background:rgba(255,255,255,.16)!important;border-color:rgba(255,255,255,.44)!important}
+.fem-case-arrows [data-case-prev]:hover{transform:translateY(-50%) translateX(-3px) scale(1.04)!important}
+.fem-case-arrows [data-case-next]:hover{transform:translateY(-50%) translateX(3px) scale(1.04)!important}
+.fem-case-arrows .fem-case-arrow:focus-visible{outline:2px solid #fff0a6!important;outline-offset:4px!important}
+.fem-case-counter{position:absolute!important;top:20px!important;right:20px!important;min-width:76px!important;padding:9px 12px!important;border-radius:999px!important;text-align:center!important;color:rgba(255,255,255,.88)!important;font-size:11px!important;font-weight:800!important;letter-spacing:1.25px!important;background:rgba(10,10,16,.38)!important;border:1px solid rgba(255,255,255,.16)!important;backdrop-filter:blur(14px)!important;-webkit-backdrop-filter:blur(14px)!important;pointer-events:none!important}
+[data-theme="light"] .fem-case-arrows .fem-case-arrow{color:#17131d!important;background:rgba(255,255,255,.76)!important;border-color:rgba(20,16,30,.16)!important;box-shadow:0 12px 34px rgba(31,20,43,.14)!important}
+[data-theme="light"] .fem-case-counter{color:rgba(20,16,30,.78)!important;background:rgba(255,255,255,.72)!important;border-color:rgba(20,16,30,.12)!important}
+/* Always use the native system cursor. */
+.cur,.cur-r{display:none!important}
+html,body,a,button,input,select,textarea{cursor:auto}
+a,button,[role="button"],select{cursor:pointer}
+
+.fem-manifesto-inset,.apply-shot-wrap{display:none!important}
+
+/* Carousel gradient is strictly at the bottom behind the text. */
+.vs .vc::after{display:none!important}
+.vs .vc-ov{display:block!important;visibility:visible!important;opacity:1!important;position:absolute!important;left:0!important;right:0!important;top:auto!important;bottom:0!important;height:46%!important;z-index:2!important;pointer-events:none!important;background:linear-gradient(180deg,rgba(6,6,18,0) 0%,rgba(6,6,18,.28) 34%,rgba(6,6,18,.76) 72%,rgba(6,6,18,.94) 100%)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.vs .vc-bg{z-index:1!important;background-position:center 38%!important}
+.vs .vi{z-index:3!important;bottom:0!important;padding:0 14px 14px!important}
+[data-theme="light"] .vs .vc-ov{background:linear-gradient(180deg,rgba(20,12,34,0) 0%,rgba(20,12,34,.24) 34%,rgba(20,12,34,.68) 72%,rgba(20,12,34,.90) 100%)!important}
+
+@media(max-width:960px){.hero-video-only{width:min(520px,78vw);aspect-ratio:4/5}}
+@media(max-width:680px){.hero-video-only{width:min(360px,92vw);aspect-ratio:9/16;border-radius:26px}#services .service-art-platform .os-main{right:16px!important}#services .service-art-platform .os-side{display:none!important}#services .service-art-growth .growth-stage{transform:scale(.74)!important}#services .service-calendar-overlay{width:56%!important}.fem-case-arrows .fem-case-arrow{width:48px!important;height:48px!important;font-size:21px!important}.fem-case-arrows [data-case-prev]{left:10px!important}.fem-case-arrows [data-case-next]{right:10px!important}.fem-case-counter{top:12px!important;right:12px!important;padding:7px 10px!important;font-size:10px!important}.vs .vc-ov{height:50%!important}}
+
+
+/* ══════ BALANCED CONTENT PASS — fewer cards, stronger hierarchy ══════ */
+#services{padding-bottom:76px!important}
+#services .srv-grid{
+  grid-template-columns:repeat(12,minmax(0,1fr))!important;
+  grid-template-areas:
+    "photoA photoA photoA photoA photoA photoA photoA mediumA mediumA mediumA mediumA mediumA"
+    "photoB photoB photoB photoB photoB photoB photoB mediumB mediumB mediumB mediumB mediumB"
+    "compactA compactA compactA compactA compactA compactA compactB compactB compactB compactB compactB compactB"!important;
+  gap:16px!important;
+}
+#services .sc:nth-child(1){grid-area:mediumA!important}
+#services .sc:nth-child(2){grid-area:compactA!important}
+#services .sc:nth-child(3){grid-area:photoA!important}
+#services .sc:nth-child(4){grid-area:mediumB!important}
+#services .sc:nth-child(5){grid-area:photoB!important}
+#services .sc:nth-child(6){grid-area:compactB!important}
+#services .sc{background:#111117!important;border-color:rgba(255,255,255,.10)!important;box-shadow:none!important}
+[data-theme="light"] #services .sc{background:#f3f0f5!important;border-color:rgba(24,20,32,.10)!important}
+#services .service-large{min-height:380px!important}
+#services .service-medium{min-height:380px!important}
+#services .service-compact{min-height:205px!important}
+#services .service-topline{top:17px!important;left:18px!important;right:auto!important}
+#services .service-mark{display:none!important}
+#services .service-no{display:grid!important;place-items:center!important;width:34px!important;height:34px!important;border-radius:50%!important;background:rgba(8,8,12,.28)!important;border:1px solid rgba(255,255,255,.18)!important;color:rgba(255,255,255,.78)!important;font-size:10px!important;letter-spacing:.08em!important;backdrop-filter:blur(10px)!important;-webkit-backdrop-filter:blur(10px)!important}
+#services .service-art{top:24px!important;left:22px!important;right:22px!important;height:228px!important}
+#services .service-large .service-art{inset:0!important;height:auto!important;border:0!important;border-radius:0!important}
+#services .service-medium .service-art{height:225px!important}
+#services .service-compact .service-art{top:20px!important;left:18px!important;right:auto!important;width:42%!important;height:128px!important}
+#services .service-copy{padding:22px!important;background:linear-gradient(to top,rgba(8,8,13,.95),rgba(8,8,13,.62) 68%,transparent)!important}
+#services .service-large .service-copy{padding:28px!important;max-width:70%;background:linear-gradient(90deg,rgba(7,7,11,.94),rgba(7,7,11,.60) 72%,transparent)!important}
+#services .service-medium .service-copy{padding:22px!important}
+#services .service-compact .service-copy{margin-left:43%!important;padding:25px 22px 22px!important;background:none!important;min-height:205px!important;display:flex!important;flex-direction:column!important;justify-content:center!important}
+#services .service-copy h3{font-family:'Manrope',sans-serif!important;font-size:clamp(18px,1.8vw,24px)!important;letter-spacing:-.025em!important}
+#services .service-copy p{font-size:12.5px!important;line-height:1.58!important;color:rgba(255,255,255,.66)!important}
+[data-theme="light"] #services .service-copy h3{color:#15131a!important}
+[data-theme="light"] #services .service-copy p{color:rgba(21,19,26,.66)!important}
+[data-theme="light"] #services .service-large .service-copy{background:linear-gradient(90deg,rgba(245,242,247,.96),rgba(245,242,247,.76) 72%,transparent)!important}
+#services .service-photo-feature .service-photo-bottom-shade{height:72%!important;background:linear-gradient(90deg,rgba(7,7,12,.82),rgba(7,7,12,.18) 72%,transparent)!important}
+#services .service-photo-feature:hover .service-art{transform:scale(1.025)!important}
+#services .service-photo-label,#services .service-calendar-overlay{display:none!important}
+#services .service-medium.service-graphic-card .service-art{background:radial-gradient(circle at 18% 12%,rgba(130,92,255,.18),transparent 38%),linear-gradient(145deg,#171520,#0f1118)!important}
+#services .service-compact.service-graphic-card .service-art{background:transparent!important;border:0!important}
+#services .service-medium .os-side{display:none!important}
+#services .service-medium .os-main{left:5%!important;right:5%!important;width:auto!important;height:82%!important}
+#services .service-medium .roadmap-tag{display:none!important}
+#services .service-compact .growth-node.n3,#services .service-compact .growth-node.n4{display:none!important}
+#services .service-compact .growth-ring{width:124px!important;height:90px!important}
+#services .service-compact .growth-core{width:54px!important;height:54px!important;border-radius:18px!important}
+#services .service-compact .growth-node{width:34px!important;height:34px!important;border-radius:11px!important}
+#services .service-compact .growth-node.n1{transform:translate(-67px,-33px) rotate(-8deg)!important}
+#services .service-compact .growth-node.n2{transform:translate(67px,32px) rotate(7deg)!important}
+#services .service-compact .growth-counter{right:-8px!important;top:2px!important;transform:scale(.86)!important}
+#services .service-compact .analytics-side{display:none!important}
+#services .service-compact .analytics-ui-float{inset:4px!important}
+#services .service-compact .analytics-panel{width:100%!important}
+#services .sc::before{opacity:0!important}
+#services .sc:hover{transform:translateY(-3px)!important;box-shadow:0 18px 44px rgba(0,0,0,.18)!important}
+#services .sc:hover .service-art{filter:none!important}
+
+/* Smaller, calmer visual marquee */
+.vs-wrap{mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)!important;-webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)!important}
+.vs{gap:12px!important;animation-duration:46s!important}
+.vs .vc{width:154px!important;height:214px!important;border-radius:20px!important;filter:saturate(.88)!important;transition:transform .35s ease,filter .35s ease!important}
+.vs .vc:hover{transform:translateY(-4px)!important;filter:saturate(1)!important}
+.vs .vt{font-size:9px!important;padding:3px 9px!important}
+.vs .vn{font-family:'Manrope',sans-serif!important;font-size:13px!important}
+
+/* Results: one editorial hero, no decorative charts */
+.fem-case-chart,.fem-case-rings,.fem-case-timeline{display:none!important}
+.fem-case-context{margin-top:18px!important;padding-top:18px!important;border-top:1px solid rgba(255,255,255,.11)!important;font-size:12.5px!important;line-height:1.6!important;color:rgba(255,255,255,.48)!important}
+.fem-case-meta{margin-top:25px!important}
+.fem-case-meta span i{display:block!important;font-style:normal!important;color:rgba(255,255,255,.42)!important;font-size:9px!important;letter-spacing:.06em!important;text-transform:uppercase!important}
+.fem-case-data{justify-content:center!important}
+
+/* Editorial partnership section — content without cards */
+.creator-partnership{padding-top:86px!important;padding-bottom:86px!important}
+.creator-partnership-head{display:grid;grid-template-columns:1fr .72fr;gap:70px;align-items:end;margin-bottom:44px}
+.creator-partnership-head p{max-width:430px;color:var(--tx2);font-size:15px;line-height:1.72}
+.creator-partnership-list{border-top:1px solid var(--border)}
+.creator-partnership-row{display:grid;grid-template-columns:64px minmax(210px,.7fr) 1fr;gap:28px;align-items:center;padding:24px 4px;border-bottom:1px solid var(--border);transition:padding .3s ease}
+.creator-partnership-row:hover{padding-left:12px}
+.creator-partnership-row>span{font-size:10px;letter-spacing:.16em;color:var(--pink)}
+.creator-partnership-row strong{font-family:'Manrope',sans-serif;font-size:18px;color:var(--tx)}
+.creator-partnership-row p{font-size:13px;line-height:1.62;color:var(--tx2)}
+
+/* FAQ becomes an editorial accordion, not a stack of cards */
+.faq-w{gap:0!important;border-top:1px solid var(--border)!important}
+.fi{border:0!important;border-bottom:1px solid var(--border)!important;border-radius:0!important;background:transparent!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;box-shadow:none!important}
+.fi.op{background:transparent!important;box-shadow:none!important}
+.fq{padding:22px 4px!important;font-size:16px!important}
+.fa p{padding:0 44px 22px 4px!important;max-width:620px!important}
+
+/* Apply: no outer card; form is part of the page */
+#apply .form-c{background:transparent!important;border:0!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;border-radius:0!important;padding:0!important}
+#apply .fg{margin-bottom:18px!important}
+#apply .fg label{margin-bottom:7px!important}
+#apply .fg input,#apply .fg select{border:0!important;border-bottom:1px solid rgba(17,17,22,.30)!important;border-radius:0!important;background:transparent!important;padding:13px 2px!important;box-shadow:none!important;color:#111116!important}
+#apply .fg input:focus,#apply .fg select:focus{border-bottom-color:#111116!important;box-shadow:none!important}
+#apply .fsub{margin-top:12px!important;border-radius:999px!important;background:#111116!important;color:#fff!important;max-width:360px!important}
+#apply .fn{text-align:left!important;color:rgba(17,17,22,.52)!important}
+[data-theme="dark"] #apply .fg input,[data-theme="dark"] #apply .fg select{color:#111116!important}
+
+/* Less motion and faster rendering outside the hero */
+.sect{content-visibility:auto;contain-intrinsic-size:800px}
+#services .sc,.fem-case,.creator-partnership-row,.fi{will-change:auto!important}
+
+@media(max-width:960px){
+  #services .srv-grid{grid-template-columns:1fr 1fr!important;grid-template-areas:"photoA photoA" "mediumA mediumB" "photoB photoB" "compactA compactB"!important}
+  #services .service-large{min-height:350px!important}
+  #services .service-medium{min-height:320px!important}
+  .creator-partnership-head{grid-template-columns:1fr!important;gap:18px!important}
+  .creator-partnership-row{grid-template-columns:44px 1fr!important;gap:10px 16px!important}
+  .creator-partnership-row p{grid-column:2!important}
+}
+@media(max-width:680px){
+  #services{padding-bottom:58px!important}
+  #services .srv-grid{display:flex!important;flex-direction:column!important;gap:12px!important}
+  #services .service-large{min-height:320px!important}
+  #services .service-medium{min-height:300px!important}
+  #services .service-compact{min-height:190px!important}
+  #services .service-compact .service-art{width:38%!important;height:112px!important}
+  #services .service-compact .service-copy{margin-left:38%!important;min-height:190px!important;padding:20px 16px!important}
+  #services .service-large .service-copy{max-width:88%!important;padding:22px!important}
+  #services .service-copy h3{font-size:19px!important}
+  #services .service-copy p{font-size:12px!important}
+  .vs .vc{width:136px!important;height:190px!important}
+  .creator-partnership{padding-top:64px!important;padding-bottom:64px!important}
+  .creator-partnership-row{padding:19px 2px!important}
+  .creator-partnership-row strong{font-size:16px!important}
+  .fem-case-context{font-size:12px!important}
+}
+
+
+/* Apply is intentionally neutral: no photo, no colored chapter, no form card */
+#apply{
+  margin:0!important;
+  border-radius:0!important;
+  background:var(--bg)!important;
+  color:var(--tx)!important;
+  padding-top:96px!important;
+  padding-bottom:96px!important;
+}
+#apply .sl{color:var(--tx3)!important}
+#apply .st,#apply .st span,#apply .ss,#apply .af{color:var(--tx)!important;-webkit-text-fill-color:currentColor!important;background:none!important}
+#apply .af-ic{width:auto!important;height:auto!important;border-radius:0!important;background:none!important;color:var(--tx)!important;font-size:13px!important}
+#apply .fg label{color:var(--tx3)!important}
+#apply .fg input,#apply .fg select{color:var(--tx)!important;border-bottom-color:var(--border2)!important}
+#apply .fg input::placeholder{color:var(--tx3)!important}
+#apply .fg input:focus,#apply .fg select:focus{border-bottom-color:var(--tx)!important}
+#apply .fsub{background:var(--tx)!important;color:var(--bg)!important;box-shadow:none!important}
+#apply .fsub:hover{transform:translateY(-2px)!important;box-shadow:0 12px 30px rgba(0,0,0,.12)!important}
+#apply .fn{color:var(--tx3)!important}
+
+
+
+/* ===== PRODUCT-SCENE SERVICES — calmer OnlyMonster-inspired rhythm ===== */
+.fem-spectrum-section{display:none!important}
+.om-services-section{padding-top:96px!important;padding-bottom:88px!important}
+.om-services-heading{text-align:left!important;display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,430px);align-items:end;column-gap:64px;margin-bottom:42px!important}
+.om-services-heading .sl,.om-services-heading .st{grid-column:1}.om-services-heading .st{margin-bottom:0!important}
+.om-services-intro{grid-column:2;grid-row:1 / span 2;margin:0 0 5px!important;max-width:420px!important}
+#services .om-services-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;grid-auto-rows:104px!important;grid-auto-flow:dense!important;gap:18px!important;margin-top:0!important}
+#services .om-service-card{grid-row:span 4;position:relative!important;padding:0!important;border:1px solid rgba(255,255,255,.10)!important;border-radius:26px!important;overflow:hidden!important;min-height:0!important;display:flex!important;flex-direction:column!important;box-shadow:0 22px 60px rgba(0,0,0,.18)!important;transform:none!important;background:#171820!important}
+#services .om-service-card.om-span-3{grid-row:span 3}
+#services .om-service-card.om-span-4{grid-row:span 4}
+#services .om-service-card:before,#services .om-service-card .sc-glow{display:none!important}
+#services .om-service-card:hover{transform:translateY(-5px)!important;box-shadow:0 30px 78px rgba(0,0,0,.27)!important;border-color:rgba(255,255,255,.20)!important}
+#services .om-service-purple{background:linear-gradient(135deg,#6f28e8 0%,#b839f0 52%,#e947c4 100%)!important;color:#fff!important}
+#services .om-service-coral{background:linear-gradient(135deg,#ff405f 0%,#ff703f 48%,#ff9a35 100%)!important;color:#fff!important}
+#services .om-service-cream{background:linear-gradient(135deg,#fff0aa 0%,#ffd76d 46%,#ffaf77 100%)!important;color:#111219!important}
+#services .om-service-dark{background:#191b24!important;color:#fff!important}
+#services .om-service-head{position:relative;z-index:3;display:grid;grid-template-columns:34px minmax(0,1fr);gap:12px;padding:25px 27px 14px;align-items:start}
+#services .om-service-index{font-size:10px;letter-spacing:1.8px;color:currentColor;opacity:.48;padding-top:5px}
+#services .om-service-head h3{font-family:'Manrope',sans-serif!important;font-size:clamp(22px,2vw,31px)!important;line-height:1.03!important;letter-spacing:-.04em!important;margin:0 0 9px!important;color:currentColor!important;font-weight:800!important}
+#services .om-service-head p{font-size:13px!important;line-height:1.55!important;color:currentColor!important;opacity:.68!important;max-width:540px!important;margin:0!important}
+#services .om-service-scene{position:relative!important;left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;height:auto!important;flex:1!important;min-height:0!important;margin:5px 22px 22px!important;border-radius:20px!important;overflow:hidden!important;transform:none!important;filter:none!important}
+#services .om-service-card:hover .om-service-scene{transform:none!important;filter:none!important}
+
+/* dashboard */
+.om-platform-scene{background:linear-gradient(145deg,rgba(20,20,31,.92),rgba(11,12,20,.98));border:1px solid rgba(255,255,255,.13);padding:27px 26px 22px;display:flex;align-items:flex-end}
+.om-app-window{background:#11131b;border:1px solid rgba(255,255,255,.11);box-shadow:0 22px 48px rgba(0,0,0,.28)}
+.om-app-main{width:86%;height:82%;border-radius:16px;overflow:hidden;transform:translateY(9px)}
+.om-window-bar{height:33px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:6px;padding:0 11px;font-size:8px;letter-spacing:1.2px;color:rgba(255,255,255,.34)}
+.om-window-bar i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.18)}.om-window-bar span{margin-left:auto}
+.om-app-layout{height:calc(100% - 33px);display:grid;grid-template-columns:48px 1fr}.om-app-sidebar{border-right:1px solid rgba(255,255,255,.07);padding:14px 12px;display:flex;flex-direction:column;gap:13px}.om-app-sidebar b{height:6px;border-radius:5px;background:rgba(255,255,255,.10)}.om-app-sidebar b:first-child{background:#975fff}
+.om-app-content{padding:18px}.om-metric-row{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.om-metric-row span{height:34px;border-radius:8px;background:linear-gradient(135deg,rgba(255,94,188,.17),rgba(102,209,255,.10));border:1px solid rgba(255,255,255,.06)}
+.om-line-chart{width:100%;height:58%;margin-top:12px}.om-line-chart .om-grid{fill:none;stroke:rgba(255,255,255,.07);stroke-width:1}.om-line-chart .om-line{fill:none;stroke:url(#omLineA);stroke-width:4;stroke-linecap:round}
+.om-app-float{position:absolute;right:16px;top:22px;width:148px;border-radius:14px;padding:14px;background:rgba(31,34,45,.94);backdrop-filter:blur(18px)}.om-float-label{font-size:8px;letter-spacing:1.1px;text-transform:uppercase;color:rgba(255,255,255,.45)}.om-app-float strong{display:block;font-size:22px;margin:5px 0 10px}.om-mini-bars{display:flex;align-items:end;gap:5px;height:38px}.om-mini-bars i{flex:1;border-radius:4px 4px 1px 1px;background:linear-gradient(180deg,#fe5eb8,#785cff)}.om-mini-bars i:nth-child(1){height:35%}.om-mini-bars i:nth-child(2){height:55%}.om-mini-bars i:nth-child(3){height:48%}.om-mini-bars i:nth-child(4){height:80%}.om-mini-bars i:nth-child(5){height:100%}
+
+/* notifications */
+.om-notification-scene{background:linear-gradient(135deg,#20232e,#161821);padding:18px 20px;display:grid;grid-template-columns:minmax(0,.75fr) minmax(260px,1.25fr);align-items:center;gap:18px;border:1px solid rgba(255,255,255,.08)}
+.om-notification-title{font-size:14px;line-height:1.35;color:rgba(255,255,255,.56)}.om-notification-title span{display:block;color:#ffd256;margin-bottom:8px}.om-notification-title b{display:block;font-size:20px;color:#fff}
+.om-notification-stack{display:flex;flex-direction:column;gap:8px}.om-note{display:grid;grid-template-columns:32px 1fr auto;align-items:center;gap:10px;background:#292c38;border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:10px 11px}.om-note i{font-style:normal;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:rgba(255,255,255,.08)}.om-note small{display:block;color:rgba(255,255,255,.46);font-size:8px;margin-bottom:2px}.om-note strong{display:block;font-size:11px;color:#fff}.om-note em{font-style:normal;font-size:8px;color:rgba(255,255,255,.34)}
+
+/* brand photo product preview */
+.om-brand-scene{background:linear-gradient(145deg,rgba(20,20,28,.93),rgba(38,24,28,.88));padding:20px;display:flex;align-items:flex-end}.om-brand-board{width:82%;height:100%;background:#f6edf1;border-radius:16px;display:grid;grid-template-columns:1fr 52px;overflow:hidden;box-shadow:0 22px 44px rgba(56,12,20,.28);transform:translateY(8px)}.om-brand-photo{background-image:url('assets/services/service-photo-1.webp');background-size:cover;background-position:center top}.om-brand-sidebar{padding:13px 10px;display:flex;flex-direction:column;gap:8px;align-items:center}.om-brand-sidebar span{width:28px;height:28px;border-radius:50%;background:#ff5eaa}.om-brand-sidebar span:nth-child(2){background:#8a63ff}.om-brand-sidebar span:nth-child(3){background:#66d5ff}.om-brand-sidebar b{margin-top:auto;writing-mode:vertical-rl;font-size:8px;letter-spacing:1.4px;color:#191923}.om-brand-ticket{position:absolute;right:14px;bottom:15px;width:160px;padding:13px;border-radius:13px;background:rgba(23,24,31,.92);color:#fff;border:1px solid rgba(255,255,255,.13);box-shadow:0 16px 36px rgba(0,0,0,.25)}.om-brand-ticket small{display:block;font-size:8px;color:rgba(255,255,255,.48);margin-bottom:4px}.om-brand-ticket strong{font-size:12px}
+
+/* roadmap */
+.om-roadmap-scene{background:linear-gradient(145deg,#222530,#14161d);padding:24px}.om-roadmap-shell{height:100%;border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:18px;background:#181a22}.om-roadmap-top{display:flex;justify-content:space-between;font-size:9px;letter-spacing:1.1px;text-transform:uppercase;color:rgba(255,255,255,.46)}.om-roadmap-top b{color:#ff5fb3}.om-roadmap-shell svg{width:100%;height:66%;margin-top:12px}.om-road-grid{fill:none;stroke:rgba(255,255,255,.07);stroke-width:1}.om-road-line{fill:none;stroke:url(#omRoad);stroke-width:5;stroke-linecap:round}.om-roadmap-shell circle{fill:#181a22;stroke:#ff62b6;stroke-width:4}.om-roadmap-tags{display:flex;justify-content:space-between;gap:8px}.om-roadmap-tags span{font-size:8px;color:rgba(255,255,255,.42)}
+
+/* content plan */
+.om-content-scene{background:linear-gradient(145deg,rgba(255,255,255,.28),rgba(255,255,255,.10));padding:20px;color:#111219}.om-content-photo{position:absolute;left:18px;top:18px;bottom:18px;width:49%;border-radius:15px;background-image:url('assets/services/service-photo-2.webp');background-size:cover;background-position:center top;box-shadow:0 18px 38px rgba(109,56,24,.22)}.om-content-calendar{position:absolute;right:18px;top:38px;width:48%;padding:15px;border-radius:15px;background:rgba(255,255,255,.85);box-shadow:0 18px 38px rgba(109,56,24,.16)}.om-calendar-title{display:flex;justify-content:space-between;font-size:8px;letter-spacing:1px;text-transform:uppercase}.om-calendar-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:13px}.om-calendar-grid i{aspect-ratio:1;border-radius:6px;background:#eee9e0}.om-calendar-grid .is-hot{background:#ff62ae}.om-calendar-grid .is-blue{background:#62cfff}.om-content-chip{position:absolute;right:26px;bottom:22px;padding:9px 12px;border-radius:999px;background:#181920;color:#fff;font-size:9px;letter-spacing:.7px}
+
+/* analytics */
+.om-analytics-scene{background:linear-gradient(145deg,#22242e,#14161d);padding:18px;display:grid;grid-template-columns:1.25fr .75fr;gap:12px}.om-analytics-main,.om-analytics-side{border-radius:14px;background:#11131a;border:1px solid rgba(255,255,255,.08);padding:15px}.om-analytics-main small{display:block;font-size:8px;color:rgba(255,255,255,.43);margin-bottom:4px}.om-analytics-main strong{font-size:24px}.om-bars{display:flex;align-items:end;gap:6px;height:70px;margin-top:12px}.om-bars i{flex:1;border-radius:5px 5px 1px 1px;background:linear-gradient(180deg,#ff5aae,#755cff)}.om-bars i:nth-child(1){height:22%}.om-bars i:nth-child(2){height:38%}.om-bars i:nth-child(3){height:52%}.om-bars i:nth-child(4){height:47%}.om-bars i:nth-child(5){height:72%}.om-bars i:nth-child(6){height:84%}.om-bars i:nth-child(7){height:100%;background:linear-gradient(180deg,#65d7ff,#685cff)}.om-analytics-side{display:grid;place-items:center;position:relative}.om-donut{width:82px;height:82px;border-radius:50%;background:conic-gradient(#ff57ad 0 38%,#6a5cff 38% 68%,#62d4ff 68% 100%);position:relative}.om-donut:after{content:'';position:absolute;inset:18px;border-radius:50%;background:#11131a}.om-analytics-side span{position:absolute;font-size:13px;font-weight:800}
+
+[data-theme="light"] #services .om-service-dark{background:#1c1e27!important;color:#fff!important}
+[data-theme="light"] #services .om-service-card{border-color:rgba(24,18,34,.12)!important}
+
+@media(max-width:1020px){
+  .om-services-heading{grid-template-columns:1fr;row-gap:18px}.om-services-intro{grid-column:1;grid-row:auto}
+  #services .om-services-grid{grid-template-columns:1fr!important;grid-auto-rows:auto!important}
+  #services .om-service-card,#services .om-service-card.om-span-3,#services .om-service-card.om-span-4{grid-row:auto!important;min-height:430px!important}
+  #services .om-service-card.om-span-3{min-height:390px!important}
+}
+@media(max-width:680px){
+  .om-services-section{padding-top:78px!important;padding-bottom:70px!important}
+  .om-services-heading{margin-bottom:30px!important}
+  #services .om-services-grid{gap:13px!important}
+  #services .om-service-card,#services .om-service-card.om-span-3,#services .om-service-card.om-span-4{min-height:390px!important;border-radius:22px!important}
+  #services .om-service-card.om-span-3{min-height:350px!important}
+  #services .om-service-head{padding:21px 18px 12px;grid-template-columns:26px 1fr;gap:8px}
+  #services .om-service-head h3{font-size:23px!important}.om-service-head p{font-size:12px!important}
+  #services .om-service-scene{margin:4px 14px 14px!important;border-radius:16px!important}
+  .om-app-float{width:116px;right:8px;top:13px}.om-app-main{width:92%}.om-notification-scene{grid-template-columns:1fr;padding:14px}.om-notification-title{display:none}.om-brand-board{width:90%}.om-brand-ticket{width:135px}.om-content-photo{width:54%}.om-content-calendar{width:50%;right:10px}.om-roadmap-scene{padding:15px}.om-roadmap-tags span{font-size:7px}.om-analytics-scene{grid-template-columns:1fr .7fr;padding:12px}.om-donut{width:62px;height:62px}.om-donut:after{inset:14px}
+}
+
+
+
+/* ===== TRANSPARENT SERVICE CUTOUTS + COMPACT CHAPTERS ===== */
+/* Personal Brand and Content Plan use dedicated transparent images, not site photos. */
+#services .om-brand-scene{
+  background:linear-gradient(145deg,#22232d 0%,#33212d 55%,#171820 100%)!important;
+  padding:18px!important;
+}
+#services .om-brand-board{
+  position:relative!important;
+  display:block!important;
+  width:84%!important;
+  height:100%!important;
+  overflow:hidden!important;
+  background:
+    radial-gradient(circle at 34% 35%,rgba(255,95,174,.34),transparent 37%),
+    linear-gradient(145deg,#f4e7ef 0%,#e6d9ff 52%,#bddff4 100%)!important;
+}
+#services .om-brand-board:before{
+  content:'';
+  position:absolute;
+  inset:14px 54px 14px 14px;
+  border:1px solid rgba(24,25,35,.13);
+  border-radius:14px;
+  background:
+    linear-gradient(rgba(25,25,34,.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(25,25,34,.06) 1px,transparent 1px);
+  background-size:28px 28px;
+}
+#services .om-brand-cutout{
+  position:absolute;
+  z-index:2;
+  left:-2%;
+  bottom:-1%;
+  width:79%;
+  height:98%;
+  display:block;
+  object-fit:contain;
+  object-position:left bottom;
+  filter:drop-shadow(0 22px 24px rgba(53,24,43,.24));
+  pointer-events:none;
+}
+#services .om-brand-sidebar{position:absolute;z-index:3;right:0;top:0;bottom:0;width:52px;background:rgba(255,255,255,.52);backdrop-filter:blur(10px)}
+#services .om-brand-ticket{z-index:4}
+
+#services .om-content-scene{
+  background:
+    radial-gradient(circle at 23% 26%,rgba(255,102,177,.32),transparent 34%),
+    linear-gradient(145deg,#f5e8c5 0%,#edd5e4 48%,#c8d9ff 100%)!important;
+  overflow:hidden!important;
+}
+#services .om-content-scene:before{
+  content:'';
+  position:absolute;
+  left:18px;
+  top:18px;
+  bottom:18px;
+  width:50%;
+  border-radius:15px;
+  border:1px solid rgba(35,30,32,.12);
+  background:linear-gradient(145deg,rgba(255,255,255,.34),rgba(255,255,255,.08));
+}
+#services .om-content-cutout{
+  position:absolute;
+  z-index:2;
+  left:0;
+  bottom:-2%;
+  width:56%;
+  height:99%;
+  display:block;
+  object-fit:contain;
+  object-position:left bottom;
+  filter:drop-shadow(0 20px 24px rgba(76,38,53,.22));
+  pointer-events:none;
+}
+#services .om-content-calendar,#services .om-content-chip{z-index:3}
+
+/* Narrower and shorter colored chapters below Services. */
+.fem-results,.fem-process,.fem-manifesto-section,#apply{
+  width:min(1380px,calc(100% - 64px))!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+  margin-bottom:68px!important;
+  border-radius:38px!important;
+}
+.fem-results .cont,.fem-process .cont,.fem-manifesto-section .cont,#apply .cont{
+  max-width:1190px!important;
+}
+.fem-results{
+  padding-top:76px!important;
+  padding-bottom:76px!important;
+}
+.fem-results:before{
+  font-size:clamp(84px,13vw,190px)!important;
+  top:30px!important;
+  right:4px!important;
+  letter-spacing:-10px!important;
+}
+.fem-results-head{
+  margin-bottom:34px!important;
+  gap:28px!important;
+}
+.fem-results .st{font-size:clamp(36px,4.2vw,60px)!important}
+.fem-results-intro{font-size:14px!important;line-height:1.58!important;max-width:310px!important}
+.fem-case{
+  min-height:490px!important;
+  border-radius:28px!important;
+  grid-template-columns:1.08fr .92fr!important;
+}
+.fem-case-data{padding:48px 42px!important}
+.fem-case-number{font-size:clamp(54px,6vw,84px)!important;margin:18px 0 14px!important}
+.fem-case-data p{font-size:14px!important;line-height:1.58!important}
+.fem-case-chart{height:94px!important;margin:26px 0!important}
+.fem-case-rings{width:122px!important;height:122px!important;margin:23px 0!important}
+.fem-case-timeline{margin:28px 0!important}
+.fem-case-no{font-size:66px!important}
+
+.fem-process{
+  padding-top:82px!important;
+  padding-bottom:82px!important;
+}
+.fem-process-grid{gap:54px!important}
+.fem-process-screen{height:500px!important;border-radius:28px!important}
+.fem-process-tabs{margin-top:30px!important}
+.fem-process-tabs button{padding:16px 0!important}
+
+.fem-manifesto-section{
+  padding-top:82px!important;
+  padding-bottom:82px!important;
+}
+.fem-manifesto-head{margin-bottom:34px!important}
+.fem-manifesto-stage{min-height:560px!important;border-radius:28px!important}
+.fem-manifesto-media{min-height:560px!important}
+.fem-manifesto-line{min-height:112px!important;padding:21px 24px!important}
+.fem-manifesto-word{font-size:clamp(62px,7vw,110px)!important}
+
+#apply{
+  padding-top:78px!important;
+  padding-bottom:78px!important;
+  margin-bottom:30px!important;
+}
+#apply .apply-lay{gap:48px!important}
+
+@media(max-width:1020px){
+  #services .om-brand-cutout{width:76%}
+  #services .om-content-cutout{width:58%}
+  .fem-results,.fem-process,.fem-manifesto-section,#apply{width:calc(100% - 32px)!important;border-radius:30px!important;margin-bottom:48px!important}
+  .fem-case{grid-template-columns:1fr!important;min-height:0!important}
+  .fem-case-visual{min-height:390px!important}
+  .fem-case-data{padding:38px 30px!important}
+  .fem-process-screen{height:460px!important}
+  .fem-manifesto-stage{min-height:0!important}
+  .fem-manifesto-media{min-height:470px!important}
+}
+@media(max-width:680px){
+  #services .om-brand-board{width:91%!important}
+  #services .om-brand-cutout{width:83%;height:94%}
+  #services .om-content-cutout{width:64%;height:92%}
+  #services .om-content-calendar{width:48%!important;right:10px!important}
+  .fem-results,.fem-process,.fem-manifesto-section,#apply{width:calc(100% - 16px)!important;border-radius:24px!important;margin-bottom:34px!important}
+  .fem-results,.fem-process,.fem-manifesto-section,#apply{padding-top:62px!important;padding-bottom:62px!important}
+  .fem-results:before{font-size:78px!important;top:20px!important;letter-spacing:-5px!important}
+  .fem-results .st{font-size:38px!important}
+  .fem-case-visual{min-height:310px!important}
+  .fem-case-data{padding:30px 20px!important}
+  .fem-case-number{font-size:56px!important}
+  .fem-process-screen{height:420px!important}
+  .fem-manifesto-media{min-height:390px!important}
+  .fem-manifesto-line{min-height:100px!important;padding:18px 18px!important}
+}
+
+
+
+/* ===== CUTOUT-ONLY SERVICE CARDS — NO FRAME INSIDE FRAME ===== */
+/* Four-service composition after removing Personal Brand and Content Plan cards. */
+#services .om-services-grid{align-items:stretch!important}
+#services .om-service-card{min-width:0}
+
+/* The Personal Brand and Content Plan cutouts sit directly on the colored card. */
+#services .om-brand-scene.om-cutout-only,
+#services .om-content-scene.om-cutout-only{
+  position:relative!important;
+  flex:1!important;
+  min-height:250px!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  background-image:none!important;
+  box-shadow:none!important;
+  overflow:hidden!important;
+  isolation:auto!important;
+}
+#services .om-brand-scene.om-cutout-only:before,
+#services .om-brand-scene.om-cutout-only:after,
+#services .om-content-scene.om-cutout-only:before,
+#services .om-content-scene.om-cutout-only:after{
+  display:none!important;
+  content:none!important;
+  background:none!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+#services .om-cutout-only .om-brand-cutout,
+#services .om-cutout-only .om-content-cutout{
+  position:absolute!important;
+  z-index:2!important;
+  display:block!important;
+  margin:0!important;
+  padding:0!important;
+  max-width:none!important;
+  object-fit:contain!important;
+  pointer-events:none!important;
+  opacity:1!important;
+}
+#services .om-brand-scene.om-cutout-only .om-brand-cutout{
+  right:1.5%!important;
+  left:auto!important;
+  bottom:-2%!important;
+  width:70%!important;
+  height:108%!important;
+  object-position:right bottom!important;
+  filter:drop-shadow(0 24px 24px rgba(37,21,42,.24))!important;
+}
+#services .om-content-scene.om-cutout-only .om-content-cutout{
+  left:2%!important;
+  right:auto!important;
+  bottom:-3%!important;
+  width:72%!important;
+  height:110%!important;
+  object-position:left bottom!important;
+  filter:drop-shadow(0 24px 24px rgba(69,39,45,.20))!important;
+}
+#services .om-cutout-only.cutout-missing{
+  min-height:250px!important;
+}
+#services .om-cutout-only.cutout-missing .om-brand-cutout,
+#services .om-cutout-only.cutout-missing .om-content-cutout{
+  display:none!important;
+}
+/* Hide all remnants of the removed nested product interfaces. */
+#services .om-brand-board,
+#services .om-brand-sidebar,
+#services .om-brand-ticket,
+#services .om-content-calendar,
+#services .om-content-chip{
+  display:none!important;
+}
+@media(max-width:1020px){
+  #services .om-brand-scene.om-cutout-only,
+  #services .om-content-scene.om-cutout-only{min-height:300px!important}
+  #services .om-brand-scene.om-cutout-only .om-brand-cutout{width:66%!important;height:108%!important}
+  #services .om-content-scene.om-cutout-only .om-content-cutout{width:68%!important;height:108%!important}
+}
+@media(max-width:680px){
+  #services .om-brand-scene.om-cutout-only,
+  #services .om-content-scene.om-cutout-only{min-height:235px!important}
+  #services .om-brand-scene.om-cutout-only .om-brand-cutout{right:-4%!important;width:82%!important;height:104%!important}
+  #services .om-content-scene.om-cutout-only .om-content-cutout{left:-4%!important;width:84%!important;height:105%!important}
+}
+
 </style>
 
 </head>
@@ -3612,8 +4214,6 @@ html[lang="en"] .fem-video-caption small,body.en-mode .fem-video-caption small{l
   </div>
 </div>
 
-<div class="cur" id="cur"></div>
-<div class="cur-r" id="curR"></div>
 <div class="spb" id="spb"></div>
 
 <div class="bg-c">
@@ -3676,13 +4276,6 @@ html[lang="en"] .fem-video-caption small,body.en-mode .fem-video-caption small{l
 <!-- ══ HERO ══ -->
 <section class="hero">
 
-  <div class="hero-mobile-bg" aria-hidden="true">
-    <video class="hero-mobile-video" autoplay muted loop playsinline preload="auto" webkit-playsinline poster="assets/hero-mobile-poster.jpg?v=9">
-      <source src="videos/hero-mobile.mp4?v=9" type="video/mp4"/>
-    </video>
-    <div class="hero-mobile-bottom-gradient"></div>
-  </div>
-
 <div class="hero-in cont">
     <div class="h-left">
       <div class="eyebrow" id="heroEyebrow"><div class="edot"></div><span data-t="hero_badge">OnlyFans & Fansly Management</span></div>
@@ -3700,72 +4293,16 @@ html[lang="en"] .fem-video-caption small,body.en-mode .fem-video-caption small{l
     </div>
 
     <div class="h-right" id="heroRight">
-      <div class="fem-hero-scene" data-tilt-scene>
-        <div class="fem-hero-aura"></div>
-        <div class="fem-orbit fem-orbit-a"></div>
-        <div class="fem-orbit fem-orbit-b"></div>
-        <div class="fem-hero-panel fem-hero-panel-back fem-glass" data-depth="0.35">
-          <div class="fem-panel-head"><span>Audience pulse</span><b>LIVE</b></div>
-          <svg class="fem-mini-line" viewBox="0 0 300 100" aria-hidden="true">
-            <defs><linearGradient id="heroLine" x1="0" x2="1"><stop stop-color="#ff4fa3"/><stop offset="1" stop-color="#52c7ff"/></linearGradient></defs>
-            <path class="fem-line-track" d="M6,84 C48,78 54,55 91,62 C128,68 137,30 177,43 C215,55 231,19 294,12"/>
-            <path class="fem-line-live" d="M6,84 C48,78 54,55 91,62 C128,68 137,30 177,43 C215,55 231,19 294,12"/>
-          </svg>
-          <div class="fem-panel-metrics"><span><b>+38%</b> Reach</span><span><b>2.7×</b> Growth</span></div>
-        </div>
-        <div class="fem-hero-still fem-glass" data-depth="0.58">
-          <div class="fem-hero-still-media has-local-photo" style="background-image:url('assets/photos/about-1.webp')"></div>
-          <div class="fem-hero-still-copy"><small>creator editorial</small><strong>Image, positioning & trust.</strong></div>
-        </div>
-        <div class="fem-video-shell" data-depth="1">
-          <video class="hero-video-example" autoplay muted loop playsinline preload="auto" webkit-playsinline poster="assets/hero-poster.jpg?v=9">
-            <source src="videos/hero.mp4?v=9" type="video/mp4"/>
-          </video>
-          <div class="fem-video-vignette"></div>
-          <div class="fem-video-topbar fem-glass"><i></i><span>FEM / CREATOR 04</span><em>18+</em></div>
-          <div class="fem-video-caption"><small>PRIVATE CREATOR MANAGEMENT</small><strong>Built to scale.</strong></div>
-        </div>
-        <div class="fem-float-card fem-float-card-one fem-glass" data-depth="1.4">
-          <div class="fem-avatar-ring"><span></span></div><div><small>NEW SUBSCRIBERS</small><b>+184</b></div>
-        </div>
-        <div class="fem-float-card fem-float-card-two fem-glass" data-depth="0.8">
-          <div class="fem-spark"></div><div><small>REVENUE SIGNAL</small><b>+$3.2K</b></div>
-        </div>
-        <div class="fem-scroll-cue"><span>SCROLL</span><i></i></div>
+      <div class="hero-video-only">
+        <video class="hero-video-example" autoplay muted loop playsinline preload="auto" webkit-playsinline poster="assets/hero-poster.jpg?v=9">
+          <source src="videos/hero-mobile.mp4?v=9" type="video/mp4" media="(max-width: 680px)"/>
+          <source src="videos/hero.mp4?v=9" type="video/mp4"/>
+        </video>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══ COLOR MANIFESTO ══ -->
-<section class="fem-spectrum-section" aria-label="FEM Agency approach">
-  <div class="cont">
-    <div class="fem-spectrum-grid gsap-fade">
-      <article class="fem-spectrum-card fem-spectrum-pink">
-        <div class="fem-spectrum-meta"><span>01</span><b>Strategy</b></div>
-        <h3>Сначала смысл.<br>Потом масштаб.</h3>
-        <p>Позиционирование, образ и система роста до первого рекламного запуска.</p>
-        <div class="fem-spectrum-link">Build the direction <i>↗</i></div>
-      </article>
-      <article class="fem-spectrum-card fem-spectrum-photo">
-        <img src="assets/visual/photo-4.webp" alt="FEM Agency creator editorial"/>
-        <div class="fem-spectrum-photo-shade"></div>
-        <div class="fem-spectrum-meta"><span>02</span><b>Content</b></div>
-        <div class="fem-spectrum-photo-copy">
-          <h3>Контент, который<br>хочется открыть.</h3>
-          <p>Не поток публикаций, а узнаваемая визуальная история.</p>
-        </div>
-      </article>
-      <article class="fem-spectrum-card fem-spectrum-blue">
-        <div class="fem-spectrum-meta"><span>03</span><b>Growth</b></div>
-        <div class="fem-spectrum-number">×3.2</div>
-        <h3>Рост без хаоса.</h3>
-        <p>Каждое действие связано с понятной целью: охват, конверсия или удержание.</p>
-        <div class="fem-spectrum-track"><i></i></div>
-      </article>
-    </div>
-  </div>
-</section>
 
 <!-- ══ PLATFORMS ══ -->
 <section class="sect" id="platforms">
@@ -3832,139 +4369,104 @@ html[lang="en"] .fem-video-caption small,body.en-mode .fem-video-caption small{l
 </section>
 
 <!-- ══ SERVICES ══ -->
-<section class="sect" id="services">
+<section class="sect om-services-section" id="services">
   <div class="cont">
-    <div class="gsap-fade" style="text-align:center;margin-bottom:48px">
+    <div class="gsap-fade om-services-heading">
       <div class="sl" data-t="sv_label">Услуги</div>
       <h2 class="st"><span data-t="sv_h2a">Полное сопровождение</span><br><span class="gt" data-t="sv_h2b">вашего бренда</span></h2>
+      <p class="ss om-services-intro" data-t="services_intro">Каждое направление — часть одной системы: от позиционирования и контента до трафика, аналитики и роста дохода.</p>
     </div>
 
-    <div class="srv-grid">
-      <!-- 01 — OnlyFans & Fansly operating system -->
-      <article class="sc gsap-card" style="--di:0s">
-        <div class="sc-glow"></div>
-        <div class="service-topline"><span class="service-mark"></span><span class="service-no">01 · Platform system</span></div>
-        <div class="service-art service-art-hybrid" aria-hidden="true">
-          <div class="service-photo service-photo-right has-local-photo" style="background-image:url('assets/photos/creator-1.webp')"></div>
-          <div class="service-photo-shade"></div>
-          <div class="service-chip chip-top">premium account</div>
-          <div class="os-window os-main">
-            <div class="os-main-head"><i></i><i></i><i></i></div>
-            <div class="os-layout">
-              <div class="os-nav"><b></b><b></b><b></b><b></b><b></b></div>
-              <div class="os-content">
-                <div class="os-metrics"><span></span><span></span><span></span></div>
-                <svg class="os-chart" viewBox="0 0 230 80" preserveAspectRatio="none">
-                  <path class="gridline" d="M0 16H230M0 40H230M0 64H230"/>
-                  <path class="line" d="M2 68 C28 63,36 66,58 50 S92 57,111 39 S146 47,164 25 S198 31,228 8"/>
+    <div class="srv-grid om-services-grid">
+      <!-- 01 / large purple product scene -->
+      <article class="sc gsap-card om-service-card om-service-purple om-span-4" style="--di:0s">
+        <div class="om-service-head">
+          <span class="om-service-index">01</span>
+          <div>
+            <h3 data-t="s1h">OnlyFans & Fansly</h3>
+            <p data-t="s1p">Контент-план, воронки продаж, монетизация и ежедневное сопровождение для максимального дохода.</p>
+          </div>
+        </div>
+        <div class="om-service-scene om-platform-scene" aria-hidden="true">
+          <div class="om-app-window om-app-main">
+            <div class="om-window-bar"><i></i><i></i><i></i><span>FEM workspace</span></div>
+            <div class="om-app-layout">
+              <div class="om-app-sidebar"><b></b><b></b><b></b><b></b><b></b></div>
+              <div class="om-app-content">
+                <div class="om-metric-row"><span></span><span></span><span></span></div>
+                <svg class="om-line-chart" viewBox="0 0 520 150" preserveAspectRatio="none">
+                  <defs><linearGradient id="omLineA" x1="0" x2="1"><stop stop-color="#ff62bd"/><stop offset="1" stop-color="#67d5ff"/></linearGradient></defs>
+                  <path class="om-grid" d="M0 30H520M0 75H520M0 120H520"/>
+                  <path class="om-line" d="M6 132 C56 126 74 112 112 115 S174 91 218 96 S287 65 332 71 S402 42 446 47 S486 23 514 18"/>
                 </svg>
               </div>
             </div>
           </div>
-          <div class="os-window os-side">
-            <div class="os-profile"><div class="os-avatar"></div><i></i><i></i><i></i><div class="os-pill"></div></div>
+          <div class="om-app-window om-app-float">
+            <span class="om-float-label" data-t="metric_conversion">Конверсия</span>
+            <strong>+38.4%</strong>
+            <div class="om-mini-bars"><i></i><i></i><i></i><i></i><i></i></div>
           </div>
         </div>
-        <div class="service-copy"><h3 data-t="s1h">OnlyFans & Fansly</h3><p data-t="s1p">Контент-план, воронки продаж, монетизация и ежедневное сопровождение для максимального дохода.</p></div>
       </article>
 
-      <!-- 02 — social promotion -->
-      <article class="sc gsap-card" style="--di:.07s">
-        <div class="sc-glow"></div>
-        <div class="service-topline"><span class="service-mark"></span><span class="service-no">02 · Audience engine</span></div>
-        <div class="service-art service-art-photo" aria-hidden="true">
-          <div class="service-photo service-photo-full has-local-photo" style="background-image:url('assets/visual/photo-4.webp')"></div>
-          <div class="service-photo-shade warm"></div>
-          <div class="service-chip chip-top">cross-platform traffic</div>
-          <div class="growth-stage">
-            <div class="growth-ring"></div>
-            <div class="growth-core"></div>
-            <div class="growth-node n1">IG</div><div class="growth-node n2">TT</div><div class="growth-node n3">X</div><div class="growth-node n4">RD</div>
-            <div class="growth-counter"><span>Audience growth</span><strong>+184%</strong></div>
+      <!-- 02 / compact dark notifications -->
+      <article class="sc gsap-card om-service-card om-service-dark om-span-3" style="--di:.07s">
+        <div class="om-service-head om-service-head-split">
+          <span class="om-service-index">02</span>
+          <div>
+            <h3 data-t="s2h">Продвижение</h3>
+            <p data-t="s2p">Instagram, TikTok, X, Telegram, Reddit — кросс-платформенный рост аудитории и стабильный приток подписчиков.</p>
           </div>
         </div>
-        <div class="service-copy"><h3 data-t="s2h">Продвижение</h3><p data-t="s2p">Instagram, TikTok, X, Telegram, Reddit — кросс-платформенный рост аудитории и стабильный приток подписчиков.</p></div>
+        <div class="om-service-scene om-notification-scene" aria-hidden="true">
+          <div class="om-notification-title"><span>●</span><b data-t="svc_growth_label">Рост аудитории</b></div>
+          <div class="om-notification-stack">
+            <div class="om-note"><i>↗</i><span><small>Instagram</small><strong>+42K reach</strong></span><em>now</em></div>
+            <div class="om-note"><i>◎</i><span><small>TikTok</small><strong>3.8M views</strong></span><em>2m</em></div>
+            <div class="om-note"><i>✦</i><span><small>Retention</small><strong>+31% returning</strong></span><em>8m</em></div>
+          </div>
+        </div>
       </article>
-
-      <!-- 03 — personal brand -->
-      <article class="sc gsap-card" style="--di:.14s">
-        <div class="sc-glow"></div>
-        <div class="service-topline"><span class="service-mark"></span><span class="service-no">03 · Brand identity</span></div>
-        <div class="service-art service-art-photo" aria-hidden="true">
-          <div class="service-photo service-photo-full has-local-photo" style="background-image:url('assets/photos/about-1.webp')"></div>
-          <div class="service-photo-shade cool"></div>
-          <div class="service-chip chip-top dark">editorial identity</div>
-          <div class="brand-board brand-board-lite">
-            <div class="brand-sheet back"></div>
-            <div class="brand-sheet front"><div class="brand-face"></div><div class="brand-title">FEM / CREATOR 01</div></div>
-            <div class="brand-type">Aa · Syne</div>
-            <div class="brand-swatches"><i></i><i></i><i></i></div>
+<!-- 03 / tall dark roadmap scene -->
+      <article class="sc gsap-card om-service-card om-service-dark om-span-4" style="--di:.21s">
+        <div class="om-service-head">
+          <span class="om-service-index">03</span>
+          <div>
+            <h3 data-t="s4h">Стратегия роста</h3>
+            <p data-t="s4p">Анализ конкурентов, определение ниши и дорожная карта на 90 дней с чёткими KPI.</p>
           </div>
         </div>
-        <div class="service-copy"><h3 data-t="s3h">Личный бренд</h3><p data-t="s3p">Уникальный образ и визуальный стиль, который запоминается и выделяет среди конкурентов.</p></div>
+        <div class="om-service-scene om-roadmap-scene" aria-hidden="true">
+          <div class="om-roadmap-shell">
+            <div class="om-roadmap-top"><span data-t="svc_roadmap_label">План роста</span><b data-t="svc_90days">90 дней</b></div>
+            <svg viewBox="0 0 600 230" preserveAspectRatio="none">
+              <defs><linearGradient id="omRoad" x1="0" x2="1"><stop stop-color="#8b6bff"/><stop offset=".5" stop-color="#ff5aaf"/><stop offset="1" stop-color="#58d4ff"/></linearGradient></defs>
+              <path class="om-road-grid" d="M0 46H600M0 115H600M0 184H600"/>
+              <path class="om-road-line" d="M6 198 C74 190 96 178 145 180 S236 151 286 158 S366 108 423 118 S505 67 590 36"/>
+              <circle cx="145" cy="180" r="6"/><circle cx="286" cy="158" r="6"/><circle cx="423" cy="118" r="6"/><circle cx="590" cy="36" r="6"/>
+            </svg>
+            <div class="om-roadmap-tags"><span data-t="svc_positioning">Позиционирование</span><span data-t="svc_acquisition">Привлечение</span><span data-t="svc_scale">Масштаб</span></div>
+          </div>
+        </div>
       </article>
-
-      <!-- 04 — growth strategy -->
-      <article class="sc gsap-card" style="--di:.21s">
-        <div class="sc-glow"></div>
-        <div class="service-topline"><span class="service-mark"></span><span class="service-no">04 · 90-day roadmap</span></div>
-        <div class="service-art service-art-hybrid" aria-hidden="true">
-          <div class="service-photo service-photo-left has-local-photo" style="background-image:url('assets/visual/photo-2.webp')"></div>
-          <div class="service-photo-shade purple"></div>
-          <div class="service-chip chip-top">90-day system</div>
-          <div class="roadmap-board">
-            <div class="roadmap-head"><span>Growth roadmap</span><span>90 days</span></div>
-            <div class="roadmap-body">
-              <svg class="roadmap-line" viewBox="0 0 420 145" preserveAspectRatio="none">
-                <defs><linearGradient id="roadGradient" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7c5cff"/><stop offset=".5" stop-color="#ff4fa3"/><stop offset="1" stop-color="#53c9ff"/></linearGradient></defs>
-                <path class="axis" d="M0 30H420M0 75H420M0 120H420"/>
-                <path class="path" d="M8 124 C54 119,70 111,105 108 S164 104,194 82 S248 79,278 56 S344 61,412 12"/>
-                <circle class="point" cx="105" cy="108" r="5"/><circle class="point" cx="194" cy="82" r="5"/><circle class="point" cx="278" cy="56" r="5"/><circle class="point" cx="412" cy="12" r="5"/>
-              </svg>
-              <span class="roadmap-tag t1">Positioning</span><span class="roadmap-tag t2">Acquisition</span><span class="roadmap-tag t3">Scale</span>
-            </div>
+<!-- 04 / compact dark analytics -->
+      <article class="sc gsap-card om-service-card om-service-dark om-span-3" style="--di:.35s">
+        <div class="om-service-head">
+          <span class="om-service-index">04</span>
+          <div>
+            <h3 data-t="s6h">Аналитика</h3>
+            <p data-t="s6p">Еженедельные отчёты, A/B тестирование и оптимизация воронки для максимальной конверсии.</p>
           </div>
         </div>
-        <div class="service-copy"><h3 data-t="s4h">Стратегия роста</h3><p data-t="s4p">Анализ конкурентов, определение ниши и дорожная карта на 90 дней с чёткими KPI.</p></div>
-      </article>
-
-      <!-- 05 — content plan -->
-      <article class="sc gsap-card" style="--di:.28s">
-        <div class="sc-glow"></div>
-        <div class="service-topline"><span class="service-mark"></span><span class="service-no">05 · Content system</span></div>
-        <div class="service-art service-art-collage" aria-hidden="true">
-          <div class="service-collage">
-            <div class="service-collage-shot has-local-photo" style="background-image:url('assets/visual/photo-3.webp')"></div>
-            <div class="service-collage-shot has-local-photo" style="background-image:url('assets/visual/photo-7.webp')"></div>
+        <div class="om-service-scene om-analytics-scene" aria-hidden="true">
+          <div class="om-analytics-main">
+            <small data-t="svc_revenue_performance">Динамика дохода</small>
+            <strong>+37.8%</strong>
+            <div class="om-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
           </div>
-          <div class="service-chip chip-top dark">shoot plan · reels · stories</div>
-          <div class="calendar-ui">
-            <div class="calendar-head"><i></i><i></i><i></i></div>
-            <div class="calendar-grid">
-              <span class="calendar-day"><i class="calendar-chip"></i></span><span class="calendar-day"><i class="calendar-chip"></i></span><span class="calendar-day"><i class="calendar-chip"></i></span><span class="calendar-day"><i class="calendar-chip"></i></span><span class="calendar-day"><i class="calendar-chip"></i></span><span class="calendar-day"><i class="calendar-chip"></i></span><span class="calendar-day"><i class="calendar-chip"></i></span>
-              <span class="calendar-day"><i class="calendar-chip"></i></span><span class="calendar-day"><i class="calendar-chip"></i></span><span class="calendar-day"><i class="calendar-chip"></i></span><span class="calendar-day"><i class="calendar-chip"></i></span><span class="calendar-day"><i class="calendar-chip"></i></span><span class="calendar-day"><i class="calendar-chip"></i></span><span class="calendar-day"><i class="calendar-chip"></i></span>
-              <span class="calendar-day"><i class="calendar-chip"></i></span><span class="calendar-day"><i class="calendar-chip"></i></span><span class="calendar-day"><i class="calendar-chip"></i></span><span class="calendar-day"><i class="calendar-chip"></i></span><span class="calendar-day"><i class="calendar-chip"></i></span><span class="calendar-day"><i class="calendar-chip"></i></span><span class="calendar-day"><i class="calendar-chip"></i></span>
-            </div>
-          </div>
-          <div class="reel-card"></div>
+          <div class="om-analytics-side"><div class="om-donut"></div><span>72%</span></div>
         </div>
-        <div class="service-copy"><h3 data-t="s5h">Контент-план</h3><p data-t="s5p">Постинг-план, скрипты, идеи для Stories и помощь в оформлении контента под каждую платформу.</p></div>
-      </article>
-
-      <!-- 06 — analytics -->
-      <article class="sc gsap-card" style="--di:.35s">
-        <div class="sc-glow"></div>
-        <div class="service-topline"><span class="service-mark"></span><span class="service-no">06 · Performance data</span></div>
-        <div class="service-art service-art-photo" aria-hidden="true">
-          <div class="service-photo service-photo-full has-local-photo" style="background-image:url('assets/photos/creator-3.webp')"></div>
-          <div class="service-photo-shade dark"></div>
-          <div class="service-chip chip-top">performance dashboard</div>
-          <div class="analytics-ui analytics-ui-float">
-            <div class="analytics-panel"><div class="analytics-kpi"><small>Revenue performance</small>+37.8%</div><div class="bar-row"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
-            <div class="analytics-side"><div class="donut"></div><div class="analytics-mini"><i></i><i></i><i></i><i></i></div></div>
-          </div>
-        </div>
-        <div class="service-copy"><h3 data-t="s6h">Аналитика</h3><p data-t="s6p">Еженедельные отчёты, A/B тестирование и оптимизация воронки для максимальной конверсии.</p></div>
       </article>
     </div>
   </div>
@@ -3976,82 +4478,82 @@ html[lang="en"] .fem-video-caption small,body.en-mode .fem-video-caption small{l
       <div class="vc">
         <div class="vc-bg has-local-photo" style="background-image:url('assets/visual/photo-1.webp')"></div>
         <div class="vc-ov"></div>
-        <div class="vi"><span class="vt">Join Us</span><p class="vn">Models</p></div>
+        <div class="vi"><span class="vt" data-t="vs_join">Присоединяйся</span><p class="vn" data-t="vs_models">Модели</p></div>
       </div>
       <div class="vc">
         <div class="vc-bg has-local-photo" style="background-image:url('assets/visual/photo-2.webp')"></div>
         <div class="vc-ov"></div>
-        <div class="vi"><span class="vt">Plan</span><p class="vn">Content Strategy</p></div>
+        <div class="vi"><span class="vt" data-t="vs_plan">План</span><p class="vn" data-t="vs_content">Контент-стратегия</p></div>
       </div>
       <div class="vc">
         <div class="vc-bg has-local-photo" style="background-image:url('assets/visual/photo-3.webp')"></div>
         <div class="vc-ov"></div>
-        <div class="vi"><span class="vt">Brand</span><p class="vn">Personal Brand</p></div>
+        <div class="vi"><span class="vt" data-t="vs_brand">Бренд</span><p class="vn" data-t="vs_personal">Личный бренд</p></div>
       </div>
       <div class="vc">
         <div class="vc-bg has-local-photo" style="background-image:url('assets/visual/photo-4.webp')"></div>
         <div class="vc-ov"></div>
-        <div class="vi"><span class="vt">Growth</span><p class="vn">Audience Growth</p></div>
+        <div class="vi"><span class="vt" data-t="vs_growth">Рост</span><p class="vn" data-t="vs_audience">Рост аудитории</p></div>
       </div>
       <div class="vc">
         <div class="vc-bg has-local-photo" style="background-image:url('assets/visual/photo-5.webp')"></div>
         <div class="vc-ov"></div>
-        <div class="vi"><span class="vt">Money</span><p class="vn">Monetization</p></div>
+        <div class="vi"><span class="vt" data-t="vs_money">Доход</span><p class="vn" data-t="vs_monetization">Монетизация</p></div>
       </div>
       <div class="vc">
         <div class="vc-bg has-local-photo" style="background-image:url('assets/visual/photo-6.webp')"></div>
         <div class="vc-ov"></div>
-        <div class="vi"><span class="vt">Team</span><p class="vn">We are FEM</p></div>
+        <div class="vi"><span class="vt" data-t="vs_team">Команда</span><p class="vn">FEM Agency</p></div>
       </div>
       <div class="vc">
         <div class="vc-bg has-local-photo" style="background-image:url('assets/visual/photo-7.webp')"></div>
         <div class="vc-ov"></div>
-        <div class="vi"><span class="vt">Trending</span><p class="vn">Viral Strategy</p></div>
+        <div class="vi"><span class="vt" data-t="vs_trending">Тренды</span><p class="vn" data-t="vs_viral">Виральная стратегия</p></div>
       </div>
       <div class="vc">
         <div class="vc-bg has-local-photo" style="background-image:url('assets/visual/photo-8.webp')"></div>
         <div class="vc-ov"></div>
-        <div class="vi"><span class="vt">Analytics</span><p class="vn">Data Driven</p></div>
+        <div class="vi"><span class="vt" data-t="vs_analytics">Аналитика</span><p class="vn" data-t="vs_data">Решения на данных</p></div>
       </div>
       <div class="vc">
         <div class="vc-bg has-local-photo" style="background-image:url('assets/visual/photo-1.webp')"></div>
         <div class="vc-ov"></div>
-        <div class="vi"><span class="vt">Join Us</span><p class="vn">Models</p></div>
+        <div class="vi"><span class="vt" data-t="vs_join">Присоединяйся</span><p class="vn" data-t="vs_models">Модели</p></div>
       </div>
       <div class="vc">
         <div class="vc-bg has-local-photo" style="background-image:url('assets/visual/photo-2.webp')"></div>
         <div class="vc-ov"></div>
-        <div class="vi"><span class="vt">Plan</span><p class="vn">Content Strategy</p></div>
+        <div class="vi"><span class="vt" data-t="vs_plan">План</span><p class="vn" data-t="vs_content">Контент-стратегия</p></div>
       </div>
       <div class="vc">
         <div class="vc-bg has-local-photo" style="background-image:url('assets/visual/photo-3.webp')"></div>
         <div class="vc-ov"></div>
-        <div class="vi"><span class="vt">Brand</span><p class="vn">Personal Brand</p></div>
+        <div class="vi"><span class="vt" data-t="vs_brand">Бренд</span><p class="vn" data-t="vs_personal">Личный бренд</p></div>
       </div>
       <div class="vc">
         <div class="vc-bg has-local-photo" style="background-image:url('assets/visual/photo-4.webp')"></div>
         <div class="vc-ov"></div>
-        <div class="vi"><span class="vt">Growth</span><p class="vn">Audience Growth</p></div>
+        <div class="vi"><span class="vt" data-t="vs_growth">Рост</span><p class="vn" data-t="vs_audience">Рост аудитории</p></div>
       </div>
       <div class="vc">
         <div class="vc-bg has-local-photo" style="background-image:url('assets/visual/photo-5.webp')"></div>
         <div class="vc-ov"></div>
-        <div class="vi"><span class="vt">Money</span><p class="vn">Monetization</p></div>
+        <div class="vi"><span class="vt" data-t="vs_money">Доход</span><p class="vn" data-t="vs_monetization">Монетизация</p></div>
       </div>
       <div class="vc">
         <div class="vc-bg has-local-photo" style="background-image:url('assets/visual/photo-6.webp')"></div>
         <div class="vc-ov"></div>
-        <div class="vi"><span class="vt">Team</span><p class="vn">We are FEM</p></div>
+        <div class="vi"><span class="vt" data-t="vs_team">Команда</span><p class="vn">FEM Agency</p></div>
       </div>
       <div class="vc">
         <div class="vc-bg has-local-photo" style="background-image:url('assets/visual/photo-7.webp')"></div>
         <div class="vc-ov"></div>
-        <div class="vi"><span class="vt">Trending</span><p class="vn">Viral Strategy</p></div>
+        <div class="vi"><span class="vt" data-t="vs_trending">Тренды</span><p class="vn" data-t="vs_viral">Виральная стратегия</p></div>
       </div>
       <div class="vc">
         <div class="vc-bg has-local-photo" style="background-image:url('assets/visual/photo-8.webp')"></div>
         <div class="vc-ov"></div>
-        <div class="vi"><span class="vt">Analytics</span><p class="vn">Data Driven</p></div>
+        <div class="vi"><span class="vt" data-t="vs_analytics">Аналитика</span><p class="vn" data-t="vs_data">Решения на данных</p></div>
       </div>
     </div>
   </div>
@@ -4062,56 +4564,48 @@ html[lang="en"] .fem-video-caption small,body.en-mode .fem-video-caption small{l
   <div class="cont">
     <div class="fem-results-head gsap-fade">
       <div><div class="sl" data-t="rs_label">Кейсы</div><h2 class="st"><span data-t="rs_h2a">Реальные результаты</span><br><span class="gt" data-t="rs_h2b">наших клиенток</span></h2></div>
-      <p class="fem-results-intro">Growth is designed, measured and refined — not left to chance.</p>
+      <p class="fem-results-intro" data-t="rs_intro">Рост проектируется, измеряется и улучшается — а не оставляется на волю случая.</p>
     </div>
-    <div class="fem-case-stage" data-case-stage>
+    <div class="fem-case-stage" data-case-stage tabindex="0">
       <article class="fem-case is-active" data-case="0">
         <div class="fem-case-visual" style="--case-image:url('assets/photos/creator-1.webp')"><div class="fem-case-no">01</div><div class="fem-case-overlay"></div></div>
         <div class="fem-case-data">
-          <div class="fem-case-kicker">ALT MODEL · 12 WEEKS</div><div class="fem-case-number">+$3,200</div><p data-t="r1d">дополнительный доход в месяц за 12 недель с нуля</p>
+          <div class="fem-case-kicker" data-t="case1_kicker">ALT MODEL · 12 НЕДЕЛЬ</div><div class="fem-case-number">+$3,200</div><p data-t="r1d">дополнительный доход в месяц за 12 недель с нуля</p><p class="fem-case-context" data-t="case1_context">Старт с нуля · позиционирование, трафик и ежедневное управление.</p>
           <div class="fem-case-chart"><i style="--h:24%"></i><i style="--h:34%"></i><i style="--h:48%"></i><i style="--h:62%"></i><i style="--h:78%"></i><i style="--h:96%"></i></div>
-          <div class="fem-case-meta"><span>Organic reach <b>+184%</b></span><span>Conversion <b>2.4×</b></span></div>
+          <div class="fem-case-meta"><span><i data-t="metric_reach">Органический охват</i><b>+184%</b></span><span><i data-t="metric_conversion">Конверсия</i><b>2.4×</b></span></div>
         </div>
       </article>
       <article class="fem-case" data-case="1">
         <div class="fem-case-visual" style="--case-image:url('assets/photos/creator-2.webp')"><div class="fem-case-no">02</div><div class="fem-case-overlay"></div></div>
-        <div class="fem-case-data"><div class="fem-case-kicker">GIRL NEXT DOOR · 90 DAYS</div><div class="fem-case-number">2.7×</div><p data-t="r2d">рост подписчиков за 90 дней благодаря кросс-платформенной стратегии</p><div class="fem-case-rings"><span></span><span></span><b>+170%</b></div><div class="fem-case-meta"><span>Best channel <b>Instagram</b></span><span>Retention <b>+41%</b></span></div></div>
+        <div class="fem-case-data"><div class="fem-case-kicker" data-t="case2_kicker">GIRL NEXT DOOR · 90 ДНЕЙ</div><div class="fem-case-number">2.7×</div><p data-t="r2d">рост подписчиков за 90 дней благодаря кросс-платформенной стратегии</p><p class="fem-case-context" data-t="case2_context">Фокус: кросс-платформенный трафик, контент-система и удержание.</p><div class="fem-case-rings"><span></span><span></span><b>+170%</b></div><div class="fem-case-meta"><span><i data-t="metric_channel">Лучший канал</i><b>Instagram</b></span><span><i data-t="metric_retention">Удержание</i><b>+41%</b></span></div></div>
       </article>
       <article class="fem-case" data-case="2">
         <div class="fem-case-visual" style="--case-image:url('assets/photos/creator-3.webp')"><div class="fem-case-no">03</div><div class="fem-case-overlay"></div></div>
-        <div class="fem-case-data"><div class="fem-case-kicker">NEW ACCOUNT · 60 DAYS</div><div class="fem-case-number">$0→$4.9K</div><p data-t="r3d">выход на доход $4,900 в месяц с полного нуля за первые 2 месяца</p><div class="fem-case-timeline"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="fem-case-meta"><span>Launch system <b>Full stack</b></span><span>First sale <b>Day 4</b></span></div></div>
+        <div class="fem-case-data"><div class="fem-case-kicker" data-t="case3_kicker">НОВЫЙ АККАУНТ · 60 ДНЕЙ</div><div class="fem-case-number">$0→$4.9K</div><p data-t="r3d">выход на доход $4,900 в месяц с полного нуля за первые 2 месяца</p><p class="fem-case-context" data-t="case3_context">Запуск: оформление аккаунта, оффер и первая воронка продаж.</p><div class="fem-case-timeline"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="fem-case-meta"><span><i data-t="metric_launch">Система запуска</i><b data-t="metric_fullstack">Полный цикл</b></span><span><i data-t="metric_first_sale">Первая продажа</i><b data-t="metric_day4">День 4</b></span></div></div>
       </article>
-      <div class="fem-case-nav"><button class="is-active" data-case-button="0">01</button><button data-case-button="1">02</button><button data-case-button="2">03</button></div>
+      <div class="fem-case-nav fem-case-arrows" aria-label="Case navigation">
+        <button type="button" class="fem-case-arrow" data-case-prev aria-label="Previous case"><span aria-hidden="true">←</span></button>
+        <span class="fem-case-counter" data-case-counter>01 / 03</span>
+        <button type="button" class="fem-case-arrow" data-case-next aria-label="Next case"><span aria-hidden="true">→</span></button>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ══ TEAM ══ -->
-<section class="sect" id="team" style="background:linear-gradient(180deg,transparent,rgba(61,184,255,.022),transparent)">
+<!-- ══ CREATOR PARTNERSHIP — EDITORIAL, NO CARDS ══ -->
+<section class="sect creator-partnership" id="team">
   <div class="cont">
-    <div class="gsap-fade" style="text-align:center;margin-bottom:44px">
-      <div class="sl" data-t="tm_label">Истории успеха</div>
-      <h2 class="st"><span data-t="tm_h2a">Наши авторы</span><br><span class="gt" data-t="tm_h2b">уже зарабатывают</span></h2>
+    <div class="creator-partnership-head gsap-fade">
+      <div>
+        <div class="sl" data-t="proof_label">Рабочая модель</div>
+        <h2 class="st"><span data-t="proof_h2a">Одна команда за</span><br><span class="gt" data-t="proof_h2b">каждым автором</span></h2>
+      </div>
+      <p data-t="proof_intro">Не набор разрозненных подрядчиков. Стратегия, контент и продвижение работают как одна система.</p>
     </div>
-    <div class="team-grid">
-      <div class="tc gsap-card" style="--di:0s">
-        <div class="tc-bg has-local-photo" style="background-image:url('assets/photos/creator-1.webp')"></div>
-        <div class="tc-ov"></div>
-        <div class="tc-badge"><div class="tc-badge-n">$3.2K</div><div class="tc-badge-l" data-t="cb_month">/мес</div></div>
-        <div class="tc-b"><div class="tc-tag">2 years with us</div><div class="tc-t" data-t="c1t">Alt Model</div><div class="tc-s" data-t="c1s">+312% за 12 недель</div></div>
-      </div>
-      <div class="tc gsap-card" style="--di:.1s">
-        <div class="tc-bg has-local-photo" style="background-image:url('assets/photos/creator-2.webp')"></div>
-        <div class="tc-ov"></div>
-        <div class="tc-badge"><div class="tc-badge-n">×2.7</div><div class="tc-badge-l" data-t="cb_subs">подписок</div></div>
-        <div class="tc-b"><div class="tc-tag">1 year with us</div><div class="tc-t" data-t="c2t">Girl Next Door</div><div class="tc-s" data-t="c2s">+2700% охватов за 3 месяца</div></div>
-      </div>
-      <div class="tc gsap-card" style="--di:.2s">
-        <div class="tc-bg has-local-photo" style="background-image:url('assets/photos/creator-3.webp')"></div>
-        <div class="tc-ov"></div>
-        <div class="tc-badge"><div class="tc-badge-n">$4.9K</div><div class="tc-badge-l" data-t="cb_month">/мес</div></div>
-        <div class="tc-b"><div class="tc-tag">New Account</div><div class="tc-t" data-t="c3t">Trans Model</div><div class="tc-s" data-t="c3s">$0 → $4.9K за 60 дней</div></div>
-      </div>
+    <div class="creator-partnership-list">
+      <div class="creator-partnership-row"><span>01</span><strong data-t="proof_1h">Персональный менеджер</strong><p data-t="proof_1p">Одна точка контакта для стратегии, задач и обратной связи.</p></div>
+      <div class="creator-partnership-row"><span>02</span><strong data-t="proof_2h">Еженедельное направление</strong><p data-t="proof_2p">Понятный план действий без хаотичных публикаций и случайных решений.</p></div>
+      <div class="creator-partnership-row"><span>03</span><strong data-t="proof_3h">Конфиденциальный процесс</strong><p data-t="proof_3p">Доступы, данные и личность автора остаются под контролем.</p></div>
     </div>
   </div>
 </section>
@@ -4130,10 +4624,10 @@ html[lang="en"] .fem-video-caption small,body.en-mode .fem-video-caption small{l
         </div>
       </div>
       <div class="fem-process-screen fem-glass" data-process-screen>
-        <div class="fem-screen-bar"><span><i></i><i></i><i></i></span><b>FEM OPERATING SYSTEM</b><em>LIVE</em></div>
+        <div class="fem-screen-bar"><span><i></i><i></i><i></i></span><b data-t="process_system">СИСТЕМА FEM</b><em data-t="process_live">ОНЛАЙН</em></div>
         <div class="fem-screen-state is-active" data-process-state="0"><div class="fem-audit-profile"><div class="fem-audit-photo"></div><div><span></span><span></span><span></span></div></div><div class="fem-audit-grid"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="fem-scan-line"></div></div>
-        <div class="fem-screen-state" data-process-state="1"><div class="fem-roadmap"><div><b>W1</b><span>Positioning</span></div><div><b>W4</b><span>Content system</span></div><div><b>W8</b><span>Traffic engine</span></div><div><b>W12</b><span>Scale</span></div></div><svg viewBox="0 0 500 160"><path d="M22 132 C115 128,125 92,205 96 C290 100,326 45,470 30"/></svg></div>
-        <div class="fem-screen-state" data-process-state="2"><div class="fem-scale-number">+312%</div><div class="fem-scale-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="fem-scale-tags"><span>REACH</span><span>REVENUE</span><span>RETENTION</span></div></div>
+        <div class="fem-screen-state" data-process-state="1"><div class="fem-roadmap"><div><b>W1</b><span data-t="proc_positioning">Позиционирование</span></div><div><b>W4</b><span data-t="proc_content_system">Контент-система</span></div><div><b>W8</b><span data-t="proc_traffic">Трафик</span></div><div><b>W12</b><span data-t="proc_scale">Масштаб</span></div></div><svg viewBox="0 0 500 160"><path d="M22 132 C115 128,125 92,205 96 C290 100,326 45,470 30"/></svg></div>
+        <div class="fem-screen-state" data-process-state="2"><div class="fem-scale-number">+312%</div><div class="fem-scale-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="fem-scale-tags"><span data-t="proc_reach">ОХВАТ</span><span data-t="proc_revenue">ДОХОД</span><span data-t="proc_retention">УДЕРЖАНИЕ</span></div></div>
       </div>
     </div>
   </div>
@@ -4147,7 +4641,7 @@ html[lang="en"] .fem-video-caption small,body.en-mode .fem-video-caption small{l
         <div class="sl" data-t="wy_label">Почему FEM</div>
         <h2 class="st"><span data-t="wy_h2a">Мы знаем как</span><br><span class="gt" data-t="wy_h2b">сделать тебя звездой</span></h2>
       </div>
-      <p class="fem-manifesto-intro">Не четыре одинаковые карточки. Один партнёр, который защищает личность автора, выстраивает процесс и отвечает за рост.</p>
+      <p class="fem-manifesto-intro" data-t="why_intro">Не четыре одинаковые карточки. Один партнёр, который защищает личность автора, выстраивает процесс и отвечает за рост.</p>
     </header>
 
     <div class="fem-manifesto-stage" data-manifesto-stage="0">
@@ -4164,50 +4658,46 @@ html[lang="en"] .fem-video-caption small,body.en-mode .fem-video-caption small{l
           <strong data-manifesto-caption>Private by design</strong>
         </div>
         <div class="fem-manifesto-mark"><span></span><span></span></div>
-        <div class="fem-manifesto-inset fem-glass">
-          <div class="fem-manifesto-inset-photo has-local-photo" style="background-image:url('assets/photos/about-2.webp')"></div>
-          <div class="fem-manifesto-inset-copy"><small>FEM support</small><strong>Human, discreet, premium.</strong></div>
-        </div>
       </div>
 
       <div class="fem-manifesto-copy">
-        <div class="fem-manifesto-line is-active" tabindex="0" data-manifesto="0" data-word="PRIVATE" data-caption="Private by design">
+        <div class="fem-manifesto-line is-active" tabindex="0" data-manifesto="0" data-word="PRIVATE" data-caption="Private by design" data-word-key="manifesto_word1" data-caption-key="manifesto_caption1">
           <div class="fem-manifesto-line-head">
             <span>01</span>
             <h3 data-t="w1h">Полная конфиденциальность</h3>
             <i>↗</i>
           </div>
-          <p class="fem-manifesto-short">Личность автора остаётся под контролем автора.</p>
+          <p class="fem-manifesto-short" data-t="why_short1">Личность автора остаётся под контролем автора.</p>
           <div class="fem-manifesto-detail" data-t="w1p">Работаем с NDA. Ваши данные и аккаунты под надёжной защитой. Никакой утечки информации третьим лицам.</div>
         </div>
 
-        <div class="fem-manifesto-line" tabindex="0" data-manifesto="1" data-word="PRESENT" data-caption="A team that stays close">
+        <div class="fem-manifesto-line" tabindex="0" data-manifesto="1" data-word="PRESENT" data-caption="A team that stays close" data-word-key="manifesto_word2" data-caption-key="manifesto_caption2">
           <div class="fem-manifesto-line-head">
             <span>02</span>
             <h3 data-t="w2h">Поддержка 5/2</h3>
             <i>↗</i>
           </div>
-          <p class="fem-manifesto-short">Один менеджер соединяет автора со всей командой.</p>
+          <p class="fem-manifesto-short" data-t="why_short2">Один менеджер соединяет автора со всей командой.</p>
           <div class="fem-manifesto-detail" data-t="w2p">Персональный менеджер всегда на связи. Быстрые ответы и оперативные решения в любое время суток.</div>
         </div>
 
-        <div class="fem-manifesto-line" tabindex="0" data-manifesto="2" data-word="ALIGNED" data-caption="We grow when you grow">
+        <div class="fem-manifesto-line" tabindex="0" data-manifesto="2" data-word="ALIGNED" data-caption="We grow when you grow" data-word-key="manifesto_word3" data-caption-key="manifesto_caption3">
           <div class="fem-manifesto-line-head">
             <span>03</span>
             <h3 data-t="w3h">Оплата за результат</h3>
             <i>↗</i>
           </div>
-          <p class="fem-manifesto-short">Команда заинтересована не в активности, а в результате.</p>
+          <p class="fem-manifesto-short" data-t="why_short3">Команда заинтересована не в активности, а в результате.</p>
           <div class="fem-manifesto-detail" data-t="w3p">Наш доход зависит от вашего роста. Мы финансово заинтересованы в вашем максимальном успехе.</div>
         </div>
 
-        <div class="fem-manifesto-line" tabindex="0" data-manifesto="3" data-word="GLOBAL" data-caption="Strategy without borders">
+        <div class="fem-manifesto-line" tabindex="0" data-manifesto="3" data-word="GLOBAL" data-caption="Strategy without borders" data-word-key="manifesto_word4" data-caption-key="manifesto_caption4">
           <div class="fem-manifesto-line-head">
             <span>04</span>
             <h3 data-t="w4h">Международный опыт</h3>
             <i>↗</i>
           </div>
-          <p class="fem-manifesto-short">Стратегия адаптируется под рынок, а не копируется.</p>
+          <p class="fem-manifesto-short" data-t="why_short4">Стратегия адаптируется под рынок, а не копируется.</p>
           <div class="fem-manifesto-detail" data-t="w4p">Работаем с авторами из 7+ стран. Знаем особенности рынков и аудиторий по всему миру.</div>
         </div>
       </div>
@@ -4245,13 +4735,6 @@ html[lang="en"] .fem-video-caption small,body.en-mode .fem-video-caption small{l
           <div class="af"><div class="af-ic">✓</div><span data-t="ap_l2">Аудит аккаунта за 48 часов</span></div>
           <div class="af"><div class="af-ic">✓</div><span data-t="ap_l3">Индивидуальная стратегия роста</span></div>
           <div class="af"><div class="af-ic">✓</div><span data-t="ap_l4">Конфиденциальность и NDA</span></div>
-        </div>
-        <div class="apply-shot-wrap">
-          <div class="apply-shot has-local-photo" style="background-image:url('assets/photos/about-2.webp')">
-            <div class="apply-shot-overlay"></div>
-            <div class="apply-shot-badge fem-glass"><span>private onboarding</span><strong>1:1 strategy call</strong></div>
-            <div class="apply-shot-note fem-glass">FEM / creator launch</div>
-          </div>
         </div>
       </div>
       <div class="form-c gsap-slide-r">
@@ -4308,7 +4791,7 @@ html[lang="en"] .fem-video-caption small,body.en-mode .fem-video-caption small{l
   </div>
 </footer>
 
-<a href="https://t.me/FemAgencyApplyBot?start=site" target="_blank" rel="noopener" class="fcta" id="fcta">🚀 <span data-t="nav_cta">Оставить заявку</span></a>
+<a href="https://t.me/FemAgencyApplyBot?start=site" target="_blank" rel="noopener" class="fcta" id="fcta"><span data-t="nav_cta">Оставить заявку</span><span class="tg-logo" aria-hidden="true"></span></a>
 
 <script>
 /* ══════════════════ TRANSLATIONS ══════════════════ */
@@ -4317,6 +4800,48 @@ ru:{nav_srv:'Платформы',nav_res:'Результаты',nav_proc:'Про
 uk:{nav_srv:'Платформи',nav_res:'Результати',nav_proc:'Процес',nav_faq:'FAQ',nav_cta:'Залишити заявку',hero_badge:'OnlyFans & Fansly Management',hero_h1:'Твій дохід<br><span class="gt">зростає з нами</span>',hero_sub:"FEM Agency — команда, яка виводить авторів на новий рівень. Стратегія, просування, особистий бренд — все під ключ.",hero_cta1:'Залишити заявку <span class="tg-logo" aria-hidden="true"></span>',hero_cta2:'Дізнатись більше',stat_auth:'Моделей',stat_reach:'Охоплень',stat_sup:'Підтримка',photo_tag1:'FEM AGENCY',photo_title1:'Premium Creator Management',badge1t:'+300%',badge1s:'Зростання доходу',badge3t:'$12К/міс',badge3s:'Середній дохід',ri_brand:'Бренд',ri_strat:'Стратегія',ri_res:'Результат',ri_grow:'Ріст',pl_label:'Наші платформи',pl_h2:'Працюємо з найкращими',pl_h2b:'платформами для авторів',of_sub:'Провідна платформа',of_f1:'Налаштування профілю та монетизації',of_f2:'Контент-план і воронки продажів',of_f3:'Робота з підписниками 5/2',of_f4:'Аналітика та оптимізація доходу',of_stat:'Авторів на OnlyFans',fl_sub:'Платформа, що швидко росте',fl_f1:'Створення та оптимізація акаунту',fl_f2:'Залучення перших підписників',fl_f3:'Перенесення аудиторії з OF',fl_f4:'Диверсифікація джерел доходу',fl_stat:'Авторів на Fansly',ab_label:'Про нас',ab_h2a:'Ми не просто агентство',ab_h2b:'— ми ваш ріст',ab_p:'FEM Agency — продюсерська команда для creator economy. Беремо на себе стратегію, аналітику та контент-процеси.',ab_l1:'Працюємо з 2022 року',ab_l2:'Команда з 100+ спеціалістів',ab_l3:'NDA для кожного клієнта',ab_l4:'Працюємо з 7+ країнами',sv_label:'Послуги',sv_h2a:'Повний супровід',sv_h2b:'вашого бренду',s1h:'OnlyFans & Fansly',s1p:'Контент-план, воронки продажів, монетизація та щоденний супровід для максимального доходу.',s2h:'Просування',s2p:'Instagram, TikTok, X, Telegram, Reddit — крос-платформне зростання аудиторії.',s3h:'Особистий бренд',s3p:"Унікальний образ і візуальний стиль, який запам'ятовується серед конкурентів.",s4h:'Стратегія зростання',s4p:'Аналіз конкурентів і дорожня карта на 90 днів із чіткими KPI.',s5h:'Контент-план',s5p:'Постинг-план, скрипти та допомога в оформленні контенту.',s6h:'Аналітика',s6p:'Щотижневі звіти, A/B тестування та оптимізація воронки.',rs_label:'Кейси',rs_h2a:'Реальні результати',rs_h2b:'наших клієнток',r1d:'додатковий дохід на місяць за 12 тижнів з нуля',r2d:'зростання підписників за 90 днів',r3d:'вихід на $4,900/міс з нуля за 2 місяці',tag1:'✦ OnlyFans Management',tag2:'✦ +300% Revenue',tag3:'✦ Fansly Strategy',tag4:'✦ Social Growth',tag5:'✦ Personal Branding',tag6:'✦ Content Strategy',tag7:'✦ Analytics',tm_label:'Історії успіху',tm_h2a:'Наші автори',tm_h2b:'вже заробляють',cb_month:'/міс',cb_subs:'підписок',c1t:'Lifestyle Creator',c1s:'+312% за 12 тижнів',c2t:'Fitness Creator',c2s:'+2700% охоплень за 3 місяці',c3t:'Новий акаунт',c3s:'$0 → $4.9K за 60 днів',pr_label:'Як ми працюємо',pr_h2a:'Простий шлях до',pr_h2b:'великого результату',p1h:'Бриф та аудит',p1p:"Заповнюєш форму, менеджер зв'язується протягом 24 годин. Аналізуємо акаунт.",p2h:'Стратегія',p2p:'Розробляємо дорожню карту на 90 днів: контент, просування, монетизація.',p3h:'Ріст і масштаб',p3p:"Щотижня впроваджуємо гіпотези, тестуємо формати та масштабуємо зв'язки.",wy_label:'Чому FEM',wy_h2a:'Ми знаємо як',wy_h2b:'зробити тебе зіркою',w1h:'Конфіденційність',w1p:'Працюємо з NDA. Ваші дані під надійним захистом.',w2h:'Підтримка 5/2',w2p:"Персональний менеджер завжди на зв'язку. Швидкі відповіді у будь-який час.",w3h:'Оплата за результат',w3p:'Наш дохід залежить від вашого зростання. Ми зацікавлені у вашому успіху.',w4h:'Міжнародний досвід',w4p:'Працюємо з авторами з 7+ країн. Знаємо особливості різних ринків.',fq_label:'FAQ',fq_h2a:'Часто запитують',fq_h2b:'ці питання',q1q:'Це безпечно та конфіденційно?',q1a:'Так. Працюємо з NDA, захищаємо особисті дані.',q2q:'Коли перші результати?',q2a:'Перші покращення через 2–4 тижні. Стійке зростання в горизонті 2–3 місяців.',q3q:'Скільки часу потрібно витрачати?',q3a:'Ви фокусуєтесь на контенті. Все інше — команда FEM Agency.',q4q:'Працюєте з новими акаунтами?',q4a:'Так! Є спеціальний пакет для тих, хто починає з нуля.',q5q:'Які платформи підтримуєте?',q5a:'Основний фокус — OnlyFans і Fansly, плюс Instagram, TikTok, X, Telegram і Reddit.',ap_label:'Почни зараз',ap_h2a:'Залиш заявку',ap_h2b:'на консультацію',ap_p:"Менеджер зв'яжеться протягом 24 годин. Перша консультація — безкоштовно.",ap_l1:'Безкоштовна первинна консультація',ap_l2:'Аудит акаунту за 48 годин',ap_l3:'Індивідуальна стратегія зростання',ap_l4:'Конфіденційність і NDA',fl_name:"Ім'я",fl_cont:'Telegram / Телефон',fl_plat:'Платформа',fl_goal:'Мета',fp_name:'Як тебе звати?',fp_cont:'@username або номер',fp_goal:'Наприклад: вирости до $5k/міс',fo_sel:'Обери платформу',fo_of:'OnlyFans',fo_fl:'Fansly',fo_both:'OnlyFans + Fansly',fo_new:'Починаю з нуля',f_sub:'Отримати консультацію →',ft_desc:'Продюсерське агентство для OnlyFans та Fansly.',ft_nav:'Навігація',ft_cont:'Контакти',ft_copy:'© 2026 FEM Agency. Всі права захищені.',ft_priv:'Конфіденційність гарантована',ft_ai:'Медіафайли на сайті згенеровані за допомогою ШІ'},
 en:{nav_srv:'Platforms',nav_res:'Results',nav_proc:'Process',nav_faq:'FAQ',nav_cta:'Apply Now',hero_badge:'OnlyFans & Fansly Management',hero_h1:'Your income<br><span class="gt">grows with us</span>',hero_sub:'FEM Agency — a team that takes creators to the next level. Strategy, promotion, personal brand — all in one.',hero_cta1:'Apply Now <span class="tg-logo" aria-hidden="true"></span>',hero_cta2:'Learn More',stat_auth:'Models',stat_reach:'Reach',stat_sup:'Support',photo_tag1:'FEM AGENCY',photo_title1:'Premium Creator Management',badge1t:'+300%',badge1s:'Revenue Growth',badge3t:'$12K/mo',badge3s:'Avg Income',ri_brand:'Brand',ri_strat:'Strategy',ri_res:'Result',ri_grow:'Growth',pl_label:'Our Platforms',pl_h2:'We work with the best',pl_h2b:'platforms for creators',of_sub:'Leading Platform',of_f1:'Profile setup & monetization',of_f2:'Content plan & sales funnels',of_f3:'Subscriber management 5/2',of_f4:'Analytics & income optimization',of_stat:'Creators on OnlyFans',fl_sub:'Fast-Growing Platform',fl_f1:'Account creation & optimization',fl_f2:'Attracting first subscribers',fl_f3:'Audience migration from OF',fl_f4:'Income source diversification',fl_stat:'Creators on Fansly',ab_label:'About Us',ab_h2a:"We're not just an agency",ab_h2b:'— we are your growth',ab_p:'FEM Agency is a production team for the creator economy. We handle strategy, analytics, and content processes.',ab_l1:'Working since 2022',ab_l2:'Team of 100+ specialists',ab_l3:'NDA for every client',ab_l4:'Working with 7+ countries',sv_label:'Services',sv_h2a:'Full-service management',sv_h2b:'of your brand',s1h:'OnlyFans & Fansly',s1p:'Content plan, sales funnels, monetization and daily account management for maximum revenue.',s2h:'Social Promotion',s2p:'Instagram, TikTok, X, Telegram, Reddit — cross-platform audience growth and steady subscriber flow.',s3h:'Personal Brand',s3p:'Unique image and visual style that stands out and is remembered by your audience.',s4h:'Growth Strategy',s4p:'Competitor analysis, niche definition and a 90-day roadmap with clear KPIs.',s5h:'Content Plan',s5p:'Posting schedule, scripts, Stories ideas and content design assistance.',s6h:'Analytics',s6p:'Weekly reports, A/B testing and funnel optimization for maximum conversion.',rs_label:'Cases',rs_h2a:'Real results',rs_h2b:'of our clients',r1d:'additional monthly income in 12 weeks starting from zero',r2d:'subscriber growth in 90 days with cross-platform strategy',r3d:'reached $4,900/mo from zero in first 2 months',tag1:'✦ OnlyFans Management',tag2:'✦ +300% Revenue',tag3:'✦ Fansly Strategy',tag4:'✦ Social Growth',tag5:'✦ Personal Branding',tag6:'✦ Content Strategy',tag7:'✦ Analytics',tm_label:'Success Stories',tm_h2a:'Our creators',tm_h2b:'are already earning',cb_month:'/mo',cb_subs:'subs',c1t:'Lifestyle Creator',c1s:'+312% in 12 weeks',c2t:'Fitness Creator',c2s:'+2700% reach in 3 months',c3t:'New Account',c3s:'$0 → $4.9K in 60 days',pr_label:'How We Work',pr_h2a:'A simple path to',pr_h2b:'great results',p1h:'Brief & Audit',p1p:'Fill out the form, manager contacts you within 24 hours. We analyze your account.',p2h:'Strategy',p2p:'We develop a detailed 90-day roadmap: content, promotion, monetization and KPIs.',p3h:'Growth & Scale',p3p:'Weekly hypothesis testing, format experiments and scaling successful approaches.',wy_label:'Why FEM',wy_h2a:'We know how to',wy_h2b:'make you a star',w1h:'Full Confidentiality',w1p:'We work with NDAs. Your data and accounts are fully protected.',w2h:'5/2 Support',w2p:'Personal manager always available. Fast responses at any time of day.',w3h:'Pay for Results',w3p:"Our income depends on your growth. We're financially invested in your success.",w4h:'International Experience',w4p:'Working with creators from 7+ countries. We know different market specifics.',fq_label:'FAQ',fq_h2a:'Frequently asked',fq_h2b:'questions',q1q:'Is this safe and confidential?',q1a:'Yes. We work with NDAs and strictly protect personal data.',q2q:'When can I see first results?',q2a:'First improvements within 2–4 weeks. Sustainable income growth in 2–3 months.',q3q:'How much time do I need to invest?',q3a:'You focus exclusively on content. Strategy, analytics and operations are handled by FEM Agency.',q4q:'Do you work with new accounts?',q4a:'Yes! We have a special launch package for those starting from scratch.',q5q:'Which platforms do you support?',q5a:'Main focus — OnlyFans and Fansly, plus Instagram, TikTok, X, Telegram and Reddit.',ap_label:'Start Now',ap_h2a:'Submit your application',ap_h2b:'for a consultation',ap_p:'Manager will contact you within 24 hours. First consultation is free.',ap_l1:'Free initial consultation',ap_l2:'Account audit within 48 hours',ap_l3:'Individual growth strategy',ap_l4:'Confidentiality & NDA',fl_name:'Name',fl_cont:'Telegram / Phone',fl_plat:'Platform',fl_goal:'Goal',fp_name:"What's your name?",fp_cont:'@username or number',fp_goal:'E.g.: grow to $5k/mo',fo_sel:'Choose platform',fo_of:'OnlyFans',fo_fl:'Fansly',fo_both:'OnlyFans + Fansly',fo_new:'Starting from scratch',f_sub:'Get Consultation →',ft_desc:'Production agency for OnlyFans and Fansly.',ft_nav:'Navigation',ft_cont:'Contact',ft_copy:'© 2026 FEM Agency. All rights reserved.',ft_priv:'Confidentiality guaranteed',ft_ai:'Media files on the website were generated using AI'}
 };
+
+Object.assign(T.ru,{
+  svc_growth_label:'Рост аудитории',svc_roadmap_label:'План роста',svc_90days:'90 дней',svc_positioning:'Позиционирование',svc_acquisition:'Привлечение',svc_scale:'Масштаб',svc_revenue_performance:'Динамика дохода',
+  rs_intro:'Рост проектируется, измеряется и улучшается — а не оставляется на волю случая.',case1_kicker:'ALT MODEL · 12 НЕДЕЛЬ',case2_kicker:'GIRL NEXT DOOR · 90 ДНЕЙ',case3_kicker:'НОВЫЙ АККАУНТ · 60 ДНЕЙ',case1_context:'Старт с нуля · позиционирование, трафик и ежедневное управление.',case2_context:'Фокус: кросс-платформенный трафик, контент-система и удержание.',case3_context:'Запуск: оформление аккаунта, оффер и первая воронка продаж.',metric_reach:'Органический охват',metric_conversion:'Конверсия',metric_channel:'Лучший канал',metric_retention:'Удержание',metric_launch:'Система запуска',metric_fullstack:'Полный цикл',metric_first_sale:'Первая продажа',metric_day4:'День 4',
+  proof_label:'Рабочая модель',proof_h2a:'Одна команда за',proof_h2b:'каждым автором',proof_intro:'Не набор разрозненных подрядчиков. Стратегия, контент и продвижение работают как одна система.',proof_1h:'Персональный менеджер',proof_1p:'Одна точка контакта для стратегии, задач и обратной связи.',proof_2h:'Еженедельное направление',proof_2p:'Понятный план действий без хаотичных публикаций и случайных решений.',proof_3h:'Конфиденциальный процесс',proof_3p:'Доступы, данные и личность автора остаются под контролем.',
+  process_system:'СИСТЕМА FEM',process_live:'ОНЛАЙН',proc_positioning:'Позиционирование',proc_content_system:'Контент-система',proc_traffic:'Трафик',proc_scale:'Масштаб',proc_reach:'ОХВАТ',proc_revenue:'ДОХОД',proc_retention:'УДЕРЖАНИЕ',
+  why_intro:'Не четыре одинаковые карточки. Один партнёр, который защищает личность автора, выстраивает процесс и отвечает за рост.',why_short1:'Личность автора остаётся под контролем автора.',why_short2:'Один менеджер соединяет автора со всей командой.',why_short3:'Команда заинтересована не в активности, а в результате.',why_short4:'Стратегия адаптируется под рынок, а не копируется.',manifesto_word1:'ПРИВАТНО',manifesto_caption1:'Конфиденциальность по умолчанию',manifesto_word2:'РЯДОМ',manifesto_caption2:'Команда остаётся рядом',manifesto_word3:'ВМЕСТЕ',manifesto_caption3:'Мы растём вместе с вами',manifesto_word4:'ГЛОБАЛЬНО',manifesto_caption4:'Стратегия без границ',
+  vs_join:'Присоединяйся',vs_models:'Модели',vs_plan:'План',vs_content:'Контент-стратегия',vs_brand:'Бренд',vs_personal:'Личный бренд',vs_growth:'Рост',vs_audience:'Рост аудитории',vs_money:'Доход',vs_monetization:'Монетизация',vs_team:'Команда',vs_trending:'Тренды',vs_viral:'Виральная стратегия',vs_analytics:'Аналитика',vs_data:'Решения на данных',prev_case:'Предыдущий кейс',next_case:'Следующий кейс'
+});
+Object.assign(T.uk,{
+  svc_growth_label:'Зростання аудиторії',svc_roadmap_label:'План зростання',svc_90days:'90 днів',svc_positioning:'Позиціонування',svc_acquisition:'Залучення',svc_scale:'Масштаб',svc_revenue_performance:'Динаміка доходу',
+  rs_intro:'Зростання проєктується, вимірюється та покращується — а не залишається випадку.',case1_kicker:'ALT MODEL · 12 ТИЖНІВ',case2_kicker:'GIRL NEXT DOOR · 90 ДНІВ',case3_kicker:'НОВИЙ АКАУНТ · 60 ДНІВ',case1_context:'Старт з нуля · позиціонування, трафік і щоденне управління.',case2_context:'Фокус: кросплатформний трафік, контент-система та утримання.',case3_context:'Запуск: оформлення акаунту, офер і перша воронка продажів.',metric_reach:'Органічне охоплення',metric_conversion:'Конверсія',metric_channel:'Найкращий канал',metric_retention:'Утримання',metric_launch:'Система запуску',metric_fullstack:'Повний цикл',metric_first_sale:'Перший продаж',metric_day4:'День 4',
+  proof_label:'Робоча модель',proof_h2a:'Одна команда за',proof_h2b:'кожним автором',proof_intro:'Не набір розрізнених підрядників. Стратегія, контент і просування працюють як одна система.',proof_1h:'Персональний менеджер',proof_1p:"Одна точка контакту для стратегії, завдань і зворотного зв'язку.",proof_2h:'Щотижневий напрям',proof_2p:'Зрозумілий план дій без хаотичних публікацій і випадкових рішень.',proof_3h:'Конфіденційний процес',proof_3p:'Доступи, дані та особистість автора залишаються під контролем.',
+  process_system:'СИСТЕМА FEM',process_live:'ОНЛАЙН',proc_positioning:'Позиціонування',proc_content_system:'Контент-система',proc_traffic:'Трафік',proc_scale:'Масштаб',proc_reach:'ОХОПЛЕННЯ',proc_revenue:'ДОХІД',proc_retention:'УТРИМАННЯ',
+  why_intro:'Не чотири однакові картки. Один партнер, який захищає особистість автора, вибудовує процес і відповідає за зростання.',why_short1:'Особистість автора залишається під контролем автора.',why_short2:'Один менеджер поєднує автора з усією командою.',why_short3:'Команда зацікавлена не в активності, а в результаті.',why_short4:'Стратегія адаптується до ринку, а не копіюється.',manifesto_word1:'ПРИВАТНО',manifesto_caption1:'Конфіденційність за замовчуванням',manifesto_word2:'ПОРУЧ',manifesto_caption2:'Команда залишається поруч',manifesto_word3:'РАЗОМ',manifesto_caption3:'Ми зростаємо разом із вами',manifesto_word4:'ГЛОБАЛЬНО',manifesto_caption4:'Стратегія без кордонів',
+  vs_join:'Приєднуйся',vs_models:'Моделі',vs_plan:'План',vs_content:'Контент-стратегія',vs_brand:'Бренд',vs_personal:'Особистий бренд',vs_growth:'Ріст',vs_audience:'Зростання аудиторії',vs_money:'Дохід',vs_monetization:'Монетизація',vs_team:'Команда',vs_trending:'Тренди',vs_viral:'Віральна стратегія',vs_analytics:'Аналітика',vs_data:'Рішення на даних',prev_case:'Попередній кейс',next_case:'Наступний кейс'
+});
+Object.assign(T.en,{
+  svc_growth_label:'Audience growth',svc_roadmap_label:'Growth plan',svc_90days:'90 days',svc_positioning:'Positioning',svc_acquisition:'Acquisition',svc_scale:'Scale',svc_revenue_performance:'Revenue performance',
+  rs_intro:'Growth is designed, measured and refined — not left to chance.',case1_kicker:'ALT MODEL · 12 WEEKS',case2_kicker:'GIRL NEXT DOOR · 90 DAYS',case3_kicker:'NEW ACCOUNT · 60 DAYS',case1_context:'Starting from zero · positioning, traffic and daily management.',case2_context:'Focus: cross-platform traffic, content system and retention.',case3_context:'Launch: account setup, offer structure and first sales funnel.',metric_reach:'Organic reach',metric_conversion:'Conversion',metric_channel:'Best channel',metric_retention:'Retention',metric_launch:'Launch system',metric_fullstack:'Full stack',metric_first_sale:'First sale',metric_day4:'Day 4',
+  proof_label:'Working model',proof_h2a:'One team behind',proof_h2b:'every creator',proof_intro:'Not a collection of disconnected contractors. Strategy, content and promotion operate as one system.',proof_1h:'Personal manager',proof_1p:'One point of contact for strategy, tasks and feedback.',proof_2h:'Weekly direction',proof_2p:'A clear action plan without chaotic posting or random decisions.',proof_3h:'Confidential process',proof_3p:'Access, data and creator identity remain under control.',
+  process_system:'FEM SYSTEM',process_live:'ONLINE',proc_positioning:'Positioning',proc_content_system:'Content system',proc_traffic:'Traffic',proc_scale:'Scale',proc_reach:'REACH',proc_revenue:'REVENUE',proc_retention:'RETENTION',
+  why_intro:'Not four identical cards. One partner that protects creator identity, builds the process and takes responsibility for growth.',why_short1:'Creator identity remains under the creator’s control.',why_short2:'One manager connects the creator with the entire team.',why_short3:'The team is focused on outcomes, not activity for its own sake.',why_short4:'Strategy adapts to the market instead of being copied.',manifesto_word1:'PRIVATE',manifesto_caption1:'Private by design',manifesto_word2:'PRESENT',manifesto_caption2:'A team that stays close',manifesto_word3:'ALIGNED',manifesto_caption3:'We grow when you grow',manifesto_word4:'GLOBAL',manifesto_caption4:'Strategy without borders',
+  vs_join:'Join us',vs_models:'Models',vs_plan:'Plan',vs_content:'Content strategy',vs_brand:'Brand',vs_personal:'Personal brand',vs_growth:'Growth',vs_audience:'Audience growth',vs_money:'Revenue',vs_monetization:'Monetization',vs_team:'Team',vs_trending:'Trending',vs_viral:'Viral strategy',vs_analytics:'Analytics',vs_data:'Data driven',prev_case:'Previous case',next_case:'Next case'
+});
+function syncLocalizedDynamicUI(lang){
+  const d=T[lang]||T.ru;
+  document.querySelectorAll('.fem-manifesto-line[data-word-key]').forEach(line=>{
+    const wk=line.dataset.wordKey,ck=line.dataset.captionKey;
+    if(d[wk])line.dataset.word=d[wk];
+    if(d[ck])line.dataset.caption=d[ck];
+  });
+  const active=document.querySelector('.fem-manifesto-line.is-active');
+  const word=document.querySelector('[data-manifesto-word]');
+  const caption=document.querySelector('[data-manifesto-caption]');
+  if(active&&word)word.textContent=active.dataset.word||'';
+  if(active&&caption)caption.textContent=active.dataset.caption||'';
+  const prev=document.querySelector('[data-case-prev]'),next=document.querySelector('[data-case-next]');
+  if(prev)prev.setAttribute('aria-label',d.prev_case||'Previous case');
+  if(next)next.setAttribute('aria-label',d.next_case||'Next case');
+}
+
 let curLang='ru';
 
 function setLang(lang){
@@ -4334,8 +4859,13 @@ function setLang(lang){
   });
   document.querySelectorAll('.lang-sw button').forEach(b=>b.classList.toggle('on',b.dataset.lang===lang));
   document.documentElement.lang=lang;
+  syncLocalizedDynamicUI(lang);
 }
-document.querySelectorAll('.lang-sw button').forEach(b=>b.addEventListener('click',()=>setLang(b.dataset.lang)));
+document.querySelectorAll('.lang-sw button').forEach(b=>b.addEventListener('click',()=>{localStorage.setItem('fem-lang',b.dataset.lang);setLang(b.dataset.lang);}));
+const savedSiteLang=localStorage.getItem('fem-lang');
+const browserSiteLang=(navigator.language||'').toLowerCase().slice(0,2);
+const initialSiteLang=savedSiteLang||(['ru','uk','en'].includes(browserSiteLang)?browserSiteLang:'ru');
+setLang(initialSiteLang);
 
 /* ══════════ THEME ══════════ */
 let isDark=true;
@@ -4347,6 +4877,8 @@ function setTheme(dark){
 document.querySelectorAll('#themeTog,#themeTog2').forEach(t=>t.addEventListener('click',()=>setTheme(!isDark)));
 const saved=localStorage.getItem('fem-theme');
 if(saved==='light')setTheme(false);
+else if(saved==='dark')setTheme(true);
+else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches)setTheme(false);
 
 /* ══════════ PRELOADER + GSAP ══════════ */
 const FEM_GSAP_OK = typeof window.gsap !== 'undefined';
@@ -4558,18 +5090,6 @@ setTimeout(()=>{
   if(pl && pl.style.display!=='none' && pl.dataset.done!=='1')exitPreloader();
 },4500);
 
-/* ══════════ CURSOR ══════════ */
-const cur=document.getElementById('cur'),cr=document.getElementById('curR');
-let mx=0,my=0,rx=0,ry=0;
-if(!('ontouchstart' in window)){
-  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
-  (function a(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;cr.style.left=rx+'px';cr.style.top=ry+'px';requestAnimationFrame(a)})();
-  document.querySelectorAll('a,button,.fi,.sc,.rc,.step,.wc,.tc,.plat-card,.p3d').forEach(el=>{
-    el.addEventListener('mouseenter',()=>{cr.classList.add('h');gsap.to(cur,{scale:2.5,duration:.25});});
-    el.addEventListener('mouseleave',()=>{cr.classList.remove('h');gsap.to(cur,{scale:1,duration:.25});});
-  });
-}else{cur.style.display='none';cr.style.display='none';}
-
 /* ══════════ NAV SCROLL ══════════ */
 /* ══════════ MOB MENU ══════════ */
 document.getElementById('brg').onclick=()=>document.getElementById('mob').classList.add('op');
@@ -4577,7 +5097,7 @@ document.getElementById('mobX').onclick=cM;
 function cM(){document.getElementById('mob').classList.remove('op');}
 
 /* ══════════ CARD TILT ══════════ */
-document.querySelectorAll('.sc,.rc,.step,.wc,.tc,.plat-card').forEach(c=>{
+document.querySelectorAll('#services .sc').forEach(c=>{
   c.addEventListener('mousemove',e=>{
     const r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
     gsap.to(c,{rotationX:-y*8,rotationY:x*8,duration:.4,ease:'power2.out',transformPerspective:800});
@@ -4831,7 +5351,7 @@ window.addEventListener('load',()=>{
         v.setAttribute('muted','');
         v.setAttribute('playsinline','');
         v.setAttribute('webkit-playsinline','');
-        v.setAttribute('preload','auto');
+        v.setAttribute('preload','metadata');
         var p=v.play();
         if(p && p.catch) p.catch(function(){});
       }catch(e){}
@@ -5164,8 +5684,30 @@ window.addEventListener('load',()=>{
   document.querySelectorAll('[data-tilt-scene]').forEach(scene=>{scene.addEventListener('pointermove',e=>{const r=scene.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;scene.querySelectorAll('[data-depth]').forEach(n=>{const d=+n.dataset.depth;n.style.transform=`translate3d(${x*18*d}px,${y*18*d}px,${-Math.abs(x*y)*12*d}px) rotateY(${x*3*d}deg) rotateX(${-y*3*d}deg)`})});scene.addEventListener('pointerleave',()=>scene.querySelectorAll('[data-depth]').forEach(n=>n.style.transform=''))});
   document.querySelectorAll('.bp,.nc,.fsub').forEach(btn=>{btn.addEventListener('pointermove',e=>{const r=btn.getBoundingClientRect();btn.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.08}px,${(e.clientY-r.top-r.height/2)*.10}px)`});btn.addEventListener('pointerleave',()=>btn.style.transform='')});
  }
- const cases=[...document.querySelectorAll('[data-case]')],caseBtns=[...document.querySelectorAll('[data-case-button]')];
- caseBtns.forEach((b,i)=>b.addEventListener('click',()=>{cases.forEach((c,j)=>c.classList.toggle('is-active',i===j));caseBtns.forEach((x,j)=>x.classList.toggle('is-active',i===j))}));
+ const cases=[...document.querySelectorAll('[data-case]')];
+ const caseStage=document.querySelector('[data-case-stage]');
+ const casePrev=document.querySelector('[data-case-prev]');
+ const caseNext=document.querySelector('[data-case-next]');
+ const caseCounter=document.querySelector('[data-case-counter]');
+ let caseIndex=Math.max(0,cases.findIndex(c=>c.classList.contains('is-active')));
+ const showCase=(nextIndex)=>{
+   if(!cases.length)return;
+   caseIndex=(nextIndex+cases.length)%cases.length;
+   cases.forEach((c,j)=>c.classList.toggle('is-active',j===caseIndex));
+   if(caseCounter)caseCounter.textContent=`${String(caseIndex+1).padStart(2,'0')} / ${String(cases.length).padStart(2,'0')}`;
+ };
+ if(casePrev)casePrev.addEventListener('click',()=>showCase(caseIndex-1));
+ if(caseNext)caseNext.addEventListener('click',()=>showCase(caseIndex+1));
+ if(caseStage)caseStage.addEventListener('keydown',e=>{
+   if(e.key==='ArrowLeft'){e.preventDefault();showCase(caseIndex-1)}
+   if(e.key==='ArrowRight'){e.preventDefault();showCase(caseIndex+1)}
+ });
+ if(caseStage){
+   let caseTouchX=0,caseTouchY=0;
+   caseStage.addEventListener('touchstart',e=>{const t=e.touches&&e.touches[0];if(!t)return;caseTouchX=t.clientX;caseTouchY=t.clientY},{passive:true});
+   caseStage.addEventListener('touchend',e=>{const t=e.changedTouches&&e.changedTouches[0];if(!t)return;const dx=t.clientX-caseTouchX,dy=t.clientY-caseTouchY;if(Math.abs(dx)>55&&Math.abs(dx)>Math.abs(dy)*1.25)showCase(caseIndex+(dx<0?1:-1))},{passive:true});
+ }
+ showCase(caseIndex);
  const manifesto=document.querySelector('.fem-manifesto-stage');
  const manifestoLines=[...document.querySelectorAll('.fem-manifesto-line')];
  const manifestoImages=[...document.querySelectorAll('[data-manifesto-image]')];
@@ -5205,6 +5747,47 @@ window.addEventListener('load',()=>{
     if(entry.isIntersecting) entry.target.classList.add('fem-color-in');
   }),{threshold:.08,rootMargin:'0px 0px -8% 0px'});
   sections.forEach(section=>reveal.observe(section));
+})();
+</script>
+
+
+<script>
+(function(){
+  const serviceIntro={
+    ru:'Каждое направление — часть одной системы: от позиционирования и контента до трафика, аналитики и роста дохода.',
+    uk:'Кожен напрям — частина однієї системи: від позиціонування та контенту до трафіку, аналітики й зростання доходу.',
+    en:'Every service is part of one system — from positioning and content to traffic, analytics and revenue growth.'
+  };
+  function syncServiceIntro(){
+    const lang=(document.documentElement.lang||'ru').toLowerCase().startsWith('uk')?'uk':(document.documentElement.lang||'ru').toLowerCase().startsWith('en')?'en':'ru';
+    document.querySelectorAll('[data-t="services_intro"]').forEach(el=>el.textContent=serviceIntro[lang]);
+  }
+  document.addEventListener('DOMContentLoaded',syncServiceIntro);
+  document.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('.lang-sw'))setTimeout(syncServiceIntro,30)});
+  new MutationObserver(syncServiceIntro).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
+})();
+</script>
+
+
+<script>
+/* Transparent cutout guard: tiny/blank placeholders should not break service cards. */
+(function(){
+  function inspectCutout(img, sceneSelector){
+    var scene=img.closest(sceneSelector);
+    if(!scene) return;
+    function check(){
+      var tiny=(img.naturalWidth||0)<=32 || (img.naturalHeight||0)<=32;
+      if(tiny){ scene.classList.add('cutout-missing'); img.hidden=true; }
+      else { scene.classList.remove('cutout-missing'); img.hidden=false; }
+    }
+    if(img.complete) check();
+    else img.addEventListener('load',check,{once:true});
+    img.addEventListener('error',function(){scene.classList.add('cutout-missing');img.hidden=true;},{once:true});
+  }
+  document.addEventListener('DOMContentLoaded',function(){
+    document.querySelectorAll('.om-brand-cutout').forEach(function(img){inspectCutout(img,'.om-brand-scene')});
+    document.querySelectorAll('.om-content-cutout').forEach(function(img){inspectCutout(img,'.om-content-scene')});
+  });
 })();
 </script>
 
