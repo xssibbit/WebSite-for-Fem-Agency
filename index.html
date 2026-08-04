@@ -34,15 +34,9 @@
 <link rel="preload" as="image" href="assets/hero-poster.jpg?v=9" media="(min-width: 961px)"/>
 <link rel="preload" as="image" href="assets/hero-mobile-poster.jpg?v=9" media="(max-width: 960px)"/>
 
-
-<link rel="prefetch" href="videos/hero-mobile.mp4?v=9"/>
-
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
 <!-- GSAP -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/TextPlugin.min.js"></script>
 <style>
 /* ══════ THEME VARIABLES ══════ */
 :root{
@@ -3429,22 +3423,6 @@ body.en-mode .hero-in{
 
 </style>
 
-<script>
-/* Fast preloader fallback */
-window.addEventListener('DOMContentLoaded',()=>{
-  setTimeout(()=>{
-    const pl=document.getElementById('preloader');
-    if(pl && pl.style.display!=='none'){
-      pl.style.opacity='0';
-      pl.style.pointerEvents='none';
-      setTimeout(()=>{pl.style.display='none';},180);
-      if(typeof startPageAnimations==='function'){try{startPageAnimations();}catch(e){}}
-    }
-  },900);
-});
-</script>
-
-
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -5172,19 +5150,19 @@ body.fem-motion-enabled .fem-screen-state.is-active.fem-process-live .fem-growth
 
 </style>
 
+<script>
+/* Critical visibility safety: content must remain usable even if an animation CDN fails. */
+window.addEventListener('error',function(){
+  document.documentElement.classList.add('content-force-visible');
+});
+window.addEventListener('unhandledrejection',function(){
+  document.documentElement.classList.add('content-force-visible');
+});
+</script>
+
 </head>
 <body>
 <div id="top" style="position:absolute;top:0"></div>
-<div class="pl-logo-wrap" id="plLogoWrap">
-    <img class="site-logo-img loader-logo-img" id="plBox" src="assets/logo.webp" alt="FEM Agency logo"/>
-    <div class="pl-sub" id="plSub">Creator Management</div>
-    <div class="pl-bar-wrap" id="plBarWrap">
-      <div class="pl-bar" id="plBar"></div>
-    </div>
-    <div class="pl-pct" id="plPct">0%</div>
-  </div>
-</div>
-
 <div class="spb" id="spb"></div>
 
 <div class="bg-c">
@@ -5265,7 +5243,7 @@ body.fem-motion-enabled .fem-screen-state.is-active.fem-process-live .fem-growth
 
     <div class="h-right" id="heroRight">
       <div class="hero-video-only">
-        <video class="hero-video-example" autoplay muted loop playsinline preload="auto" webkit-playsinline poster="assets/hero-poster.jpg?v=9">
+        <video class="hero-video-example" autoplay muted loop playsinline preload="metadata" webkit-playsinline poster="assets/hero-poster.jpg?v=9">
           <source src="videos/hero-mobile.mp4?v=9" type="video/mp4"/>
         </video>
       </div>
@@ -5825,6 +5803,11 @@ body.fem-motion-enabled .fem-screen-state.is-active.fem-process-live .fem-growth
 
 <a href="https://t.me/FemAgencyApplyBot?start=site" target="_blank" rel="noopener" class="fcta" id="fcta"><span data-t="nav_cta">Оставить заявку</span><span class="tg-logo" aria-hidden="true"></span></a>
 
+<!-- Animation libraries: loaded after the page markup so they do not block initial rendering. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/TextPlugin.min.js"></script>
+
 <script>
 /* ══════════════════ TRANSLATIONS ══════════════════ */
 const T={
@@ -5912,7 +5895,7 @@ if(saved==='light')setTheme(false);
 else if(saved==='dark')setTheme(true);
 else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches)setTheme(false);
 
-/* ══════════ PRELOADER + GSAP ══════════ */
+/* ══════════ GSAP SETUP ══════════ */
 const FEM_GSAP_OK = typeof window.gsap !== 'undefined';
 if(FEM_GSAP_OK){
   gsap.registerPlugin(window.ScrollTrigger,window.TextPlugin);
@@ -5926,49 +5909,6 @@ if(FEM_GSAP_OK){
     from(){},to(){},fromTo(){},set(){},
     timeline(opts={}){setTimeout(()=>{if(typeof opts.onComplete==='function')opts.onComplete();},0);return chain;}
   };
-}
-
-function initPreloader(){
-  const pl=document.getElementById('preloader');
-  const bar=document.getElementById('plBar');
-  const pct=document.getElementById('plPct');
-  const box=document.getElementById('plBox');
-  const plName=document.getElementById('plName');
-  const plSub=document.getElementById('plSub');
-
-  // Animate logo box entrance
-  gsap.from(box,{scale:0,rotation:-20,duration:.25,ease:'back.out(1.7)',delay:.1});
-  gsap.from(plName,{opacity:0,y:20,duration:.22,delay:.4,ease:'power3.out'});
-  gsap.from(plSub,{opacity:0,y:15,duration:.5,delay:.6,ease:'power3.out'});
-  gsap.from('#plBarWrap',{opacity:0,scaleX:0,duration:.5,delay:.7,ease:'power3.out',transformOrigin:'left center'});
-
-  // Pulsing glow on logo
-  gsap.to(box,{boxShadow:'0 0 120px rgba(255,79,163,.7)',duration:1.2,yoyo:true,repeat:-1,ease:'sine.inOut'});
-
-  // Progress bar
-  let prog=0;
-  const iv=setInterval(()=>{
-    prog+=Math.random()*4+1;
-    if(prog>100)prog=100;
-    bar.style.width=prog+'%';
-    pct.textContent=Math.round(prog)+'%';
-    if(prog>=100){
-      clearInterval(iv);
-      setTimeout(exitPreloader,300);
-    }
-  },18);
-}
-
-function exitPreloader(){
-  const pl=document.getElementById('preloader');
-  if(!pl || pl.dataset.done==='1')return;
-  pl.dataset.done='1';
-  document.documentElement.classList.add('preload-done');
-  if(!FEM_GSAP_OK){pl.classList.add('force-hide');startPageAnimations();return;}
-  const tl=gsap.timeline({onComplete:()=>{pl.style.display='none';startPageAnimations();}});
-  tl.to('#plLogoWrap',{scale:1.12,duration:.35,ease:'power2.in'})
-    .to('#plLogoWrap',{opacity:0,scale:.8,duration:.4,ease:'power2.in'},'-=.1')
-    .to(pl,{scaleY:0,transformOrigin:'top center',duration:.225,ease:'power4.in'});
 }
 
 /* ══════════ PAGE ANIMATIONS ══════════ */
@@ -6105,22 +6045,24 @@ function startPageAnimations(){
   gsap.to('.o2',{y:'10%',ease:'none',scrollTrigger:{trigger:'body',start:'top top',end:'bottom bottom',scrub:2.5}});
 }
 
-let femPreloaderStarted=false;
-function startPreloaderOnce(){
-  if(femPreloaderStarted)return;
-  femPreloaderStarted=true;
-  try{initPreloader();}catch(e){console.warn('Preloader fallback:',e);exitPreloader();}
+let femAnimationsStarted=false;
+function startPageAnimationsOnce(){
+  if(femAnimationsStarted)return;
+  femAnimationsStarted=true;
+  document.documentElement.classList.add('preload-done');
+  try{
+    startPageAnimations();
+  }catch(error){
+    console.warn('Animation fallback:',error);
+    document.documentElement.classList.add('content-force-visible');
+  }
 }
+
 if(document.readyState==='loading'){
-  document.addEventListener('DOMContentLoaded',startPreloaderOnce,{once:true});
+  document.addEventListener('DOMContentLoaded',()=>requestAnimationFrame(startPageAnimationsOnce),{once:true});
 }else{
-  startPreloaderOnce();
+  requestAnimationFrame(startPageAnimationsOnce);
 }
-window.addEventListener('load',startPreloaderOnce,{once:true});
-setTimeout(()=>{
-  const pl=document.getElementById('preloader');
-  if(pl && pl.style.display!=='none' && pl.dataset.done!=='1')exitPreloader();
-},4500);
 
 /* ══════════ NAV SCROLL ══════════ */
 /* ══════════ MOB MENU ══════════ */
